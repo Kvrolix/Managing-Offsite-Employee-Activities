@@ -1,0 +1,9 @@
+- The nav bar once pressed will move you the the part of the website 
+- Log in button Register button
+- Simple as 1,2,3
+- A space for the companies that trsuted us
+
+i like the deisgn of the Atlas website
+
+
+use the whatsapp API
