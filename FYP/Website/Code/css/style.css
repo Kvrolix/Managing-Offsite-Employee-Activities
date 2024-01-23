@@ -51,3 +51,28 @@ html {
 	padding: 0;
 	box-sizing: border-box;
 }
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: antiquewhite;
+	height: 9rem;
+	padding: 0 4.8rem;
+}
+.main-nav {
+	display: flex;
+	align-content: ;
+}
+
+.main-nav-list {
+	display: flex;
+	flex-direction: row;
+	/* align-content: space-between; */
+	list-style: none;
+	gap: 10rem;
+}
+
+.logo {
+	height: 9.6rem;
+}
