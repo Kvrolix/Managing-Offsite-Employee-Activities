@@ -2,7 +2,7 @@
 
 ## About the Project
 
-We are a tech-driven initiative focused on enhancing the management of offsite employee activities. As the nature of work shifts towards remote settings, our project aims to tackle the challenges of tracking employee tasks, ensuring productivity, and maintaining effective communication. Our comprehensive software solution is designed to help businesses optimize the activities of offsite or remote employees, leveraging data analytics and real-time updates to foster better decision-making and improve overall performance.
+Tech-driven initiative focused on enhancing the management of offsite employee activities. As the nature of work shifts towards remote settings, project aims to tackle the challenges of tracking employee tasks, ensuring productivity, and maintaining effective communication. The software solution is designed to help businesses optimize the activities of offsite or remote employees.
 
 ## Objectives
 
