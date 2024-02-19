@@ -62,7 +62,7 @@ html {
 }
 .main-nav {
 	display: flex;
-	align-content: ;
+	/* align-content: ; */
 }
 
 .main-nav-list {
