@@ -1,0 +1,42 @@
+/***********************************/
+/* GENERAL REUSABLE COMPONENTS */
+/***********************************/
+
+.container {
+	max-width: 120rem;
+	background-color: rebeccapurple;
+	margin: 0 auto;
+	padding: 0 3.2rem;
+}
+
+.grid-2-cols {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.hero {
+	max-width: 130rem;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 9.6rem;
+	align-items: center;
+}
+
+.heading-primary,
+.heading-secondary,
+.heading-tertiary {
+	font-weight: 700;
+	color: #333;
+}
+
+.heading-primary {
+	font-size: 4.8rem;
+	margin-bottom: 3.2rem;
+}
+
+.hero-text {
+	font-size: 2.4rem;
+	line-height: 1.4;
+	letter-spacing: 1px;
+}
