@@ -13,9 +13,10 @@ FONT SIZE SYSTEM (px)
 - Line heights:
 
 - Letter Spacing:
+0.6px
 
 COLOURS
-
+#f7f8fd - background
 - Primary:
 
 - Tints:
@@ -23,6 +24,7 @@ COLOURS
 - Shades:
 
 - Greys:
+#333
 
 
 SHADOWS 
@@ -30,13 +32,13 @@ box-shadow etc.
 
 
 BORDER RADIUS:
-
+10px
 
 
 WHITESAPCE 
 
 SPACING SYSTEM (px)
-2 / 4 / 8 / 12 / 16 / 24 / 28 / 32 / 48 / 64 / 80 / 96 / 128
+2 / 4 / 8 / 12 / 16 / 24 / 28 / 32 / 48 / 64 / 80 / 96 / 128 / 156
 
  
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,28 +53,111 @@ html {
 	padding: 0;
 	box-sizing: border-box;
 }
+body {
+	font-family: 'Rubik', sans-serif;
+	line-height: 1;
+	font-weight: 400;
+	color: #333;
+}
 
 .header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background-color: antiquewhite;
+	/* background: rgb(5, 193, 114);
+	background: radial-gradient(circle, rgba(5, 193, 114, 1) 35%, rgba(31, 226, 144, 1) 100%); */
+
+	/* background: rgb(14, 168, 104);
+	background: radial-gradient(circle, rgba(14, 168, 104, 1) 35%, rgba(31, 226, 144, 1) 100%); */
+	background: rgb(16, 171, 106);
+	background: radial-gradient(circle, rgba(16, 171, 106, 1) 35%, rgba(31, 226, 144, 1) 100%);
+
 	height: 9rem;
 	padding: 0 4.8rem;
 }
 .main-nav {
 	display: flex;
-	/* align-content: ; */
+	flex-grow: 0;
+	align-items: center;
+	/* justify-content: space-between; */
+	/* flex-direction: row; */
 }
 
 .main-nav-list {
 	display: flex;
 	flex-direction: row;
-	/* align-content: space-between; */
 	list-style: none;
-	gap: 10rem;
+	gap: 3rem;
+	width: 64rem;
+}
+
+.main-nav-link {
+	list-style: none;
+	text-decoration: none;
+	color: #333;
+	font-size: 1.8rem;
+}
+
+.logo-link {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 64rem;
 }
 
 .logo {
-	height: 9.6rem;
+	max-width: 60%;
+	/* make logo more grey */
+}
+
+.main-nav-btns {
+	display: flex;
+	flex-grow: 0;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 2rem;
+	width: 64rem;
+	letter-spacing: 0.6px;
+	/* cursor: pointer; */
+}
+
+.btn-login {
+	/* outline: #333; */
+	color: #333;
+	/* background-color: #333; */
+	border: 1px solid #333;
+	padding: 8px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+/* When binding it in css i will need to select to interact with this element not entire block */
+.btn-register {
+	/* colo */
+	background-color: aliceblue; /*Color needs to be changed*/
+	padding: 8px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.section-hero {
+	padding-top: 12.8rem;
+	height: 85vh;
+	background-color: #f7f8fd;
+}
+
+.hero-text-box {
+	/* border: 1px solid #333; */
+	height: 30rem;
+}
+
+.hero-illustration-box {
+	/* border: 1px solid #333; */
+}
+.illustration {
+	width: 75%;
+}
+
+.section-features {
+	background-color: aqua;
 }
