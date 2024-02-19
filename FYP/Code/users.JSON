@@ -1,0 +1,68 @@
+{
+	"users": [
+		{
+			"userId": "1",
+			"userName": "chiefjohn",
+			"password": "1234",
+			"role": "chief",
+			"profile": {
+				"firstName": "John",
+				"lastName": "Johnson",
+				"email": "john.chief@gmail.com",
+				"phoneNumber": "123-456-78910"
+			},
+			"settings": {
+				"notificationsEnabled": true,
+				"locationTrackingEnabled": true
+			}
+		},
+		{
+			"userId": "2",
+			"userName": "managerLewis",
+			"password": "12345",
+			"role": "manager",
+			"profile": {
+				"firstName": "Lewis",
+				"lastName": "Hamiltonian",
+				"email": "lewis.hamiltonian@gmail.com",
+				"phoneNumber": "123-456-01987"
+			},
+			"settings": {
+				"notificationsEnabled": true,
+				"locationTrackingEnabled": true
+			}
+		},
+		{
+			"userId": "3",
+			"userName": "secretaryJessica",
+			"password": "12345",
+			"role": "secretary",
+			"profile": {
+				"firstName": "Jessica",
+				"lastName": "Schneider",
+				"email": "jessica.schneider@gmail.com",
+				"phoneNumber": "123-456-12453"
+			},
+			"settings": {
+				"notificationsEnabled": true,
+				"locationTrackingEnabled": true
+			}
+		},
+		{
+			"userId": "4",
+			"userName": "workerTom",
+			"password": "12345",
+			"role": "worker",
+			"profile": {
+				"firstName": "Thomas",
+				"lastName": "Bananan",
+				"email": "thomas.bananan@gmail.com",
+				"phoneNumber": "123-456-12453"
+			},
+			"settings": {
+				"notificationsEnabled": true,
+				"locationTrackingEnabled": true
+			}
+		}
+	]
+}
