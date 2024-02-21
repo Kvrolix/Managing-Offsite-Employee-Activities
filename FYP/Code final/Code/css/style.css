@@ -88,7 +88,7 @@ body {
 	flex-direction: row;
 	list-style: none;
 	gap: 3rem;
-	width: 64rem;
+	max-width: 64rem;
 }
 
 .main-nav-link {
@@ -100,13 +100,13 @@ body {
 
 .logo-link {
 	display: flex;
-	justify-content: center;
+	justify-content: start;
 	align-items: center;
-	width: 64rem;
+	max-width: 64rem;
 }
 
 .logo {
-	max-width: 60%;
+	width: 50%;
 	/* make logo more grey */
 }
 
@@ -116,7 +116,7 @@ body {
 	justify-content: flex-end;
 	align-items: center;
 	gap: 2rem;
-	width: 64rem;
+	max-width: 64rem;
 	letter-spacing: 0.6px;
 	/* cursor: pointer; */
 }
@@ -142,6 +142,7 @@ body {
 
 .section-hero {
 	padding-top: 12.8rem;
+	padding-bottom: 12.8rem;
 	height: 85vh;
 	background-color: #f7f8fd;
 }
@@ -159,5 +160,29 @@ body {
 }
 
 .section-features {
-	background-color: aqua;
+	padding-top: 3.2rem;
+	background-color: hsl(155, 77%, 50%);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 70rem;
+	padding-bottom: 15rem;
+}
+
+.feature-container {
+	background-color: #fff;
+	width: 60rem;
+	height: 20rem;
+	border-radius: 10px;
+}
+
+.grid-2-cols-rows {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: repeat(2, 1fr);
+	column-gap: 4.8rem;
+	row-gap: 4.8rem;
+	justify-content: center;
+	align-content: center;
 }
