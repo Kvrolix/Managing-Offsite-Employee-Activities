@@ -101,7 +101,7 @@ HEADER COMPONENT
 	letter-spacing: 0.6px;
 }
 
-.btn-login {
+.btn-nav-login {
 	/* outline: #333; */
 	color: #333;
 	/* background-color: #333; */
@@ -208,3 +208,18 @@ FEATURES SECTION
 
 /////////////////
 */
+
+/* ######################################################################### */
+
+/* LOGIN PAGE */
+.login-page {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	background: rgb(16, 139, 171);
+	background: center no-repeat url(../images/MOEA_logo.png), linear-gradient(-30deg, rgba(16, 139, 171, 1) 29%, rgba(31, 226, 144, 1) 100%);
+	background-size: 45% auto, cover;
+
+	/* background: center / contain no-repeat url(images/International_Pokémon_logo.svg.png), linear-gradient(-60deg, rgba(255, 255, 255, 1) 0%, rgba(255, 0, 0, 1) 100%); */
+}

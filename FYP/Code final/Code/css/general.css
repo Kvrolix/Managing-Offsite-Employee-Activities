@@ -3,8 +3,6 @@
 /***********************************/
 
 /*PLACE FOR COMPONENTS THAT ARE GOING TO BE RE-USABLE ACROSS THE PROJECT*/
-.container {
-}
 
 .grid-2-cols {
 	display: grid;
@@ -28,11 +26,11 @@
 	color: #333;
 }
 
-.heading-primary {
+.heading--primary {
 	font-size: 4.8rem;
 	margin-bottom: 3.2rem;
 }
-.heading-secondary {
+.heading--secondary {
 	font-size: 3.4rem;
 	margin-bottom: 9.6rem;
 }
@@ -41,4 +39,79 @@
 	background-color: orangered;
 	width: 120rem;
 	height: 25rem;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background: transparent; /* add logo and leave th=*/
+	width: 35rem;
+	color: #fff;
+	backdrop-filter: blur(20px);
+	padding: 0 3rem 5rem 3rem;
+	border-radius: 10px;
+	border: 2px solid #fff;
+	box-shadow: 0 0 10px rgba(51, 51, 51, 0.3);
+}
+
+.container h1 {
+	font-size: 3.2rem;
+	text-align: center;
+	margin: 4.8rem;
+}
+
+.container .input-box {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border: 1px solid #fff;
+	border-radius: 50px;
+	padding: 0 2rem;
+	width: 100%;
+	margin: 30px 0;
+	background: transparent;
+}
+
+.input-box input {
+	flex-grow: 1;
+	border: none;
+	outline: none;
+	background: transparent;
+	height: 5rem;
+	color: #fff;
+	font-size: 1.6rem;
+	font-weight: 400;
+}
+
+.input-box input::placeholder {
+	color: #fff;
+	font-size: 1.6rem;
+	font-weight: 500;
+	letter-spacing: 1px;
+}
+
+.icon {
+	width: 20px;
+	height: 20px;
+}
+
+/* It means that every element of calls icon in input-box will have such property */
+.input-box svg {
+	fill: #fff;
+}
+
+.btn-login {
+	width: 100%;
+	height: 4.8rem;
+	border-radius: 50px;
+	font-weight: 500;
+	font-size: 1.8rem;
+	letter-spacing: 1px;
+	outline: none;
+	border: none;
+	background-color: #fff;
+}
+
+.btn-login:hover {
 }
