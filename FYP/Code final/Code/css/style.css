@@ -43,7 +43,7 @@ SPACING SYSTEM (px)
  
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
  */
-
+/*PLACE FOR ELEMENTS THAT WILL APPEAR ONLY ONCE*/
 html {
 	font-size: 62.5%;
 }
@@ -59,6 +59,13 @@ body {
 	font-weight: 400;
 	color: #333;
 }
+
+/* 
+
+/////////////////
+HEADER COMPONENT
+/////////////////
+*/
 
 .header {
 	display: flex;
@@ -140,11 +147,17 @@ body {
 	cursor: pointer;
 }
 
+/*
+/////////////////
+HERO SECTION 
+/////////////////
+*/
+
 .section-hero {
 	padding-top: 12.8rem;
 	padding-bottom: 12.8rem;
 	height: 85vh;
-	background-color: #f7f8fd;
+	background-color: #ffffff;
 }
 
 .hero-text-box {
@@ -158,6 +171,27 @@ body {
 .illustration {
 	width: 75%;
 }
+
+.hero {
+	max-width: 130rem;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 9.6rem;
+	align-items: center;
+}
+
+.hero-text {
+	font-size: 2.4rem;
+	line-height: 1.4;
+	letter-spacing: 1px;
+}
+
+/* 
+/////////////////
+FEATURES SECTION 
+/////////////////
+*/
 
 .section-features {
 	padding-top: 3.2rem;
@@ -177,12 +211,8 @@ body {
 	border-radius: 10px;
 }
 
-.grid-2-cols-rows {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: repeat(2, 1fr);
-	column-gap: 4.8rem;
-	row-gap: 4.8rem;
-	justify-content: center;
-	align-content: center;
-}
+/*
+/////////////////
+
+/////////////////
+*/
