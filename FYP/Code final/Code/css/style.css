@@ -71,61 +71,33 @@ HEADER COMPONENT
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	/* background: rgb(5, 193, 114);
-	background: radial-gradient(circle, rgba(5, 193, 114, 1) 35%, rgba(31, 226, 144, 1) 100%); */
-
-	/* background: rgb(14, 168, 104);
-	background: radial-gradient(circle, rgba(14, 168, 104, 1) 35%, rgba(31, 226, 144, 1) 100%); */
 	background: rgb(16, 171, 106);
 	background: radial-gradient(circle, rgba(16, 171, 106, 1) 35%, rgba(31, 226, 144, 1) 100%);
-
 	height: 9rem;
 	padding: 0 4.8rem;
-}
-.main-nav {
-	display: flex;
-	flex-grow: 0;
-	align-items: center;
-	/* justify-content: space-between; */
-	/* flex-direction: row; */
 }
 
 .main-nav-list {
 	display: flex;
-	flex-direction: row;
 	list-style: none;
 	gap: 3rem;
-	max-width: 64rem;
 }
 
 .main-nav-link {
-	list-style: none;
 	text-decoration: none;
 	color: #333;
 	font-size: 1.8rem;
 }
 
-.logo-link {
-	display: flex;
-	justify-content: start;
-	align-items: center;
-	max-width: 64rem;
-}
-
 .logo {
-	width: 50%;
-	/* make logo more grey */
+	max-height: 6vh;
 }
 
 .main-nav-btns {
 	display: flex;
-	flex-grow: 0;
-	justify-content: flex-end;
 	align-items: center;
 	gap: 2rem;
-	max-width: 64rem;
 	letter-spacing: 0.6px;
-	/* cursor: pointer; */
 }
 
 .btn-login {
