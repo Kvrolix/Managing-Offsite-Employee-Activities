@@ -81,6 +81,7 @@ HEADER COMPONENT
 	display: flex;
 	list-style: none;
 	gap: 3rem;
+	position: relative;
 }
 
 .main-nav-link {
@@ -119,6 +120,25 @@ HEADER COMPONENT
 	cursor: pointer;
 }
 
+.main-nav-list li {
+	position: relative;
+}
+
+.main-nav-list li::before {
+	content: '';
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background: #fff;
+	transform: scaleX(0);
+	transition: transform 0.3s ease-in-out;
+}
+
+.main-nav-list li:hover::before {
+	transform: scaleX(1);
+}
 /*
 /////////////////
 HERO SECTION 

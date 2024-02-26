@@ -4,10 +4,6 @@
 
 /*PLACE FOR COMPONENTS THAT ARE GOING TO BE RE-USABLE ACROSS THE PROJECT*/
 .container {
-	max-width: 120rem;
-	background-color: rebeccapurple;
-	margin: 0 auto;
-	padding: 0 3.2rem;
 }
 
 .grid-2-cols {
