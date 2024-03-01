@@ -71,8 +71,12 @@ HEADER COMPONENT
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background: rgb(16, 171, 106);
-	background: radial-gradient(circle, rgba(16, 171, 106, 1) 35%, rgba(31, 226, 144, 1) 100%);
+	/* background: rgb(16, 171, 106);
+	background: radial-gradient(circle, rgba(16, 171, 106, 1) 35%, rgba(31, 226, 144, 1) 100%); */
+
+	background-color: #99ffac;
+	background-image: radial-gradient(at 22% 13%, hsla(164, 100%, 50%, 1) 0px, transparent 50%), radial-gradient(at 82% 71%, hsla(134, 100%, 50%, 1) 0px, transparent 50%),
+		radial-gradient(at 53% 42%, hsla(97, 100%, 50%, 1) 0px, transparent 50%);
 	height: 9rem;
 	padding: 0 4.8rem;
 }
@@ -146,15 +150,19 @@ HERO SECTION
 */
 
 .section-hero {
-	padding-top: 12.8rem;
+	padding-top: 15.6rem;
 	padding-bottom: 12.8rem;
-	height: 85vh;
-	background-color: #ffffff;
+	height: 90vh;
+	background-color: #fff;
 }
 
 .hero-text-box {
 	/* border: 1px solid #333; */
-	height: 30rem;
+	/* padding: 3rem;
+	border-radius: 10px; */
+	/* background-color: #daf5e9; */
+	/* background-color: #f9f5f5; */
+	/* box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px; */
 }
 
 .hero-illustration-box {
@@ -165,7 +173,7 @@ HERO SECTION
 }
 
 .hero {
-	max-width: 130rem;
+	max-width: 120rem;
 	margin: 0 auto;
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -186,23 +194,49 @@ FEATURES SECTION
 */
 
 .section-features {
-	padding-top: 3.2rem;
-	background-color: hsl(155, 77%, 50%);
+	/* padding-top: 3.2rem; */
+	/* background-color: hsl(155, 77%, 50%);
+	 */
+	/* background-color: aqua; */
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	gap: 3rem;
+	/* justify-content: center; */
 	min-height: 70rem;
-	padding-bottom: 15rem;
+	/* padding-bottom: 15rem; */
 }
 
 .feature-container {
 	background-color: #fff;
-	width: 60rem;
-	height: 20rem;
+	width: 25rem;
+	height: 30rem;
 	border-radius: 10px;
+	/* background-color: aqua;
+	 */
+
+	background-color: #99ffac;
+	background-image: radial-gradient(at 22% 13%, hsla(164, 100%, 50%, 1) 0px, transparent 50%), radial-gradient(at 82% 71%, hsla(134, 100%, 50%, 1) 0px, transparent 50%),
+		radial-gradient(at 53% 42%, hsla(97, 100%, 50%, 1) 0px, transparent 50%);
 }
 
+.features-heading {
+	padding-top: 1.6rem;
+	padding-bottom: 1.6rem;
+	margin-bottom: 3.2rem;
+	color: #333;
+	font-size: 3rem;
+	/* background: rgb(16, 171, 106);
+	background: radial-gradient(circle, rgba(16, 171, 106, 1) 5%, rgba(31, 226, 144, 1) 100%); */
+	background-color: #99ffac;
+	background-image: radial-gradient(at 22% 13%, hsla(164, 100%, 50%, 1) 0px, transparent 50%), radial-gradient(at 82% 71%, hsla(134, 100%, 50%, 1) 0px, transparent 50%),
+		radial-gradient(at 53% 42%, hsla(97, 100%, 50%, 1) 0px, transparent 50%);
+	width: 15vw;
+	border-radius: 50px;
+	text-align: center;
+}
+
+/* THE GRADIENT NEEDS TO BE MORE VIBRANT */
 /*
 /////////////////
 
@@ -222,4 +256,33 @@ FEATURES SECTION
 	background-size: 45% auto, cover;
 
 	/* background: center / contain no-repeat url(images/International_Pokémon_logo.svg.png), linear-gradient(-60deg, rgba(255, 255, 255, 1) 0%, rgba(255, 0, 0, 1) 100%); */
+}
+
+.login-title {
+	position: relative;
+}
+
+.login-close {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	fill: #fff;
+	cursor: pointer;
+	margin: 0.5rem;
+}
+
+.btn-login {
+	width: 100%;
+	height: 4.8rem;
+	border-radius: 50px;
+	font-weight: 500;
+	font-size: 1.8rem;
+	letter-spacing: 1px;
+	outline: none;
+	border: none;
+	background-color: #fff;
+	cursor: pointer;
+}
+
+.btn-login:hover {
 }
