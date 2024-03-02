@@ -4,11 +4,23 @@
 
 /*PLACE FOR COMPONENTS THAT ARE GOING TO BE RE-USABLE ACROSS THE PROJECT*/
 
-.grid-2-cols {
+.container {
+	/* 1140px or 1200px which is a quite popular */
+	max-width: 120rem;
+	/* auto gives the same margin to the left and right */
+	margin-inline: auto;
+	padding: 0 3.2rem;
+}
+
+.grid {
 	display: grid;
+}
+
+.grid--2-cols {
 	grid-template-columns: repeat(2, 1fr);
 }
 
+/* this needs to be updated */
 .grid-2-cols-rows {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
@@ -30,6 +42,7 @@
 .heading-tertiary {
 	font-weight: 700;
 	color: #333;
+	letter-spacing: -0.5px;
 }
 
 .heading--primary {
@@ -47,7 +60,7 @@
 	height: 25rem;
 }
 
-.container {
+.login-container {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -61,13 +74,13 @@
 	box-shadow: 0 0 10px rgba(51, 51, 51, 0.3);
 }
 
-.container h1 {
+.login-container h1 {
 	font-size: 3.2rem;
 	text-align: center;
 	margin: 4.8rem;
 }
 
-.container .input-box {
+.login-container .input-box {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
