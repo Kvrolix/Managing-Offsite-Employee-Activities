@@ -1,0 +1,81 @@
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	/* background: rgb(16, 171, 106);
+	background: radial-gradient(circle, rgba(16, 171, 106, 1) 35%, rgba(31, 226, 144, 1) 100%); */
+
+	background-color: #99ffac;
+	background-image: radial-gradient(at 22% 13%, hsla(164, 100%, 50%, 1) 0px, transparent 50%), radial-gradient(at 82% 71%, hsla(134, 100%, 50%, 1) 0px, transparent 50%),
+		radial-gradient(at 53% 42%, hsla(97, 100%, 50%, 1) 0px, transparent 50%);
+	height: 9rem;
+	padding: 0 4.8rem;
+}
+
+.main_nav {
+}
+
+.main_nav_list {
+	display: flex;
+	list-style: none;
+	gap: 3rem;
+	position: relative;
+}
+
+.main_nav_link {
+	text-decoration: none;
+	color: #333;
+	font-size: 1.8rem;
+}
+
+.logo {
+	max-height: 6vh;
+}
+
+.main_nav_btns {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+}
+
+.btn_link {
+	text-decoration: none;
+	color: #444;
+	font-size: 1.8rem;
+	padding: 0;
+	margin: 0;
+	background-color: transparent;
+	border: none;
+	letter-spacing: 0.8px;
+	cursor: pointer;
+}
+
+.btn_nav_login {
+	background-color: transparent;
+	border: 1px solid #333;
+}
+
+/* When binding it in css i will need to select to interact with this element not entire block */
+.btn_nav_register {
+	background-color: aliceblue; /*Color needs to be changed*/
+}
+
+.main_nav_list li {
+	position: relative;
+}
+
+.main_nav_list li::before {
+	content: '';
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background: #fff;
+	transform: scaleX(0);
+	transition: transform 0.3s ease-in-out;
+}
+
+.main_nav_list li:hover::before {
+	transform: scaleX(1);
+}
