@@ -1,0 +1,26 @@
+.illustration {
+	width: 75%;
+}
+
+.hero {
+	max-width: 120rem;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 9.6rem;
+	align-items: center;
+}
+.hero_textBox {
+	/* border: 1px solid #333; */
+	/* padding: 3rem;
+	border-radius: 10px; */
+	/* background-color: #daf5e9; */
+	/* background-color: #f9f5f5; */
+	/* box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px; */
+}
+
+.hero_text {
+	font-size: 2.4rem;
+	line-height: 1.4;
+	letter-spacing: 1px;
+}

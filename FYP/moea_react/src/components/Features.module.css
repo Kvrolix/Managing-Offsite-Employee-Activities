@@ -1,0 +1,50 @@
+.section_features {
+	/* padding-top: 3.2rem; */
+	/* background-color: hsl(155, 77%, 50%);
+	 */
+	/* background-color: aqua; */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 3rem;
+	/* justify-content: center; */
+	min-height: 70rem;
+	/* padding-bottom: 15rem; */
+}
+
+.feature_container {
+	background-color: #fff;
+	width: 25rem;
+	height: 30rem;
+	border-radius: 10px;
+	/* background-color: aqua;
+	 */
+
+	background-color: #99ffac;
+	background-image: radial-gradient(at 22% 13%, hsla(164, 100%, 50%, 1) 0px, transparent 50%), radial-gradient(at 82% 71%, hsla(134, 100%, 50%, 1) 0px, transparent 50%),
+		radial-gradient(at 53% 42%, hsla(97, 100%, 50%, 1) 0px, transparent 50%);
+}
+
+/* THIS SHOULD BE SEPARETED, heading secondray should be used, so this should not include any sizes etc. */
+.features_heading {
+	padding-top: 1.6rem;
+	padding-bottom: 1.6rem;
+	margin-bottom: 3.2rem;
+	color: #333;
+	font-size: 3rem;
+	/* background: rgb(16, 171, 106);
+	background: radial-gradient(circle, rgba(16, 171, 106, 1) 5%, rgba(31, 226, 144, 1) 100%); */
+	background-color: #99ffac;
+	background-image: radial-gradient(at 22% 13%, hsla(164, 100%, 50%, 1) 0px, transparent 50%), radial-gradient(at 82% 71%, hsla(134, 100%, 50%, 1) 0px, transparent 50%),
+		radial-gradient(at 53% 42%, hsla(97, 100%, 50%, 1) 0px, transparent 50%);
+	width: 15vw;
+	border-radius: 50px;
+	text-align: center;
+}
+
+/* THE GRADIENT NEEDS TO BE MORE VIBRANT */
+/*
+/////////////////
+
+/////////////////
+*/
