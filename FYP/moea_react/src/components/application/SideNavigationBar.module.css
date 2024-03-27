@@ -1,0 +1,200 @@
+/* https://www.youtube.com/watch?v=bFvfqUMjvsA&list=PLImJ3umGjxdCjoBGj1eGQwcopR0P0edAK&index=2
+
+Citation
+*/
+
+:root {
+	/* --- COLORS --- */
+	--body-color: #e4e9f7;
+	--sidebard-color: #fff;
+	--primary-color: #695cfe;
+	--primary-color-light: #f6f5ff;
+	--toggle-color: #ddd;
+	--text-color: #707070;
+
+	/* --- TRANSITIONS --- */
+	--tran-02: all 0.2s ease;
+	--tran-03: all 0.3s ease;
+	--tran-04: all 0.4s ease;
+	--tran-05: all 0.5s ease;
+}
+
+.sidebar .text {
+	font-size: 16px;
+	font-weight: 500;
+	color: var(--text-color);
+	transition: var(--tran-03);
+	/* with this on there's no jumping of the text */
+	white-space: nowrap;
+	opacity: 1;
+}
+
+.sidebar .image {
+	min-width: 60px;
+	display: flex;
+	align-items: center;
+}
+
+/* ==== Sidebar ==== */
+.sidebar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%; /*Why not 100vh*/
+	width: 250px;
+	padding: 10px 14px;
+	background: var(--sidebard-color);
+	transition: var(--tran-05);
+	/* To make sure that the sidebar is always on the top  */
+	z-index: 100;
+}
+.sidebar.close {
+	width: 88px;
+}
+/* Read about connected and disconnected classes */
+/* This selector targets any element with the class text that is a descendant of an element that has both sidebar and close classes applied to it.
+It means the element needs to have both sidebar and close classes at the same level for the .text descendants to be selected. */
+.sidebar.close .text {
+	opacity: 0;
+}
+
+.sidebar li {
+	height: 50px;
+	/* background: red; */
+	margin-top: 10px;
+	list-style: none;
+	display: flex;
+	align-items: center;
+}
+
+.sidebar li .icon {
+	display: flex;
+	align-items: center;
+	min-width: 60px;
+	font-size: 20px;
+	justify-content: center;
+}
+
+.sidebar li .text,
+.sidebar li .text {
+	color: var(--text-color);
+	transition: var(--tran-02);
+}
+
+.sidebar header {
+	position: relative;
+}
+
+.sidebar .image_text img {
+	width: 40px;
+	border-radius: 6px;
+}
+
+.sidebar header .image_text {
+	display: flex;
+	align-items: center;
+}
+
+header .image_text .header_text {
+	display: flex;
+	flex-direction: column;
+}
+
+.header_text .name {
+	font-weight: 600;
+}
+
+.header_text .position {
+	/* font-weight: 600;
+	 */
+	margin-top: -2px;
+}
+
+.sidebar header .toggle {
+	position: absolute;
+	top: 50%;
+	right: -25px;
+	transform: translateY(-50%) rotate(180deg);
+	height: 25px;
+	width: 25px;
+	background: var(--primary-color);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%; /*To make a circle*/
+	color: var(--sidebard-color);
+	font-size: 22px;
+	transition: var(--tran-03);
+	cursor: pointer;
+}
+
+.sidebar.close header .toggle {
+	transform: translateY(-50%);
+}
+
+/* So it takes 100% of the search box list item, before it was overflowing*/
+
+.sidebar li .btnLink {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	transition: var(--tran-04);
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.sidebar li .btnLink:hover {
+	background: var(--primary-color);
+}
+
+.sidebar li .btnLink:hover .icon,
+.sidebar li .btnLink:hover .text {
+	color: var(--sidebard-color);
+}
+
+.sidebar .menu_bar {
+	/* background: red; */
+	height: calc(100% - 50px); /*to get teh logout back on the page*/
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.btnLink {
+	/* role: 'button'; */
+	/* padding: 0; */
+	/* margin: 0; */
+	/* background: none; */
+	/* border: none; */
+	/* display: flex; */
+	/* align-items: center; */
+	/* justify-content: center; */
+	/* flex-direction: row; */
+	/* font-weight: 500;
+	font-size: 25px; */
+
+	/* TODO UPDATE FONT OR ADD CLASS TEXT */
+}
+
+.home {
+	position: relative;
+	height: 100vh;
+	left: 250px;
+	width: calc(100% -250px);
+	background: blue;
+	background: var(--body-color);
+	transition: var(--tran-05);
+}
+.home .text {
+	font-size: 30px;
+	font-weight: 500;
+	color: var(--text-color);
+	padding: 8px 40px;
+}
+
+.sidebar.close ~ .home {
+	left: 88px;
+	width: calc(100% -88px);
+}
