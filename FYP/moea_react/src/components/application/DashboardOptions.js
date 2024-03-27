@@ -9,45 +9,53 @@ const DashboardElement = ({ icon, text }) => (
 		<p>{text}</p>
 	</div>
 );
-const DashboardOptions = () => {
+const DashboardOptions = ({ isSidebarOpen }) => {
 	return (
 		<>
-			{/* this will be the home class */}
-			<div className="container">
-				{/* <div className={SideNavigationBarCSS.home}> */}
-				<div className="dashboard-container">
-					<div className="grid dashboard-grid">
-						<div className="grid dashboard-goto border-radius-10px box-shadow-light">
-							<DashboardElement
-								icon="assignment"
-								text="Tasks"
-							/>
-							<DashboardElement
-								icon="supervised_user_circle"
-								text="Teams"
-							/>
-							<DashboardElement
-								icon="question_answer"
-								text="Chat"
-							/>
-							<DashboardElement
-								icon="description"
-								text="Files"
-							/>
-							<DashboardElement
-								icon="group"
-								text="Users"
-							/>
-							<DashboardElement
-								icon="hub"
-								text="Organization"
-							/>
-						</div>
-						<div className="dashboard-map border-radius-10px box-shadow-light"></div>
-						<div className="dashboard-calendar border-radius-10px box-shadow-light"></div>
-					</div>
-				</div>
+			<div className={`${DashboardOptionsCSS.options_container}  ${isSidebarOpen ? DashboardOptionsCSS.expanded : DashboardOptionsCSS.collapsed}`}>
+				<h2 className={DashboardOptionsCSS.greeting}>Welcome, Chief Webber!</h2>
 			</div>
+
+			{/* This will need to be moved to dashboard */}
+			{/* <div className={SideNavigationBarCSS.home}>
+					<div className={SideNavigationBarCSS.text}>Dashboard</div>
+				</div> */}
+			{/* this will be the home class */}
+
+			{/* <div className={SideNavigationBarCSS.home}> */}
+			{/* TODO FIX THE CSS, REWRITE IT CLEARLY */}
+			{/* <div className="dashboard-container">
+				<div className="grid dashboard-grid">
+					<div className="grid dashboard-goto border-radius-10px box-shadow-light">
+						<DashboardElement
+							icon="assignment"
+							text="Tasks"
+						/>
+						<DashboardElement
+							icon="supervised_user_circle"
+							text="Teams"
+						/>
+						<DashboardElement
+							icon="question_answer"
+							text="Chat"
+						/>
+						<DashboardElement
+							icon="description"
+							text="Files"
+						/>
+						<DashboardElement
+							icon="group"
+							text="Users"
+						/>
+						<DashboardElement
+							icon="hub"
+							text="Organization"
+						/>
+					</div>
+					<div className="dashboard-map border-radius-10px box-shadow-light"></div>
+					<div className="dashboard-calendar border-radius-10px box-shadow-light"></div>
+				</div>
+			</div> */}
 		</>
 	);
 };

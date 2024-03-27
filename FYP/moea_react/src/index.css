@@ -156,12 +156,14 @@ section {
 
 /* ######################################################################### */
 
+/* Won't re needed in dashboard */
 .container {
 	/* 1140px or 1200px which is a quite popular */
 	max-width: 120rem;
 	/* auto gives the same margin to the left and right */
 	margin-inline: auto;
 	padding: 0 3.2rem;
+	background: red;
 }
 
 .grid {
@@ -225,6 +227,7 @@ DASHBOARD
 	width: 70vw;
 	margin-top: 15rem;
 	margin-inline: auto; /*So it it exacly in the middl*/
+	background: #695cfe;
 }
 
 .dashboard-container h2 {

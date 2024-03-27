@@ -17,7 +17,7 @@ const SideBarLink = ({ iconClass, text }) => (
 	</li>
 );
 
-const SideNavigationBar = () => {
+const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 	// TODO every <a></a> needs to be replaced with a button class
 	// Icons needs to be fixed and replaced
 	// TODO css will need to be updated as well
@@ -26,7 +26,6 @@ const SideNavigationBar = () => {
 
 	// Function to toggle the sidebar state
 
-	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const navigate = useNavigate();
 	const [jobroleid, setJobRoleId] = useState(null);
 
@@ -50,10 +49,6 @@ const SideNavigationBar = () => {
 
 		fetchJobRoleId();
 	}, []); // Empty dependency array means this effect runs once on mount
-
-	const toggleSidebar = () => {
-		setIsSidebarOpen(!isSidebarOpen);
-	};
 
 	async function signOutUser() {
 		const { error } = await supabase.auth.signOut();
