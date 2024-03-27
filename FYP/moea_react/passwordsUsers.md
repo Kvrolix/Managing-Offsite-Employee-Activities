@@ -1,2 +1,4 @@
 up2024896@myport.ac.uk
-Supa123
+123456
+
+for every user the password is: 123456

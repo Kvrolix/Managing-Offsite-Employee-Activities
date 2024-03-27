@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SideNavigationBarCSS from './SideNavigationBar.module.css';
 
+import supabase from '../../config/supabaseClient.js';
 import logo from '../../images/MOEA_logo.png';
 
 const SideBarLink = ({ iconClass, text }) => (
@@ -26,9 +27,40 @@ const SideNavigationBar = () => {
 	// Function to toggle the sidebar state
 
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+	const navigate = useNavigate();
+	const [jobroleid, setJobRoleId] = useState(null);
+
+	useEffect(() => {
+		const fetchJobRoleId = async () => {
+			try {
+				// Example query to fetch jobRoleId
+				const user = supabase.auth.user();
+				if (user) {
+					let { data, error } = await supabase.from('users2').select('jobroleid').eq('id', user.id).single();
+					// console.log(data);
+
+					if (error) throw error;
+					if (data) setJobRoleId(data.jobroleid);
+					console.log(data);
+				}
+			} catch (error) {
+				console.error('Error fetching job role ID', error);
+			}
+		};
+
+		fetchJobRoleId();
+	}, []); // Empty dependency array means this effect runs once on mount
+
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
+
+	async function signOutUser() {
+		const { error } = await supabase.auth.signOut();
+		navigate('/');
+		console.log('User is logged off');
+	}
+
 	return (
 		<>
 			<div className={SideNavigationBarCSS.body}>
@@ -60,6 +92,7 @@ const SideNavigationBar = () => {
 								<SideBarLink
 									iconClass="bx bx-list-ul"
 									text="Tasks"
+									// visible={jobRoleId === '1'}
 								/>
 								<SideBarLink
 									iconClass="bx bx-group"
@@ -87,13 +120,17 @@ const SideNavigationBar = () => {
 							<SideBarLink
 								iconClass="bx bx-log-out"
 								text="Logout"
+								onClick={() => {
+									signOutUser();
+								}}
 							/>
 						</div>
 					</div>
 				</nav>
-				<section className={SideNavigationBarCSS.home}>
+				{/* This will need to be moved to dashboard */}
+				{/* <div className={SideNavigationBarCSS.home}>
 					<div className={SideNavigationBarCSS.text}>Dashboard</div>
-				</section>
+				</div> */}
 			</div>
 		</>
 	);
