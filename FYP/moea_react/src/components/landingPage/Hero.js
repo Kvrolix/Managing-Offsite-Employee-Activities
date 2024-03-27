@@ -1,7 +1,7 @@
 import React from 'react';
 
 import HeroCSS from './Hero.module.css';
-import illustration from '../images/illustration.svg';
+import illustration from '../../images/illustration.svg';
 const Hero = () => {
 	return (
 		<>

@@ -49,26 +49,6 @@ const LoginPage = ({ onLoginSuccess }) => {
 		}
 	};
 
-	// 	const { user, error } = await supabase.auth.signInWithPassword({
-	// 		email: email,
-	// 		password: password,
-	// 	});
-	// 	console.log('Login attempt:', { user, error });
-
-	// 	if (user) {
-	// 		console.log('Logged in user:', user); // Log the user object
-	// 		onLoginSuccess(); // This should update the state in the parent component
-	// 		navigate('/dashboard');
-	// 	} else if (error) {
-	// 		console.error('Login error:', error);
-	// 		setLoginError(error.message);
-	// 	} else {
-	// 		// console.log('Login attempt:', { user, error });
-	// 		// This else block should not be hit, but it's here for debugging purposes
-	// 		console.error('An unexpected path was taken in the login logic.');
-	// 	}
-	// };
-
 	const goBack = () => {
 		navigate('/');
 	};
@@ -134,7 +114,6 @@ const LoginPage = ({ onLoginSuccess }) => {
 						type="submit">
 						Login
 					</button>
-					{/* </form> */}
 				</form>
 			</div>
 		</>

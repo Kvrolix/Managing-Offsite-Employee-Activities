@@ -61,6 +61,25 @@ pull = "left|right"
 ></box-icon>
 
 /*PLACE FOR ELEMENTS THAT WILL APPEAR ONLY ONCE*/
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+	/* --- COLORS --- */
+	--body-color: #e4e9f7;
+	--sidebard-color: #fff;
+	--primary-color: #695cfe;
+	--primary-color-light: #f6f5ff;
+	--toggle-color: #ddd;
+	--text-color: #707070;
+
+	/* --- TRANSITIONS --- */
+	--tran-02: all 0.2s ease;
+	--tran-03: all 0.3s ease;
+	--tran-04: all 0.4s ease;
+	--tran-05: all 0.5s ease;
+}
+
 html {
 	font-size: 62.5%;
 }
@@ -71,7 +90,7 @@ html {
 	box-sizing: border-box;
 }
 body {
-	font-family: 'Rubik', sans-serif;
+	font-family: 'Poppins', sans-serif;
 	line-height: 1;
 	font-weight: 400;
 	color: #333;
@@ -192,110 +211,6 @@ section {
 	width: 120rem;
 	height: 25rem;
 }
-/* 
-/* LOGIN CSS */
-
-.login-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	background: transparent; /* add logo and leave th=*/
-	width: 35rem;
-	color: #fff;
-	backdrop-filter: blur(20px);
-	padding: 0 3rem 5rem 3rem;
-	border-radius: 10px;
-	border: 2px solid #fff;
-	box-shadow: 0 0 10px rgba(51, 51, 51, 0.3);
-}
-
-.login-container h1 {
-	font-size: 3.2rem;
-	text-align: center;
-	margin: 4.8rem;
-}
-
-.login-container .input-box {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	border: 1px solid #fff;
-	border-radius: 50px;
-	padding: 0 2rem;
-	width: 100%;
-	margin: 30px 0;
-	background: transparent;
-}
-
-.input-box input {
-	flex-grow: 1;
-	border: none;
-	outline: none;
-	background: transparent;
-	height: 5rem;
-	color: #fff;
-	font-size: 1.6rem;
-	font-weight: 400;
-}
-
-.input-box input::placeholder {
-	color: #fff;
-	font-size: 1.6rem;
-	font-weight: 500;
-	letter-spacing: 1px;
-}
-
-.icon {
-	width: 20px;
-	height: 20px;
-}
-
-/* It means that every element of calls icon in input-box will have such property */
-.input-box svg {
-	fill: #fff;
-}
-
-/* LOGIN PAGE */
-/* .login-page {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	min-height: 100vh;
-	background: rgb(16, 139, 171);
-	background: center no-repeat url(./images/MOEA_logo.png), linear-gradient(-30deg, rgba(16, 139, 171, 1) 29%, rgba(31, 226, 144, 1) 100%);
-	background-size: 45% auto, cover;
-
-	/* background: center / contain no-repeat url(images/International_Pokémon_logo.svg.png), linear-gradient(-60deg, rgba(255, 255, 255, 1) 0%, rgba(255, 0, 0, 1) 100%); */
-
-/* 
-.login-title {
-	position: relative;
-}
-
-.login-close {
-	position: absolute;
-	top: 1rem;
-	left: 1rem;
-	fill: #fff;
-	cursor: pointer;
-	margin: 0.5rem;
-}
-
-.btn-login {
-	width: 100%;
-	height: 4.8rem;
-	border-radius: 50px;
-	font-weight: 500;
-	font-size: 1.8rem;
-	letter-spacing: 1px;
-	outline: none;
-	border: none;
-	background-color: #fff;
-	cursor: pointer;
-}
-
-.btn-login:hover {
-} */
 
 /*
 /////////////////

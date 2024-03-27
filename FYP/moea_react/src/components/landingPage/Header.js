@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import HeaderCSS from './Header.module.css';
 
 // Images
-import logo from '../images/MOEA_logo.png';
+import logo from '../../images/MOEA_logo.png';
 
 const Header = ({ scrollToFeatures }) => {
 	const navigate = useNavigate();

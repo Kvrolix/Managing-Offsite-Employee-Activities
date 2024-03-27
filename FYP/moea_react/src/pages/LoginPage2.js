@@ -15,13 +15,10 @@ const LoginPage2 = () => {
 		if (event === 'SIGNED_OUT') {
 			navigate('/login');
 		}
-		// else {
-		// 	// forward to login page
-		// 	navigate('/login');
-		// }
 	});
 	return (
 		<>
+			{/* Later on make sure you adjust the login page */}
 			<Auth
 				supabaseClient={supabase}
 				theme="dark"

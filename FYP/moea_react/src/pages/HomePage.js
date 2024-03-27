@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import Hero from '../components/Hero.js';
-import Features from '../components/Features.js';
-import Header from '../components/Header.js';
+import Hero from '../components/landingPage/Hero.js';
+import Features from '../components/landingPage/Features.js';
+import Header from '../components/landingPage/Header.js';
 
 const HomePage = () => {
 	const aboutRef = useRef(null); //TODO
