@@ -9,44 +9,87 @@ export const UserDataProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [error, setError] = useState(null);
 	const [usersByOrganization, setUsersByOrganization] = useState(null);
-	const [userRecord, setUserRecord] = useState(null);
+	const [userRecord, setUserRecord] = useState('null');
+
+	// const fetchUserRecord = async (userId) => {
+	// 	try {
+	// 		// BUG
+	// 		let { data: userRecord, error } = await supabase.from('users2').select('*').eq('authid', userId); // Assuming there is only one record for each user
+	// 		console.log(`UserdataContext:`, userRecord);
+
+	// 		if (error) {
+	// 			throw error;
+	// 		}
+
+	// 		return userRecord;
+	// 	} catch (error) {
+	// 		console.error('Error fetching user record:', error.message);
+	// 		return null; // or you could throw an error to be caught by the calling code
+	// 	}
+	// };
 
 	const fetchUserRecord = async (userId) => {
 		try {
-			// BUG
-			let { data: userRecord, error } = await supabase.from('users2').select('*').eq('authid', userId); // Assuming there is only one record for each user
-			console.log(`UserdataContext:`, userRecord);
-
-			if (error) {
-				throw error;
-			}
-
-			return userRecord;
+			let { data: userRecord, error } = await supabase.from('users2').select('*').eq('authid', userId).single();
+			if (error) throw error;
+			setUserRecord(userRecord);
+			// console.log(userRecord);
 		} catch (error) {
 			console.error('Error fetching user record:', error.message);
-			return null; // or you could throw an error to be caught by the calling code
+			setError(error.message);
 		}
 	};
 
 	useEffect(() => {
-		const fetchUserData = async () => {
-			const currentUser = await supabase.auth.getUser();
+		// This function gets called on initial load and on auth state changes
+		const checkUserAndFetchData = async () => {
+			const session = supabase.auth.session;
 
-			if (currentUser.data?.user) {
-				setUser(currentUser.data.user); // Set the authenticated user's information
-
-				try {
-					// Fetch the custom user record using the authenticated user's ID
-					const record = await fetchUserRecord(currentUser.data.user.id);
-					setUserRecord(record); // Set the fetched custom user record
-				} catch (fetchError) {
-					setError(fetchError.message); // Set any errors encountered during fetching
-				}
+			if (session) {
+				setUser(session.user);
+				await fetchUserRecord(session.user.id);
 			}
 		};
 
-		fetchUserData();
+		checkUserAndFetchData();
+
+		const { data } = supabase.auth.onAuthStateChange((event, session) => {
+			if (session) {
+				// User logged in or session refreshed
+				console.log('Session:', session);
+			} else {
+				// User logged out
+				console.log('User logged out');
+			}
+		});
+
+		// Cleanup function
+		return () => {
+			if (data && data.subscription) {
+				data.subscription.unsubscribe();
+			}
+		};
 	}, []);
+
+	// useEffect(() => {
+	// 	const fetchUserData = async () => {
+	// 		const currentUser = await supabase.auth.getUser();
+
+	// 		if (currentUser.data?.user) {
+	// 			setUser(currentUser.data.user); // Set the authenticated user's information
+
+	// 			try {
+	// 				// Fetch the custom user record using the authenticated user's ID
+	// 				const record = await fetchUserRecord(currentUser.data.user.id);
+	// 				setUserRecord(record); // Set the fetched custom user record
+	// 			} catch (fetchError) {
+	// 				setError(fetchError.message); // Set any errors encountered during fetching
+	// 			}
+	// 		}
+	// 	};
+
+	// 	fetchUserData();
+	// }, []);
 
 	/////////////////////////////////////////////////////////////////////
 
