@@ -19,41 +19,19 @@ const DashboardElement = ({ icon, text }) => (
 // TODO Fix the screen as when the sidebar is used the screen is changing too.
 
 const DashboardOptions = ({ isSidebarOpen }) => {
-	const { user, userRecord, error } = useContext(UserDataContext); // Accessing context values
-	// console.log(`Data from dashboardOptions:`, user);
+	const { user, userRecord, error } = useContext(UserDataContext);
 
-	const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-	delay(1000);
-	const [{ firstname, surname }] = userRecord;
-	// try {
-	// 	// delay(1000);
-	// 	const [{ firstname, surname }] = userRecord;
-	// 	console.log(`DashboardOptions:`, userRecord);
-	// 	console.log(firstname);
-	// } catch (error) {
-	// 	console.error(error);
-	// }
-
-	// BUG Id should not be shared
-	// const [{ firstname, surname }] = userRecord;
-	// Conditional rendering to ensure userRecord is not null
+	// Ensure userRecord exists before trying to access its properties
 	if (!userRecord) {
-		console.log('error with user record'); // or any other loading state representation
+		// Render a loading message or null if userRecord is not yet available
+		return (
+			<>
+				<div>Loading user details...</div>
+			</>
+		);
 	}
-
-	// Now safe to destructure since we checked userRecord is not null/undefined
-	// const { firstname, surname } = userRecord;
-
-	useEffect(() => {
-		// Effect for doing something when user or error changes
-		if (error) {
-			console.error(error);
-		}
-		if (user) {
-			// console.log('User from context:', user);
-			// Perform any action based on the user data
-		}
-	}, [user, error]);
+	// Now it's safe to destructure userRecord as it's guaranteed to be non-null
+	const { firstname, surname } = userRecord;
 
 	return (
 		<>

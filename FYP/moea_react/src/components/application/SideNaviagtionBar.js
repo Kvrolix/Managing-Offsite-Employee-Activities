@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react';
+// React
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SideNavigationBarCSS from './SideNavigationBar.module.css';
 
-import supabase from '../../config/supabaseClient.js';
+// Styles and images
+import SideNavigationBarCSS from './SideNavigationBar.module.css';
 import logo from '../../images/MOEA_logo.png';
+
+// Data
+import { UserDataContext } from '../../context/UserDataContext.js';
 
 const SideBarLink = ({ iconClass, text }) => (
 	<li className={SideNavigationBarCSS.nav_link}>
@@ -28,6 +32,7 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 
 	const navigate = useNavigate();
 	const [jobroleid, setJobRoleId] = useState(null);
+	const { signOutUser } = useContext(UserDataContext);
 
 	// useEffect(() => {
 	// 	const fetchJobRoleId = async () => {
@@ -49,12 +54,10 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 
 	// 	fetchJobRoleId();
 	// }, []); // Empty dependency array means this effect runs once on mount
-
-	async function signOutUser() {
-		const { error } = await supabase.auth.signOut();
+	const handleLogout = async () => {
+		await signOutUser();
 		navigate('/');
-		console.log('User is logged off');
-	}
+	};
 
 	return (
 		<>
@@ -111,21 +114,18 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 								/>
 							</ul>
 						</div>
-						<div className="bottom-content">
+						<div
+							className="bottom-content"
+							onClick={() => {
+								handleLogout();
+							}}>
 							<SideBarLink
 								iconClass="bx bx-log-out"
 								text="Logout"
-								onClick={() => {
-									signOutUser();
-								}}
 							/>
 						</div>
 					</div>
 				</nav>
-				{/* This will need to be moved to dashboard */}
-				{/* <div className={SideNavigationBarCSS.home}>
-					<div className={SideNavigationBarCSS.text}>Dashboard</div>
-				</div> */}
 			</div>
 		</>
 	);
