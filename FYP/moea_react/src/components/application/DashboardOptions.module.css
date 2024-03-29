@@ -26,28 +26,30 @@ NEW */
 
 .options_container {
 	height: 100vh;
-	width: 100vw;
+	width: 95.4vw;
 	background: #1fcbe2;
 }
 
 .greeting {
 	/* padding-left: 25rem; */
-	font-size: 3rem;
+	padding-left: 15rem;
+	padding-top: 5rem;
+	font-size: 4rem;
 }
 
 /* Assuming 250px is the width of the sidebar */
 .options_container.expanded {
 	margin-left: 250px;
-	transition: margin-left 0.3s ease;
+	transition: margin-left 0.5s ease;
 }
 
 .options_container.collapsed {
 	margin-left: 88px; /* Or the width of your collapsed sidebar */
-	transition: margin-left 0.3s ease;
+	transition: margin-left 0.4s ease;
 }
 /* ----------------------------- */
 
-.dashboard-container {
+.dashboard_container {
 	/* display: flex; */
 	/* border: 1px solid #333; */
 	height: 60vh;
@@ -57,37 +59,41 @@ NEW */
 	background: #695cfe;
 }
 
-.dashboard-container h2 {
+.dashboard_container h2 {
 	/* text-align: end; */
 }
-.dashboard-grid {
+.dashboard_grid {
+	width: 80vw;
+	display: grid;
 	grid-template-columns: 0.7fr 0.3fr;
+	margin-inline: auto;
 	gap: 3rem;
-}
-.border-radius-10px {
-	border-radius: 10px;
-}
-
-.box-shadow-light {
-	box-shadow: 2px 2px 10px rgba(51, 51, 51, 0.3);
+	padding-left: 4rem;
+	padding-top: 10rem;
 }
 
-.dashboard-goto {
+.dashboard_goto {
 	background-color: aqua;
 	grid-row: 1/3;
 	height: 55rem;
+	box-shadow: 2px 2px 10px rgba(51, 51, 51, 0.3);
+	border-radius: 10px;
 }
 
-.dashboard-map {
+.dashboard_map {
 	background-color: #8feec5;
 	/* height: 20rem; */
+	box-shadow: 2px 2px 10px rgba(51, 51, 51, 0.3);
+	border-radius: 10px;
 }
 
-.dashboard-calendar {
+.dashboard_calendar {
 	background-color: orangered;
+	box-shadow: 2px 2px 10px rgba(51, 51, 51, 0.3);
+	border-radius: 10px;
 }
 
-.dashboard-element {
+.dashboard_element {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -99,19 +105,20 @@ NEW */
 	box-shadow: 2px 2px 10px rgba(51, 51, 51, 0.3);
 	border-radius: 10px;
 	border: 2px solid #1fcbe2;
+	cursor: pointer;
 }
 
-.dashboard-element p {
+.dashboard_element p {
 	margin-top: 1.6rem;
 	text-align: center;
 	font-size: 2.4rem;
 }
-.dashboard-goto {
+.dashboard_goto {
 	grid-template-columns: repeat(3, 1fr);
 	justify-items: center;
 	align-items: center;
 }
-.dashboard-icon {
+.dashboard_icon {
 	background-color: #1fcbe2;
 	border-radius: 50px;
 	padding: 1rem;

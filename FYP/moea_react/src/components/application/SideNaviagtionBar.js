@@ -29,26 +29,26 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 	const navigate = useNavigate();
 	const [jobroleid, setJobRoleId] = useState(null);
 
-	useEffect(() => {
-		const fetchJobRoleId = async () => {
-			try {
-				// Example query to fetch jobRoleId
-				const user = supabase.auth.user();
-				if (user) {
-					let { data, error } = await supabase.from('users2').select('jobroleid').eq('id', user.id).single();
-					// console.log(data);
+	// useEffect(() => {
+	// 	const fetchJobRoleId = async () => {
+	// 		try {
+	// 			// Example query to fetch jobRoleId
+	// 			const user = supabase.auth.user();
+	// 			if (user) {
+	// 				let { data, error } = await supabase.from('users2').select('jobroleid').eq('id', user.id).single();
+	// 				// console.log(data);
 
-					if (error) throw error;
-					if (data) setJobRoleId(data.jobroleid);
-					console.log(data);
-				}
-			} catch (error) {
-				console.error('Error fetching job role ID', error);
-			}
-		};
+	// 				if (error) throw error;
+	// 				if (data) setJobRoleId(data.jobroleid);
+	// 				console.log(data);
+	// 			}
+	// 		} catch (error) {
+	// 			console.error('Error fetching job role ID', error);
+	// 		}
+	// 	};
 
-		fetchJobRoleId();
-	}, []); // Empty dependency array means this effect runs once on mount
+	// 	fetchJobRoleId();
+	// }, []); // Empty dependency array means this effect runs once on mount
 
 	async function signOutUser() {
 		const { error } = await supabase.auth.signOut();
