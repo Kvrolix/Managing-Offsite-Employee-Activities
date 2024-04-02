@@ -24,8 +24,6 @@ const LoginPage = ({ onLoginSuccess }) => {
 		e.preventDefault();
 		// Clean previous errors
 		setLoginError('');
-
-		// Use signIn for email/password authentication
 		let { user, error } = await supabase.auth.signInWithPassword({
 			email: email,
 			password: password,
@@ -44,7 +42,6 @@ const LoginPage = ({ onLoginSuccess }) => {
 		} else {
 			console.log(user);
 			// Given the successful network response, this block should not be reached.
-			console.error('An unexpected issue occurred during login.');
 			setLoginError('An unexpected error occurred.');
 		}
 	};

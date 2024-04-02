@@ -1,12 +1,18 @@
-import React, { useContext, useEffect } from 'react';
-import DashboardOptionsCSS from './DashboardOptions.module.css';
-import SideNavigationBarCSS from './SideNavigationBar.module.css';
+// React
+import React, { useContext } from 'react';
+import { useAppNavigate } from '../../context/useAppNavigate.js';
 
+// Styles
+import DashboardOptionsCSS from './DashboardOptions.module.css';
+
+// Data
 import { UserDataContext } from '../../context/UserDataContext';
 
-const DashboardElement = ({ icon, text }) => (
-	<div className={DashboardOptionsCSS.dashboard_element}>
-		<div className="dashboard-icon">
+const DashboardElement = ({ icon, text, navigateTo }) => (
+	<div
+		className={DashboardOptionsCSS.dashboard_element}
+		onClick={navigateTo}>
+		<div className={DashboardOptionsCSS.dashboard_icon}>
 			<span className="material-icons md-36">{icon}</span>
 		</div>
 		<p>{text}</p>
@@ -19,7 +25,8 @@ const DashboardElement = ({ icon, text }) => (
 // TODO Fix the screen as when the sidebar is used the screen is changing too.
 
 const DashboardOptions = ({ isSidebarOpen }) => {
-	const { user, userRecord, error } = useContext(UserDataContext);
+	const { userRecord } = useContext(UserDataContext);
+	const { navigateToTasks } = useAppNavigate();
 
 	// Ensure userRecord exists before trying to access its properties
 	if (!userRecord) {
@@ -42,6 +49,7 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 						<DashboardElement
 							icon="assignment"
 							text="Tasks"
+							navigateTo={navigateToTasks}
 						/>
 						<DashboardElement
 							icon="supervised_user_circle"
