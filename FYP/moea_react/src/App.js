@@ -1,13 +1,12 @@
-// Imports
+// React
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import React, { useRef, useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
-import supabase from './config/supabaseClient.js';
 // Pages
 import HomePage from './pages/HomePage.js';
-import LoginPage from './pages/LoginPage.js';
 import LoginPage2 from './pages/LoginPage2.js';
 import DashboardPage from './pages/DashboardPage.js';
+import TasksPage from './pages/TasksPage.js';
 
 function App() {
 	return (
@@ -24,6 +23,10 @@ function App() {
 				<Route
 					path="/dashboard"
 					element={<DashboardPage />}
+				/>
+				<Route
+					path="/tasks"
+					element={<TasksPage />}
 				/>
 			</Routes>
 		</BrowserRouter>

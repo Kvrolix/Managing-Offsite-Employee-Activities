@@ -6,6 +6,8 @@ import supabase from '../config/supabaseClient';
 export const UserDataContext = createContext();
 
 export const UserDataProvider = ({ children }) => {
+	// TODO fetch the jobroles
+
 	const [user, setUser] = useState(null);
 	const [error, setError] = useState(null);
 	// const [usersByOrganization, setUsersByOrganization] = useState(null);
