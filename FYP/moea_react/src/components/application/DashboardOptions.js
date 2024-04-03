@@ -9,7 +9,7 @@ import DashboardOptionsCSS from './DashboardOptions.module.css';
 import { UserDataContext } from '../../context/UserDataContext';
 
 // Components
-
+// TODO export it to a different file as there will be too many of them soon
 const DashboardElement = ({ icon, text, navigateTo }) => (
 	<div
 		className={DashboardOptionsCSS.dashboard_element}
@@ -25,6 +25,7 @@ const DashboardElement = ({ icon, text, navigateTo }) => (
 // TODO Add functionality for map and calendar, and other buttons
 // TODO Use Google icons eveythere and for the organization icon apply the briefcase
 // TODO Fix the screen as when the sidebar is used the screen is changing too.
+// TODO Update the dashboard to look better add the animations too
 
 const DashboardOptions = ({ isSidebarOpen }) => {
 	const { userRecord } = useContext(UserDataContext);
@@ -33,11 +34,7 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 	// Ensure userRecord exists before trying to access its properties
 	if (!userRecord) {
 		// Render a loading message or null if userRecord is not yet available
-		return (
-			<>
-				<div>Loading user details...</div>
-			</>
-		);
+		return null;
 	}
 	// Now it's safe to destructure userRecord as it's guaranteed to be non-null
 	const { firstname, surname } = userRecord;
@@ -74,8 +71,8 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 							text="Organization"
 						/>
 					</div>
-					<div className={DashboardOptionsCSS.dashboard_calendar}>element 2</div>
-					<div className={DashboardOptionsCSS.dashboard_map}></div>
+					<div className={DashboardOptionsCSS.dashboard_calendar}>Calendar</div>
+					<div className={DashboardOptionsCSS.dashboard_map}>Map</div>
 				</div>
 			</div>
 		</>
