@@ -98,6 +98,7 @@ body {
 
 .material-icons {
 	font-family: 'Material Icons';
+	color: #333;
 	font-weight: normal;
 	font-style: normal;
 	font-size: 60px; /*Preferred icon size*/
@@ -212,4 +213,16 @@ section {
 	background-color: orangered;
 	width: 120rem;
 	height: 25rem;
+}
+
+.red {
+	background: red;
+}
+
+.green {
+	background: green;
+}
+
+.orange {
+	background: orange;
 }

@@ -1,0 +1,244 @@
+.container_tasks {
+	margin-left: 25rem;
+	padding-top: 7rem;
+	background-color: aquamarine;
+	height: 95vh;
+}
+
+.tasks_heading {
+	font-size: 3rem;
+	text-align: center;
+}
+
+.tasks_heading::after {
+	content: '';
+	display: block;
+	width: 15%;
+	height: 6px;
+	background-color: rgb(72, 207, 72);
+	margin: auto;
+	position: relative;
+	top: 20px;
+	border-radius: 4px;
+}
+
+.tasks_grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	padding-top: 3rem;
+	padding-bottom: 5rem;
+}
+
+.task_card {
+	background-color: #ffffff;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	margin: 20px;
+	padding: 20px;
+	transition: transform 0.3s ease-in-out;
+}
+
+.task_card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.task_card h2 {
+	color: #333;
+	font-size: 2.4rem;
+	margin-bottom: 1rem;
+}
+
+.task_card p {
+	color: #666;
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+.task_info {
+	color: #444;
+	font-size: 1.4rem;
+	margin-top: 1rem;
+	font-style: italic;
+}
+
+.tasks_crud_containter {
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
+	justify-content: flex-end;
+	margin-right: 15rem;
+	margin-top: 3rem;
+}
+
+.crud_icon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 5rem;
+	height: 5rem;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: transform 0.3s ease-in-out;
+}
+
+.crud_icon:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.archives_container {
+	background-color: aquamarine; /* Matching the main container color */
+	padding: 2rem;
+	margin-left: 25rem; /* Aligns with the rest of the content */
+	height: auto; /* Adjust based on content */
+}
+
+.archives_heading {
+	font-size: 2.5rem; /* Slightly smaller than the main tasks heading for hierarchy */
+	text-align: center;
+	margin-bottom: 1rem; /* Space between heading and table */
+}
+
+.archives_heading::after {
+	content: '';
+	display: block;
+	width: 15%;
+	height: 6px;
+	background-color: rgb(72, 207, 72);
+	margin: auto;
+	position: relative;
+	top: 20px;
+	border-radius: 4px;
+	margin-bottom: 5rem;
+}
+
+.archives_table {
+	width: 100%; /* Full width of the container */
+	border-collapse: collapse; /* Removes space between borders */
+	margin: auto; /* Center the table */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Consistent with task card shadow */
+}
+
+.archives_table th,
+.archives_table td {
+	border: 2px solid #ddd; /* Light grey border */
+	font-size: 1.4rem;
+	/* TODO  */
+	line-height: 1.3;
+	padding: 8px;
+	text-align: left; /* Aligns text to the left */
+}
+
+.archives_table th {
+	background-color: #f2f2f2; /* Light grey background for headers */
+	color: #333; /* Dark grey color for header text */
+}
+
+.archives_table tr:nth-child(even) {
+	background-color: #f9f9f9;
+} /* Zebra striping for rows */
+
+.archives_table tr:hover {
+	background-color: #ddd;
+} /* Hover effect for rows */
+
+.archives_table td {
+	color: #666; /* Consistent with task card text color */
+}
+
+.modalBackdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6); /* Darker semi-transparent background for more focus on the modal */
+	backdrop-filter: blur(8px); /* Enhanced blur for background */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
+
+.modalContent {
+	background-color: #fff;
+	padding: 40px;
+	border-radius: 10px;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Smoother shadow for depth */
+	width: 40%; /* Use percentage for responsive width */
+	max-width: 600px; /* Maximum width to ensure it doesn't get too wide on large screens */
+	z-index: 1001;
+	display: flex;
+	flex-direction: column; /* Stack elements vertically */
+}
+
+.modalHeading {
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eaeaea; /* Subtle line to separate heading */
+	font-size: 24px;
+	font-weight: bold;
+	text-align: center;
+	color: #333;
+}
+
+.modalInput,
+.modalTextarea {
+	margin-bottom: 20px;
+	padding: 10px;
+	border: 1px solid #ddd; /* Light border for inputs */
+	border-radius: 5px; /* Slight rounding of corners */
+	width: calc(100% - 20px); /* Full width minus padding */
+}
+
+.modalTextarea {
+	height: 100px; /* Fixed height for the textarea */
+	resize: vertical; /* Allows vertical resizing */
+}
+
+.modalButtonGroup {
+	display: flex;
+	justify-content: flex-end; /* Align buttons to the right */
+}
+
+.modalButton {
+	padding: 1rem 2rem;
+	margin-left: 1rem; /* Space between buttons */
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.modalButton__save {
+	background-color: #4caf50; /* Green background */
+	color: white;
+}
+
+.modalButton__cancel {
+	background-color: #f44336; /* Red background */
+	color: white;
+}
+
+.successNotification {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	background-color: #4caf50; /* Green background */
+	color: white;
+	padding: 15px;
+	border-radius: 5px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	z-index: 1002; /* Ensure it appears above all other content */
+}
+
+.notificationCloseButton {
+	background-color: transparent;
+	border: none;
+	color: white;
+	cursor: pointer;
+}
