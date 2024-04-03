@@ -8,6 +8,8 @@ import DashboardOptionsCSS from './DashboardOptions.module.css';
 // Data
 import { UserDataContext } from '../../context/UserDataContext';
 
+// Components
+
 const DashboardElement = ({ icon, text, navigateTo }) => (
 	<div
 		className={DashboardOptionsCSS.dashboard_element}

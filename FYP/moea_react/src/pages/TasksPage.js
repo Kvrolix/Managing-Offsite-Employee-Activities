@@ -2,25 +2,26 @@
 import React, { useState } from 'react';
 
 // Styles
-import SideNavigationBar from '../components/application/SideNaviagtionBar';
-import TasksPageCSS from './TasksPage.module.css';
+import TasksPageCSS from '../components/application/tasksPageComponents/TasksPage.module.css';
 
 // Data
 import { UserDataProvider } from '../context/UserDataContext';
 
-const TaskElement = ({ title, description, dateCreated, deadline, assignedTo }) => (
-	<div className={TasksPageCSS.task_card}>
-		<h2>Task Title</h2>
-		<p>Description of the taskDescription of the taskDescription of the taskDescription of the taskDescription of the task </p>
-		<div className={TasksPageCSS.task_info}>deadline: 06/03/2024</div>
-		<div className={TasksPageCSS.task_info}>AssignedTo: Karolo Zigolo</div>
-	</div>
-);
+// Components
+import SideNavigationBar from '../components/application/SideNaviagtionBar';
+import TaskElement from '../components/application/tasksPageComponents/taskElement';
+import CrudElement from '../components/application/tasksPageComponents/CrudElement';
+import ArchiveRow from '../components/application/tasksPageComponents/ArchiveRow';
+import SuccessNotification from '../components/application/tasksPageComponents/SuccessNotification';
+import TaskCreationModal from '../components/application/tasksPageComponents/TaskCreationModal';
 
-const CrudElement = ({ icon, color }) => {};
+// ALL TODO
+// TODO The date needs to be added automatically
+// 	// TODO I will need to work somehow with assigning, maybe it will give the list as well from poeple to choose from like on supabase
+// 	// TODO Add the success prompt as well
+
 const TasksPage = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
@@ -28,15 +29,31 @@ const TasksPage = () => {
 	// I will want te task creator have the same top for creating deleting etc.
 	// But for the task itself I will have it in form of cards
 	// The done Tasks will be in the list format or a table this should be exported via pdf so the button would be created
+
 	// TODO I need to create a big container, that will be adjusting itself based wether the sidebar is open is not
 
-	// TODO Create a card element for a task
-	// TODO Create icon element for the task creation etc.
-	// TODO Create the table for the archives
 	// TODO Create the prompt about sucessfull/unsucessfull Task generation
 	// TODO Task can be only deleted from the archives
 	// TODO Add functionlity that based on the date how close to deadline it is there will be a red circle printed on the card
-
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	// Function to handle opening the modal
+	const openModal = () => setIsModalOpen(true);
+	// Function to handle closing the modal
+	const closeModal = () => setIsModalOpen(false);
+	const [showSuccessNotification, setShowSuccessNotification] = useState(false);
+	const [successMessage, setSuccessMessage] = useState('');
+	// Placeholder function for saving the task
+	// Modify the saveTask function to show the notification
+	const saveTask = (taskData) => {
+		console.log('Task to save:', taskData);
+		// Simulate saving task...
+		setSuccessMessage('Task created successfully');
+		setShowSuccessNotification(true);
+		setTimeout(() => setShowSuccessNotification(false), 3000); // Auto-hide after 3 seconds
+	};
+	const closeNotification = () => {
+		setShowSuccessNotification(false);
+	};
 	return (
 		<>
 			<UserDataProvider>
@@ -44,28 +61,113 @@ const TasksPage = () => {
 					isSidebarOpen={isSidebarOpen}
 					toggleSidebar={toggleSidebar}
 				/>
-
 				<div className={TasksPageCSS.container_tasks}>
 					<h1 className={TasksPageCSS.tasks_heading}>Task Manager</h1>
-					<ul>
-						<li>create</li>
-						<li>edit</li>
-						<li>delete</li>
-					</ul>
-					<div className={TasksPageCSS.tasks_grid}>
-						<TaskElement />
-						<TaskElement />
-						<TaskElement />
-						<TaskElement />
-						<TaskElement />
-						<TaskElement />
-						<TaskElement />
-						<TaskElement />
+					<div className={TasksPageCSS.tasks_crud_containter}>
+						<CrudElement
+							icon="post_add"
+							color="green"
+							onClick={openModal}
+						/>
+						<CrudElement
+							icon="edit_note"
+							color="orange"
+						/>
+						<CrudElement
+							icon="playlist_remove"
+							color="red"
+						/>
 					</div>
-					<h2>Archives</h2>
-					<div>There will be a table with all the archives, it will collapse once pressed to reduce the usage of space</div>
+
+					<div className={TasksPageCSS.tasks_grid}>
+						<TaskElement
+							title="Task Example"
+							description="Description of the completed task."
+							deadline="06/03/2024"
+							assignedTo="Karolo Zigolo"
+						/>
+						<TaskElement
+							title="Task Example"
+							description="Description of the completed task."
+							deadline="06/03/2024"
+							assignedTo="Karolo Zigolo"
+						/>
+						<TaskElement
+							title="Task Example"
+							description="Description of the completed task."
+							deadline="06/03/2024"
+							assignedTo="Karolo Zigolo"
+						/>
+						<TaskElement
+							title="Task Example"
+							description="Description of the completed task."
+							deadline="06/03/2024"
+							assignedTo="Karolo Zigolo"
+						/>
+						<TaskElement
+							title="Task Example"
+							description="Description of the completed task."
+							deadline="06/03/2024"
+							assignedTo="Karolo Zigolo"
+						/>
+					</div>
+				</div>
+				<div className={TasksPageCSS.archives_container}>
+					<h2 className={TasksPageCSS.archives_heading}>Archives</h2>
+					<table className={TasksPageCSS.archives_table}>
+						<thead>
+							<tr>
+								<th>Title</th>
+								<th>Description</th>
+								<th>Completion Date</th>
+								<th>Assigned To</th>
+							</tr>
+						</thead>
+						<tbody>
+							<ArchiveRow
+								title={'Task Example'}
+								description={'Description of the completed task.'}
+								deadline={'06/03/2024'}
+								assignedTo={'Karolo Zigolo'}
+							/>
+							<ArchiveRow
+								title={'Task Example'}
+								description={'Description of the completed task.'}
+								deadline={'06/03/2024'}
+								assignedTo={'Karolo Zigolo'}
+							/>
+							<ArchiveRow
+								title={'Task Example'}
+								description={'Description of the completed task.'}
+								deadline={'06/03/2024'}
+								assignedTo={'Karolo Zigolo'}
+							/>
+							<ArchiveRow
+								title={'Task Example'}
+								description={'Description of the completed task.'}
+								deadline={'06/03/2024'}
+								assignedTo={'Karolo Zigolo'}
+							/>
+							<ArchiveRow
+								title={'Task Example'}
+								description={'Description of the completed task.'}
+								deadline={'06/03/2024'}
+								assignedTo={'Karolo Zigolo'}
+							/>
+						</tbody>
+					</table>
 				</div>
 			</UserDataProvider>
+			<TaskCreationModal
+				isOpen={isModalOpen}
+				onClose={() => setIsModalOpen(false)}
+				onSave={saveTask}
+			/>
+			<SuccessNotification
+				message={successMessage}
+				isVisible={showSuccessNotification}
+				onClose={closeNotification}
+			/>
 		</>
 	);
 };
