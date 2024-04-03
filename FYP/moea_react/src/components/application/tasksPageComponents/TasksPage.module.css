@@ -1,3 +1,16 @@
+/* TODO This needs to be implemented in the index css in evey single place where sidebar is */
+
+/* Assuming 250px is the width of the sidebar */
+.options_container.expanded {
+	margin-left: 250px;
+	transition: margin-left 0.5s ease;
+}
+
+.options_container.collapsed {
+	margin-left: 88px; /* Or the width of your collapsed sidebar */
+	transition: margin-left 0.4s ease;
+}
+
 .container_tasks {
 	margin-left: 25rem;
 	padding-top: 7rem;

@@ -18,7 +18,11 @@ import TaskCreationModal from '../components/application/tasksPageComponents/Tas
 // ALL TODO
 // TODO The date needs to be added automatically
 // 	// TODO I will need to work somehow with assigning, maybe it will give the list as well from poeple to choose from like on supabase
-// 	// TODO Add the success prompt as well
+// TODO make the archives toggle so it doesn't load the date when not needed
+// TODO when delete is pressed it moves the task to the archives /
+// Option 2 is to create an X on the task and once pressed it will be moved to the archives, it owrk based on the column completed
+// TODO List all the queries that needs to be implemented through supabase
+// Do the pagination for the tasks, maximum of 12 on each page
 
 const TasksPage = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
