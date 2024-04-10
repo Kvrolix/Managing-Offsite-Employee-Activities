@@ -49,6 +49,7 @@
 	margin: 20px;
 	padding: 20px;
 	transition: transform 0.3s ease-in-out;
+	position: relative;
 }
 
 .task_card:hover {
@@ -66,6 +67,18 @@
 	color: #666;
 	font-size: 16px;
 	line-height: 1.5;
+}
+.task_card div i {
+	background: red;
+	border-radius: 50%;
+	position: absolute;
+	border: 1px solid #333;
+	top: -1rem;
+	left: 95%;
+	cursor: pointer;
+}
+.task_card i {
+	font-size: 3rem;
 }
 
 .task_info {

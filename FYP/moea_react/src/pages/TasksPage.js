@@ -15,6 +15,8 @@ import ArchiveRow from '../components/application/tasksPageComponents/ArchiveRow
 import SuccessNotification from '../components/application/tasksPageComponents/SuccessNotification';
 import TaskCreationModal from '../components/application/tasksPageComponents/TaskCreationModal';
 
+// TODO go through the records in a list so they are all visible and depends who you pick it will get his authid and this will be assigned to a created task
+
 const TasksPage = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	// const { tasks } = useContext(UserDataProvider);
@@ -74,7 +76,6 @@ const TasksPage = () => {
 				</div>
 
 				<div className={TasksPageCSS.tasks_grid}>
-					{/* Map over the tasks array and render TaskElement components */}
 					{tasks.map((task) => (
 						<TaskElement
 							key={task.taskid}

@@ -10,6 +10,9 @@ const TaskElement = ({ title, description, deadline, assignedTo }) => {
 				<p>{description}</p>
 				<div className={TasksPageCSS.task_info}>Deadline: {deadline}</div>
 				<div className={TasksPageCSS.task_info}>Assigned To: {assignedTo}</div>
+				<div>
+					<i className="bx bx-x"></i>
+				</div>
 			</div>
 		</>
 	);

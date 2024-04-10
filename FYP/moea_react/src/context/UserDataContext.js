@@ -11,6 +11,7 @@ export const UserDataProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [error, setError] = useState(null);
 	// const [usersByOrganization, setUsersByOrganization] = useState(null);
+	const [employeesForTask, setEmployeesForTask] = useState([]);
 
 	const [tasks, setTasks] = useState([]);
 
@@ -28,6 +29,27 @@ export const UserDataProvider = ({ children }) => {
 			setError(error.message);
 		}
 	};
+	const fetchEmployeesForTaskAssignment = async () => {
+		try {
+			// Ensure userRecord is available to get the organization ID
+			if (!userRecord) return;
+
+			// Query the 'users2' table to find employees within the same organization with jobroleid 4 or 5
+			const { data: employees, error } = await supabase.from('users2').select('*').eq('organizationid', userRecord.organizationid).in('jobroleid', [4, 5]);
+
+			if (error) throw error;
+
+			// Optionally, you can set these employees in state if you plan to use them in your components
+			console.log('Employees for task assignment:', employees);
+			// For example, setEmployees(employees); if you've defined a state for it
+		} catch (error) {
+			console.error('Error fetching employees for task assignment:', error.message);
+			setError(error.message);
+		}
+	};
+	useEffect(() => {
+		fetchEmployeesForTaskAssignment();
+	}, [userRecord]); // Re-fetch employees when userRecord changes
 
 	const fetchTasks = async () => {
 		try {
@@ -128,7 +150,7 @@ export const UserDataProvider = ({ children }) => {
 		}
 	}, []);
 
-	return <UserDataContext.Provider value={{ user, userRecord, error, signOutUser, tasks }}>{children}</UserDataContext.Provider>;
+	return <UserDataContext.Provider value={{ user, userRecord, error, signOutUser, tasks, employeesForTask }}>{children}</UserDataContext.Provider>;
 };
 
 // Create a list of queries i want to perform for the task table
