@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 // Data
 import TestingUserContext from './TestingUserContext.js';
-import { UserDataProvider } from '../context/UserDataContext';
+
 // Styles
 import SideNavigationBar from '../components/application/SideNaviagtionBar.js';
 import DashboardOptions from '../components/application/DashboardOptions.js';
@@ -16,14 +16,12 @@ const DashboardPage = () => {
 
 	return (
 		<>
-			<UserDataProvider>
-				<SideNavigationBar
-					isSidebarOpen={isSidebarOpen}
-					toggleSidebar={toggleSidebar}
-				/>
-				<DashboardOptions isSidebarOpen={isSidebarOpen} />
-				<TestingUserContext />
-			</UserDataProvider>
+			<SideNavigationBar
+				isSidebarOpen={isSidebarOpen}
+				toggleSidebar={toggleSidebar}
+			/>
+			<DashboardOptions isSidebarOpen={isSidebarOpen} />
+			<TestingUserContext />
 		</>
 	);
 };

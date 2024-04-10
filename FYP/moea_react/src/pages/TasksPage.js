@@ -1,5 +1,5 @@
 // React
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 // Styles
 import TasksPageCSS from '../components/application/tasksPageComponents/TasksPage.module.css';
@@ -15,10 +15,12 @@ import ArchiveRow from '../components/application/tasksPageComponents/ArchiveRow
 import SuccessNotification from '../components/application/tasksPageComponents/SuccessNotification';
 import TaskCreationModal from '../components/application/tasksPageComponents/TaskCreationModal';
 
+// TODO go through the records in a list so they are all visible and depends who you pick it will get his authid and this will be assigned to a created task
+
 const TasksPage = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	// const { tasks } = useContext(UserDataProvider);
-	// const { tasks } = useContext(UserDataContext);
+	const { tasks } = useContext(UserDataContext);
 
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
@@ -44,118 +46,93 @@ const TasksPage = () => {
 	const closeNotification = () => {
 		setShowSuccessNotification(false);
 	};
+	useEffect(() => {
+		console.log('Tasks:', tasks);
+	}, [tasks]);
 
 	return (
 		<>
-			<UserDataProvider>
-				<SideNavigationBar
-					isSidebarOpen={isSidebarOpen}
-					toggleSidebar={toggleSidebar}
-				/>
-				<div className={TasksPageCSS.container_tasks}>
-					<h1 className={TasksPageCSS.tasks_heading}>Task Manager</h1>
+			<SideNavigationBar
+				isSidebarOpen={isSidebarOpen}
+				toggleSidebar={toggleSidebar}
+			/>
+			<div className={TasksPageCSS.container_tasks}>
+				<h1 className={TasksPageCSS.tasks_heading}>Task Manager</h1>
 
-					<div className={TasksPageCSS.tasks_crud_containter}>
-						<CrudElement
-							icon="post_add"
-							color="green"
-							onClick={openModal}
-						/>
-						<CrudElement
-							icon="edit_note"
-							color="orange"
-						/>
-						<CrudElement
-							icon="playlist_remove"
-							color="red"
-						/>
-					</div>
+				<div className={TasksPageCSS.tasks_crud_containter}>
+					<CrudElement
+						icon="post_add"
+						color="green"
+						onClick={openModal}
+					/>
+					<CrudElement
+						icon="edit_note"
+						color="orange"
+					/>
+					<CrudElement
+						icon="playlist_remove"
+						color="red"
+					/>
+				</div>
 
-					<div className={TasksPageCSS.tasks_grid}>
+				<div className={TasksPageCSS.tasks_grid}>
+					{tasks.map((task) => (
 						<TaskElement
-							title="Task Example"
-							description="Description of the completed task."
-							deadline="06/03/2024"
-							assignedTo="Karolo Zigolo"
+							key={task.taskid}
+							title={task.taskname}
+							description={task.description}
+							deadline={task.deadline}
+							assignedTo={task.assignedtouserid} // You will need to fetch the user's name separately
 						/>
-						<TaskElement
-							title="Task Example"
-							description="Description of the completed task."
-							deadline="06/03/2024"
-							assignedTo="Karolo Zigolo"
-						/>
-						<TaskElement
-							title="Task Example"
-							description="Description of the completed task."
-							deadline="06/03/2024"
-							assignedTo="Karolo Zigolo"
-						/>
-						<TaskElement
-							title="Task Example"
-							description="Description of the completed task."
-							deadline="06/03/2024"
-							assignedTo="Karolo Zigolo"
-						/>
-						<TaskElement
-							title="Task Example"
-							description="Description of the completed task."
-							deadline="06/03/2024"
-							assignedTo="Karolo Zigolo"
-						/>
-						{/* {tasks.map((task) => (
-							<TaskElement
-								key={task.TaskID}
-								{...task}
-							/>
-						))} */}
-					</div>
+					))}
 				</div>
-				<div className={TasksPageCSS.archives_container}>
-					<h2 className={TasksPageCSS.archives_heading}>Archives</h2>
-					<table className={TasksPageCSS.archives_table}>
-						<thead>
-							<tr>
-								<th>Title</th>
-								<th>Description</th>
-								<th>Completion Date</th>
-								<th>Assigned To</th>
-							</tr>
-						</thead>
-						<tbody>
-							<ArchiveRow
-								title={'Task Example'}
-								description={'Description of the completed task.'}
-								deadline={'06/03/2024'}
-								assignedTo={'Karolo Zigolo'}
-							/>
-							<ArchiveRow
-								title={'Task Example'}
-								description={'Description of the completed task.'}
-								deadline={'06/03/2024'}
-								assignedTo={'Karolo Zigolo'}
-							/>
-							<ArchiveRow
-								title={'Task Example'}
-								description={'Description of the completed task.'}
-								deadline={'06/03/2024'}
-								assignedTo={'Karolo Zigolo'}
-							/>
-							<ArchiveRow
-								title={'Task Example'}
-								description={'Description of the completed task.'}
-								deadline={'06/03/2024'}
-								assignedTo={'Karolo Zigolo'}
-							/>
-							<ArchiveRow
-								title={'Task Example'}
-								description={'Description of the completed task.'}
-								deadline={'06/03/2024'}
-								assignedTo={'Karolo Zigolo'}
-							/>
-						</tbody>
-					</table>
-				</div>
-			</UserDataProvider>
+			</div>
+			<div className={TasksPageCSS.archives_container}>
+				<h2 className={TasksPageCSS.archives_heading}>Archives</h2>
+				<table className={TasksPageCSS.archives_table}>
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>Description</th>
+							<th>Completion Date</th>
+							<th>Assigned To</th>
+						</tr>
+					</thead>
+					<tbody>
+						<ArchiveRow
+							title={'Task Example'}
+							description={'Description of the completed task.'}
+							deadline={'06/03/2024'}
+							assignedTo={'Karolo Zigolo'}
+						/>
+						<ArchiveRow
+							title={'Task Example'}
+							description={'Description of the completed task.'}
+							deadline={'06/03/2024'}
+							assignedTo={'Karolo Zigolo'}
+						/>
+						<ArchiveRow
+							title={'Task Example'}
+							description={'Description of the completed task.'}
+							deadline={'06/03/2024'}
+							assignedTo={'Karolo Zigolo'}
+						/>
+						<ArchiveRow
+							title={'Task Example'}
+							description={'Description of the completed task.'}
+							deadline={'06/03/2024'}
+							assignedTo={'Karolo Zigolo'}
+						/>
+						<ArchiveRow
+							title={'Task Example'}
+							description={'Description of the completed task.'}
+							deadline={'06/03/2024'}
+							assignedTo={'Karolo Zigolo'}
+						/>
+					</tbody>
+				</table>
+			</div>
+
 			<TaskCreationModal
 				isOpen={isModalOpen}
 				onClose={() => setIsModalOpen(false)}

@@ -11,6 +11,7 @@ export const UserDataProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [error, setError] = useState(null);
 	// const [usersByOrganization, setUsersByOrganization] = useState(null);
+	const [employeesForTask, setEmployeesForTask] = useState([]);
 
 	const [tasks, setTasks] = useState([]);
 
@@ -28,31 +29,52 @@ export const UserDataProvider = ({ children }) => {
 			setError(error.message);
 		}
 	};
+	const fetchEmployeesForTaskAssignment = async () => {
+		try {
+			// Ensure userRecord is available to get the organization ID
+			if (!userRecord) return;
+
+			// Query the 'users2' table to find employees within the same organization with jobroleid 4 or 5
+			const { data: employees, error } = await supabase.from('users2').select('*').eq('organizationid', userRecord.organizationid).in('jobroleid', [4, 5]);
+
+			if (error) throw error;
+
+			// Optionally, you can set these employees in state if you plan to use them in your components
+			console.log('Employees for task assignment:', employees);
+			// For example, setEmployees(employees); if you've defined a state for it
+		} catch (error) {
+			console.error('Error fetching employees for task assignment:', error.message);
+			setError(error.message);
+		}
+	};
+	useEffect(() => {
+		fetchEmployeesForTaskAssignment();
+	}, [userRecord]); // Re-fetch employees when userRecord changes
 
 	const fetchTasks = async () => {
 		try {
 			if (!userRecord) return; // Exit if userRecord is not loaded
-
-			let query = supabase.from('Task').select('*');
-
+			// BUG MAKE SURE ALL THE LEETERS ARE LOWERCASE FOR SELECIT
+			let query = supabase.from('task').select('*');
+			console.log(`User Record:`, userRecord);
 			// Determine tasks visibility based on the user's role
-			switch (userRecord.jobRoleId) {
+			switch (userRecord.jobroleid) {
 				case 1: // Chief
 				case 2: // Manager
 				case 3: // Secretary
 					// For these roles, fetch tasks where the organizationId matches
-					query = query.eq('OrganizationID', userRecord.organizationId);
+					query = query.eq('organizationid', userRecord.organizationid);
 					break;
 				case 4: // Team Leader
 					// For team leaders, fetch tasks assigned to them and to their team members
-					const teamQuery = supabase.from('TeamMembers').select('TeamID').eq('UserID', userRecord.userId);
+					const teamQuery = supabase.from('TeamMembers').select('TeamID').eq('UserID', userRecord.userid);
 					const { data: teamData } = await teamQuery;
 					const teamIds = teamData.map((team) => team.TeamID);
-					query = query.in('AssignedToTeamID', teamIds).or(`AssignedToUserID.eq.${userRecord.userId}`);
+					query = query.in('AssignedToTeamID', teamIds).or(`AssignedToUserID.eq.${userRecord.userid}`);
 					break;
 				case 5: // Worker
 					// Workers see only their tasks
-					query = query.eq('AssignedToUserID', userRecord.userId);
+					query = query.eq('AssignedToUserID', userRecord.userid);
 					break;
 				default:
 					// Handle other roles or undefined role
@@ -128,7 +150,7 @@ export const UserDataProvider = ({ children }) => {
 		}
 	}, []);
 
-	return <UserDataContext.Provider value={{ user, userRecord, error, signOutUser, tasks }}>{children}</UserDataContext.Provider>;
+	return <UserDataContext.Provider value={{ user, userRecord, error, signOutUser, tasks, employeesForTask }}>{children}</UserDataContext.Provider>;
 };
 
 // Create a list of queries i want to perform for the task table
