@@ -1,6 +1,7 @@
 // React
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { UserDataProvider } from './context/UserDataContext';
 
 // Pages
 import HomePage from './pages/HomePage.js';
@@ -10,26 +11,28 @@ import TasksPage from './pages/TasksPage.js';
 
 function App() {
 	return (
-		<BrowserRouter>
-			<Routes>
-				<Route
-					path="/"
-					element={<HomePage />}
-				/>
-				<Route
-					path="/login"
-					element={<LoginPage2 />}
-				/>
-				<Route
-					path="/dashboard"
-					element={<DashboardPage />}
-				/>
-				<Route
-					path="/tasks"
-					element={<TasksPage />}
-				/>
-			</Routes>
-		</BrowserRouter>
+		<UserDataProvider>
+			<BrowserRouter>
+				<Routes>
+					<Route
+						path="/"
+						element={<HomePage />}
+					/>
+					<Route
+						path="/login"
+						element={<LoginPage2 />}
+					/>
+					<Route
+						path="/dashboard"
+						element={<DashboardPage />}
+					/>
+					<Route
+						path="/tasks"
+						element={<TasksPage />}
+					/>
+				</Routes>
+			</BrowserRouter>
+		</UserDataProvider>
 	);
 }
 

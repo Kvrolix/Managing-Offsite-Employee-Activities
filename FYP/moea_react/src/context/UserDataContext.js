@@ -32,27 +32,27 @@ export const UserDataProvider = ({ children }) => {
 	const fetchTasks = async () => {
 		try {
 			if (!userRecord) return; // Exit if userRecord is not loaded
-
-			let query = supabase.from('Task').select('*');
-
+			// BUG MAKE SURE ALL THE LEETERS ARE LOWERCASE FOR SELECIT
+			let query = supabase.from('task').select('*');
+			console.log(`User Record:`, userRecord);
 			// Determine tasks visibility based on the user's role
-			switch (userRecord.jobRoleId) {
+			switch (userRecord.jobroleid) {
 				case 1: // Chief
 				case 2: // Manager
 				case 3: // Secretary
 					// For these roles, fetch tasks where the organizationId matches
-					query = query.eq('OrganizationID', userRecord.organizationId);
+					query = query.eq('organizationid', userRecord.organizationid);
 					break;
 				case 4: // Team Leader
 					// For team leaders, fetch tasks assigned to them and to their team members
-					const teamQuery = supabase.from('TeamMembers').select('TeamID').eq('UserID', userRecord.userId);
+					const teamQuery = supabase.from('TeamMembers').select('TeamID').eq('UserID', userRecord.userid);
 					const { data: teamData } = await teamQuery;
 					const teamIds = teamData.map((team) => team.TeamID);
-					query = query.in('AssignedToTeamID', teamIds).or(`AssignedToUserID.eq.${userRecord.userId}`);
+					query = query.in('AssignedToTeamID', teamIds).or(`AssignedToUserID.eq.${userRecord.userid}`);
 					break;
 				case 5: // Worker
 					// Workers see only their tasks
-					query = query.eq('AssignedToUserID', userRecord.userId);
+					query = query.eq('AssignedToUserID', userRecord.userid);
 					break;
 				default:
 					// Handle other roles or undefined role
