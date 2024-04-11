@@ -5,11 +5,10 @@ const TaskElement = ({ title, description, deadline, assignedTo }) => {
 	return (
 		<>
 			<div className={TasksPageCSS.task_card}>
-				{/* Adjust CSS class reference as necessary */}
 				<h2>{title}</h2>
 				<p>{description}</p>
 				<div className={TasksPageCSS.task_info}>Deadline: {deadline}</div>
-				<div className={TasksPageCSS.task_info}>Assigned To: {assignedTo}</div>
+				<div className={TasksPageCSS.task_info}>Assigned to: {assignedTo}</div>
 				<div>
 					<i className="bx bx-x"></i>
 				</div>

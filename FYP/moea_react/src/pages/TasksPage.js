@@ -17,10 +17,10 @@ import SuccessNotification from '../components/application/tasksPageComponents/S
 import TaskCreationModal from '../components/application/tasksPageComponents/TaskCreationModal';
 
 // TODO go through the records in a list so they are all visible and depends who you pick it will get his authid and this will be assigned to a created task
-
+// BUG When page realods it waits longser for getting the assigned to as it is another call, to it should all be printed in teh same time \
 const TasksPage = () => {
 	// DATA
-	const { userRecord, tasks, fetchTasks, employeesForTask } = useContext(UserDataContext);
+	const { userRecord, tasks, fetchTasks, employeesForTask, fetchUserByAuthId } = useContext(UserDataContext);
 
 	// Modals and rendering states
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -40,26 +40,31 @@ const TasksPage = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
 
-	// Old version
-	// const saveTask = (taskData) => {
-	// 	console.log('Task to save:', taskData);
-	// 	// Simulate saving task...
-	// 	setSuccessMessage('Task created successfully');
-	// 	setShowSuccessNotification(true);
-	// 	setTimeout(() => setShowSuccessNotification(false), 3000);
-	// };
-	// useEffect(() => {
-	// 	console.log('Tasks:', tasks);
-	// }, [tasks]);
-	// useEffect(() => {
-	// 	console.log('People:', employeesForTask);
-	// }, [employeesForTask]);
-
-	// useEffect(() => {
-	// 	console.log('User:', userRecord);
-	// }, [userRecord]);
-
+	// console.log(fetchUserByAuthId('291924e5-0dbd-4ec7-9ce6-e5eb6317c1f0'));
 	// SUPABASE VERSION
+
+	const [userNames, setUserNames] = useState({}); // To store usernames
+
+	useEffect(() => {
+		const fetchAndSetUserNames = async () => {
+			const names = {};
+
+			for (const task of tasks) {
+				if (task.assignedtoauthid && !names[task.assignedtoauthid]) {
+					const user = await fetchUserByAuthId(task.assignedtoauthid);
+					if (user) {
+						names[task.assignedtoauthid] = `${user.firstname} ${user.surname}`;
+					}
+				}
+			}
+
+			setUserNames(names);
+		};
+
+		if (tasks.length > 0) {
+			fetchAndSetUserNames();
+		}
+	}, [tasks, fetchUserByAuthId]);
 
 	const saveTask = async (taskData) => {
 		console.log('Task to save:', taskData);
@@ -89,14 +94,12 @@ const TasksPage = () => {
 			setShowSuccessNotification(true);
 			setTimeout(() => setShowSuccessNotification(false), 3000);
 
-			// Optionally, re-fetch tasks to update the list
-			// fetchTasks();
 			fetchTasks();
 		} catch (error) {
+			// TODO This should be display to user on the screen not in console
 			console.error('Error saving task:', error.message);
-			// Handle error, such as showing an error message to the user
 		} finally {
-			setLoading(false); // Stop loading after task is saved or if there's an error
+			setLoading(false);
 		}
 	};
 
@@ -126,13 +129,14 @@ const TasksPage = () => {
 				</div>
 
 				<div className={TasksPageCSS.tasks_grid}>
+					{/* TODO i need to get the assigned to seperately, basically it will need to tranlate authid to a record in a database and from there i will be getting the name  */}
 					{tasks.map((task) => (
 						<TaskElement
 							key={task.taskid}
 							title={task.taskname}
 							description={task.description}
 							deadline={task.deadline}
-							assignedTo={task.assignedtouserid} // You will need to fetch the user's name separately
+							assignedTo={userNames[task.assignedtoauthid] || 'Not assigned'}
 						/>
 					))}
 				</div>

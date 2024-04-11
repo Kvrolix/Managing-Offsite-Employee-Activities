@@ -10,13 +10,11 @@ export const UserDataProvider = ({ children }) => {
 
 	const [user, setUser] = useState(null);
 	const [error, setError] = useState(null);
-	// const [usersByOrganization, setUsersByOrganization] = useState(null);
 	const [employeesForTask, setEmployeesForTask] = useState([]);
-
 	const [tasks, setTasks] = useState([]);
-
 	const [userRecord, setUserRecord] = useState(null); // BUG
 
+	// BUG THIS CAN BE REMOVED? OR COMBINED WITH A FUNCTION BELOW
 	const fetchUserRecord = async (userId) => {
 		try {
 			let { data: userRecord, error } = await supabase.from('users2').select('*').eq('authid', userId).single();
@@ -29,20 +27,30 @@ export const UserDataProvider = ({ children }) => {
 			setError(error.message);
 		}
 	};
-	const fetchEmployeesForTaskAssignment = async () => {
-		try {
-			// Ensure userRecord is available to get the organization ID
-			if (!userRecord) return;
 
-			// Query the 'users2' table to find employees within the same organization with jobroleid 4 or 5
-			const { data: employees, error } = await supabase.from('users2').select('*').eq('organizationid', userRecord.organizationid).in('jobroleid', [4, 5]);
+	const fetchUserByAuthId = async (authid) => {
+		try {
+			let { data: user, error } = await supabase
+				.from('users2') // Replace 'users' with your actual user table name
+				.select('*')
+				.eq('authid', authid)
+				.single(); // Assuming authid is unique and returns a single record
 
 			if (error) throw error;
+			return user; // Return the user record
+		} catch (error) {
+			console.error('Error fetching user by authid:', error.message);
+			return null; // Return null or handle error as needed
+		}
+	};
 
-			// Optionally, you can set these employees in state if you plan to use them in your components
+	const fetchEmployeesForTaskAssignment = async () => {
+		try {
+			if (!userRecord) return;
+			const { data: employees, error } = await supabase.from('users2').select('*').eq('organizationid', userRecord.organizationid).in('jobroleid', [4, 5]);
+			if (error) throw error;
 			console.log('Employees for task assignment:', employees);
 			setEmployeesForTask(employees);
-			// For example, setEmployees(employees); if you've defined a state for it
 		} catch (error) {
 			console.error('Error fetching employees for task assignment:', error.message);
 			setError(error.message);
@@ -63,7 +71,6 @@ export const UserDataProvider = ({ children }) => {
 				case 1: // Chief
 				case 2: // Manager
 				case 3: // Secretary
-					// For these roles, fetch tasks where the organizationId matches
 					query = query.eq('organizationid', userRecord.organizationid);
 					break;
 				case 4: // Team Leader
@@ -99,18 +106,14 @@ export const UserDataProvider = ({ children }) => {
 				await fetchUserRecord(session.user.id);
 			}
 		};
-
 		checkUserAndFetchData();
-
 		const { data } = supabase.auth.onAuthStateChange((event, session) => {
 			if (session) {
 			} else {
-				// User logged out
+				// TODO This should be displayed on the screen
 				console.log('User logged out');
 			}
 		});
-
-		// Cleanup function
 		return () => {
 			if (data && data.subscription) {
 				data.subscription.unsubscribe();
@@ -143,13 +146,13 @@ export const UserDataProvider = ({ children }) => {
 			setError(error.message);
 		} else {
 			console.log('User is logged off');
-			setUser(null); // Clear user state on logout
-			setUserRecord(null); // Optionally clear userRecord if used
+			setUser(null);
+			setUserRecord(null);
 		}
 	}, []);
 
 	// BUG user can be removed?
-	return <UserDataContext.Provider value={{ user, userRecord, error, signOutUser, tasks, fetchTasks, employeesForTask }}>{children}</UserDataContext.Provider>;
+	return <UserDataContext.Provider value={{ user, userRecord, error, signOutUser, tasks, fetchTasks, employeesForTask, fetchUserByAuthId }}>{children}</UserDataContext.Provider>;
 };
 
 // Create a list of queries i want to perform for the task table
