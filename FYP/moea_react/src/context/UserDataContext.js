@@ -82,7 +82,6 @@ export const UserDataProvider = ({ children }) => {
 					setTasks([]);
 					return;
 			}
-
 			const { data: tasksData, error } = await query;
 			if (error) throw error;
 			setTasks(tasksData);
@@ -93,10 +92,8 @@ export const UserDataProvider = ({ children }) => {
 	};
 
 	useEffect(() => {
-		// This function gets called on initial load and on auth state changes
 		const checkUserAndFetchData = async () => {
 			const session = supabase.auth.session;
-
 			if (session) {
 				setUser(session.user);
 				await fetchUserRecord(session.user.id);
@@ -151,7 +148,8 @@ export const UserDataProvider = ({ children }) => {
 		}
 	}, []);
 
-	return <UserDataContext.Provider value={{ user, userRecord, error, signOutUser, tasks, employeesForTask }}>{children}</UserDataContext.Provider>;
+	// BUG user can be removed?
+	return <UserDataContext.Provider value={{ user, userRecord, error, signOutUser, tasks, fetchTasks, employeesForTask }}>{children}</UserDataContext.Provider>;
 };
 
 // Create a list of queries i want to perform for the task table

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 
 import TasksPageCSS from './TasksPage.module.css';
+import Spinner from '../Spinner';
 
-const TaskCreationModal = ({ isOpen, onClose, onSave, employees }) => {
+const TaskCreationModal = ({ isOpen, onClose, onSave, employees, loading, setLoading }) => {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [deadline, setDeadline] = useState('');
 	const [assignedToPerson, setAssignedToPerson] = useState('');
 	const [assignedToTeam, setAssignedToTeam] = useState('');
+
+	// Spinner
 
 	if (!isOpen) return null;
 
@@ -17,7 +20,9 @@ const TaskCreationModal = ({ isOpen, onClose, onSave, employees }) => {
 
 			return;
 		}
+		setLoading(true);
 		onSave({ title, description, deadline, assignedToPerson, assignedToTeam });
+		setLoading(false);
 		setTitle('');
 		setDescription('');
 		setDeadline('');
@@ -31,6 +36,7 @@ const TaskCreationModal = ({ isOpen, onClose, onSave, employees }) => {
 	// TODO Add the Negative prompt
 	return (
 		<div className={TasksPageCSS.modalBackdrop}>
+			{loading && <Spinner />}
 			<div className={TasksPageCSS.modalContent}>
 				<h2 className={TasksPageCSS.modalHeading}>Create New Task</h2>
 				<form
@@ -52,7 +58,7 @@ const TaskCreationModal = ({ isOpen, onClose, onSave, employees }) => {
 					<div className={TasksPageCSS.modalFieldTitle}>Description</div>
 					<textarea
 						className={TasksPageCSS.modalTextarea}
-						required //BUG
+						required
 						placeholder="Description"
 						value={description}
 						onChange={(e) => setDescription(e.target.value)}
@@ -67,6 +73,7 @@ const TaskCreationModal = ({ isOpen, onClose, onSave, employees }) => {
 						onChange={(e) => setDeadline(e.target.value)}
 					/>
 					{/* ASSIGNED TO TEAM */}
+					{/* TODO */}
 					<div className={TasksPageCSS.modalFieldTitle}>Assigned to Team</div>
 					<select
 						className={TasksPageCSS.modalInput}
@@ -74,7 +81,6 @@ const TaskCreationModal = ({ isOpen, onClose, onSave, employees }) => {
 						value={assignedToTeam}
 						onChange={(e) => setAssignedToTeam(e.target.value)}>
 						<option value="">Select Team...</option>
-						{/* TODO */}
 						{/* {teams.map(team => (
                         <option key={team.TeamID} value={team.TeamID}>{team.TeamName}</option>
                     ))} */}
@@ -94,7 +100,6 @@ const TaskCreationModal = ({ isOpen, onClose, onSave, employees }) => {
 							</option>
 						))}
 					</select>
-					{/* TODO Datacreated is a timestamp */}
 					<div className={TasksPageCSS.modalButtonGroup}>
 						<button
 							className={`${TasksPageCSS.modalButton} ${TasksPageCSS.modalButton__save}`}
