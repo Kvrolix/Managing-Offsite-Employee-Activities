@@ -209,6 +209,13 @@
 	color: #333;
 }
 
+.modalFieldTitle {
+	margin-left: 0.5rem;
+	margin-bottom: 0.5rem;
+	font-weight: bold;
+	font-size: 1.4rem;
+}
+
 .modalInput,
 .modalTextarea {
 	margin-bottom: 20px;

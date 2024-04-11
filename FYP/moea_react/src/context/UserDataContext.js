@@ -41,6 +41,7 @@ export const UserDataProvider = ({ children }) => {
 
 			// Optionally, you can set these employees in state if you plan to use them in your components
 			console.log('Employees for task assignment:', employees);
+			setEmployeesForTask(employees);
 			// For example, setEmployees(employees); if you've defined a state for it
 		} catch (error) {
 			console.error('Error fetching employees for task assignment:', error.message);

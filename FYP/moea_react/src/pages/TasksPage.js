@@ -5,8 +5,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import TasksPageCSS from '../components/application/tasksPageComponents/TasksPage.module.css';
 
 // Data
-import { UserDataProvider } from '../context/UserDataContext';
 import { UserDataContext } from '../context/UserDataContext';
+
 // Components
 import SideNavigationBar from '../components/application/SideNaviagtionBar';
 import TaskElement from '../components/application/tasksPageComponents/taskElement';
@@ -20,12 +20,15 @@ import TaskCreationModal from '../components/application/tasksPageComponents/Tas
 const TasksPage = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	// const { tasks } = useContext(UserDataProvider);
-	const { tasks } = useContext(UserDataContext);
+	const { tasks, employeesForTask } = useContext(UserDataContext);
 
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
 
+	// TODO Move it to the task
+
+	// console.log(`Modal:`, employeesForTask);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const openModal = () => setIsModalOpen(true);
@@ -49,6 +52,9 @@ const TasksPage = () => {
 	useEffect(() => {
 		console.log('Tasks:', tasks);
 	}, [tasks]);
+	useEffect(() => {
+		console.log('People:', employeesForTask);
+	}, [employeesForTask]);
 
 	return (
 		<>
@@ -134,9 +140,11 @@ const TasksPage = () => {
 			</div>
 
 			<TaskCreationModal
+				// TODO so tje infromation are needed to be passed here
 				isOpen={isModalOpen}
 				onClose={() => setIsModalOpen(false)}
 				onSave={saveTask}
+				employees={employeesForTask}
 			/>
 			<SuccessNotification
 				message={successMessage}
