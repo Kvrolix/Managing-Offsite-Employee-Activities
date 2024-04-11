@@ -6,6 +6,7 @@ import TasksPageCSS from '../components/application/tasksPageComponents/TasksPag
 
 // Data
 import { UserDataContext } from '../context/UserDataContext';
+import supabase from '../config/supabaseClient';
 
 // Components
 import SideNavigationBar from '../components/application/SideNaviagtionBar';
@@ -18,43 +19,86 @@ import TaskCreationModal from '../components/application/tasksPageComponents/Tas
 // TODO go through the records in a list so they are all visible and depends who you pick it will get his authid and this will be assigned to a created task
 
 const TasksPage = () => {
+	// DATA
+	const { userRecord, tasks, fetchTasks, employeesForTask } = useContext(UserDataContext);
+
+	// Modals and rendering states
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-	// const { tasks } = useContext(UserDataProvider);
-	const { tasks, employeesForTask } = useContext(UserDataContext);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [showSuccessNotification, setShowSuccessNotification] = useState(false);
+	const [successMessage, setSuccessMessage] = useState('');
+	const [loading, setLoading] = useState(false);
+
+	// Modal functions
+	const closeModal = () => setIsModalOpen(false);
+	const openModal = () => setIsModalOpen(true);
+	const closeNotification = () => {
+		setShowSuccessNotification(false);
+	};
 
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
 
-	// TODO Move it to the task
+	// Old version
+	// const saveTask = (taskData) => {
+	// 	console.log('Task to save:', taskData);
+	// 	// Simulate saving task...
+	// 	setSuccessMessage('Task created successfully');
+	// 	setShowSuccessNotification(true);
+	// 	setTimeout(() => setShowSuccessNotification(false), 3000);
+	// };
+	// useEffect(() => {
+	// 	console.log('Tasks:', tasks);
+	// }, [tasks]);
+	// useEffect(() => {
+	// 	console.log('People:', employeesForTask);
+	// }, [employeesForTask]);
 
-	// console.log(`Modal:`, employeesForTask);
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	// useEffect(() => {
+	// 	console.log('User:', userRecord);
+	// }, [userRecord]);
 
-	const openModal = () => setIsModalOpen(true);
+	// SUPABASE VERSION
 
-	const closeModal = () => setIsModalOpen(false);
-	const [showSuccessNotification, setShowSuccessNotification] = useState(false);
-	const [successMessage, setSuccessMessage] = useState('');
-
-	// Placeholder function for saving the task
-	// Modify the saveTask function to show the notification
-	const saveTask = (taskData) => {
+	const saveTask = async (taskData) => {
 		console.log('Task to save:', taskData);
-		// Simulate saving task...
-		setSuccessMessage('Task created successfully');
-		setShowSuccessNotification(true);
-		setTimeout(() => setShowSuccessNotification(false), 3000);
+		// TODO The extra fields i have added are need to be here too
+		const { title, description, deadline, assignedToPerson } = taskData;
+
+		const organizationId = userRecord.organizationid;
+		const createdByAuthId = userRecord.authid;
+
+		try {
+			const { data, error } = await supabase.from('task').insert([
+				{
+					taskname: title,
+					description: description,
+					deadline: deadline,
+					organizationid: organizationId,
+					assignedtoauthid: assignedToPerson,
+					// assignedtoteamid: assignedToTeam,
+					createdbyauthid: createdByAuthId,
+				},
+			]);
+
+			if (error) throw error;
+
+			console.log('Saved task:', data);
+			setSuccessMessage('Task created successfully');
+			setShowSuccessNotification(true);
+			setTimeout(() => setShowSuccessNotification(false), 3000);
+
+			// Optionally, re-fetch tasks to update the list
+			// fetchTasks();
+			fetchTasks();
+		} catch (error) {
+			console.error('Error saving task:', error.message);
+			// Handle error, such as showing an error message to the user
+		} finally {
+			setLoading(false); // Stop loading after task is saved or if there's an error
+		}
 	};
-	const closeNotification = () => {
-		setShowSuccessNotification(false);
-	};
-	useEffect(() => {
-		console.log('Tasks:', tasks);
-	}, [tasks]);
-	useEffect(() => {
-		console.log('People:', employeesForTask);
-	}, [employeesForTask]);
 
 	return (
 		<>
@@ -145,6 +189,8 @@ const TasksPage = () => {
 				onClose={() => setIsModalOpen(false)}
 				onSave={saveTask}
 				employees={employeesForTask}
+				loading={loading} // Pass loading state to the modal
+				setLoading={setLoading} // Pass setLoading function to the modal to control loading state from within
 			/>
 			<SuccessNotification
 				message={successMessage}
