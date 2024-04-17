@@ -28,6 +28,8 @@ const TasksPage = () => {
 	const [showSuccessNotification, setShowSuccessNotification] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
 	const [loading, setLoading] = useState(false);
+	const [currentUndoTimeout, setCurrentUndoTimeout] = useState(null);
+	const [currentTask, setCurrentTask] = useState(null);
 
 	// Modal functions
 	const closeModal = () => setIsModalOpen(false);
@@ -39,6 +41,74 @@ const TasksPage = () => {
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
+
+	const editTask = (taskId) => {
+		console.log('Editing task:', taskId);
+		// Placeholder for edit task functionality
+	};
+
+	// const archiveTask = (taskId) => {
+	// 	console.log('Archiving task:', taskId);
+	// 	// Placeholder for archive task functionality
+	// };
+	const archiveTask = async (task) => {
+		try {
+			// Update task status to archived and completed in Supabase
+			const { error } = await supabase.from('task').update({ isCompleted: true, isArchived: true }).eq('taskid', task.taskid);
+			console.log(`Archived Task:`, task.taskid);
+
+			if (error) throw error;
+
+			// UI Feedback
+			setSuccessMessage('Task archived successfully. Undo?');
+			setShowSuccessNotification(true);
+
+			// Set up undo functionality
+			enableUndo(task);
+
+			// Update local tasks state or refetch from backend
+			fetchTasks(); // Assuming this updates your local state reflecting the archive
+		} catch (error) {
+			console.error('Error archiving task:', error.message);
+		}
+	};
+
+	const enableUndo = (task) => {
+		// Set a timeout to disable undo after 7 seconds
+		const undoTimeout = setTimeout(() => {
+			setShowSuccessNotification(false);
+		}, 7000);
+
+		// Save the timeout ID if we need to clear it on undo
+		setCurrentUndoTimeout(undoTimeout);
+		setCurrentTask(task); // Keep track of the task for undoing
+	};
+
+	console.log(`Current task: `, currentTask);
+	const undoArchive = async () => {
+		if (currentUndoTimeout) {
+			clearTimeout(currentUndoTimeout);
+		}
+		try {
+			const { data, error } = await supabase.from('task').update({ isCompleted: false, isArchived: false }).eq('taskid', currentTask.taskid);
+
+			if (error) throw error;
+
+			setSuccessMessage('Undo successful');
+			setShowSuccessNotification(true);
+			fetchTasks(); // Refresh the task list
+		} catch (error) {
+			console.error('Error undoing archive:', error.message);
+		}
+	};
+
+	useEffect(() => {
+		return () => {
+			if (currentUndoTimeout) {
+				clearTimeout(currentUndoTimeout);
+			}
+		};
+	}, [currentUndoTimeout]);
 
 	// console.log(fetchUserByAuthId('291924e5-0dbd-4ec7-9ce6-e5eb6317c1f0'));
 	// SUPABASE VERSION
@@ -64,6 +134,7 @@ const TasksPage = () => {
 		if (tasks.length > 0) {
 			fetchAndSetUserNames();
 		}
+		console.log(tasks[1]);
 	}, [tasks, fetchUserByAuthId]);
 
 	const saveTask = async (taskData) => {
@@ -112,7 +183,7 @@ const TasksPage = () => {
 			<div className={TasksPageCSS.container_tasks}>
 				<h1 className={TasksPageCSS.tasks_heading}>Task Manager</h1>
 
-				<div className={TasksPageCSS.tasks_crud_containter}>
+				{/* <div className={TasksPageCSS.tasks_crud_containter}>
 					<CrudElement
 						icon="post_add"
 						color="green"
@@ -126,19 +197,24 @@ const TasksPage = () => {
 						icon="playlist_remove"
 						color="red"
 					/>
-				</div>
+				</div> */}
 
 				<div className={TasksPageCSS.tasks_grid}>
 					{/* TODO i need to get the assigned to seperately, basically it will need to tranlate authid to a record in a database and from there i will be getting the name  */}
-					{tasks.map((task) => (
-						<TaskElement
-							key={task.taskid}
-							title={task.taskname}
-							description={task.description}
-							deadline={task.deadline}
-							assignedTo={userNames[task.assignedtoauthid] || 'Not assigned'}
-						/>
-					))}
+					{tasks
+						.filter((task) => !task.isCompleted && !task.isArchived)
+						.map((task) => (
+							<TaskElement
+								key={task.taskid}
+								title={task.taskname}
+								description={task.description}
+								deadline={task.deadline}
+								dateCreated={task.datecreated}
+								assignedTo={userNames[task.assignedtoauthid] || 'Not assigned'}
+								onEdit={() => editTask(task.taskid)}
+								onArchive={() => archiveTask(task)}
+							/>
+						))}
 				</div>
 			</div>
 			<div className={TasksPageCSS.archives_container}>
@@ -200,6 +276,7 @@ const TasksPage = () => {
 				message={successMessage}
 				isVisible={showSuccessNotification}
 				onClose={closeNotification}
+				undo={undoArchive}
 			/>
 		</>
 	);
