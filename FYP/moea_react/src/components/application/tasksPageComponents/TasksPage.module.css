@@ -99,6 +99,15 @@
 	padding: 10px 0;
 }
 
+.task_deadline_indicator {
+	width: 2.5rem;
+	height: 2.5rem;
+	border-radius: 50%;
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+}
+
 /* REMOVE*/
 .tasks_crud_containter {
 	display: flex;
@@ -288,4 +297,22 @@
 	border: none;
 	color: white;
 	cursor: pointer;
+}
+
+/* PAGINATION */
+
+.pagination button {
+	padding: 10px;
+	margin: 5px;
+	border: none;
+	background-color: #f4f4f4;
+}
+
+.pagination button.active {
+	background-color: #428bca;
+	color: white;
+}
+
+.pagination button:hover {
+	background-color: #ddd;
 }
