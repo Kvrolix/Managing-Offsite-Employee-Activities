@@ -31,7 +31,7 @@ export const UserDataProvider = ({ children }) => {
 	const fetchUserByAuthId = async (authid) => {
 		try {
 			let { data: user, error } = await supabase
-				.from('users2') // Replace 'users' with your actual user table name
+				.from('users2') // Replace 'users2' with your actual user table name
 				.select('*')
 				.eq('authid', authid)
 				.single(); // Assuming authid is unique and returns a single record
@@ -59,6 +59,7 @@ export const UserDataProvider = ({ children }) => {
 	useEffect(() => {
 		fetchEmployeesForTaskAssignment();
 	}, [userRecord]); // Re-fetch employees when userRecord changes
+	console.log(`User Record:`, userRecord);
 
 	// --- FETCHING TASKS
 	const fetchTasks = async () => {
@@ -75,15 +76,17 @@ export const UserDataProvider = ({ children }) => {
 					query = query.eq('organizationid', userRecord.organizationid);
 					break;
 				case 4: // Team Leader
+					// FIXME BUG TODO the column names might be wrong, make sure they're lowercase
 					// For team leaders, fetch tasks assigned to them and to their team members
 					const teamQuery = supabase.from('TeamMembers').select('TeamID').eq('UserID', userRecord.userid);
 					const { data: teamData } = await teamQuery;
 					const teamIds = teamData.map((team) => team.TeamID);
-					query = query.in('AssignedToTeamID', teamIds).or(`AssignedToUserID.eq.${userRecord.userid}`);
+					// BUG                                                               add column name
+					query = query.in('AssignedToTeamID', teamIds).or('AssignedToUserID').eq(userRecord.userid);
 					break;
 				case 5: // Worker
 					// Workers see only their tasks
-					query = query.eq('AssignedToUserID', userRecord.userid);
+					query = query.eq('assignedtoauthid', userRecord.authid);
 					break;
 				default:
 					// Handle other roles or undefined role

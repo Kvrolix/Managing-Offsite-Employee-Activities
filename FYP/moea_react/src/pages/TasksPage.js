@@ -14,7 +14,10 @@ import TaskElement from '../components/application/tasksPageComponents/taskEleme
 import CrudElement from '../components/application/tasksPageComponents/CrudElement';
 import ArchiveRow from '../components/application/tasksPageComponents/ArchiveRow';
 import SuccessNotification from '../components/application/tasksPageComponents/SuccessNotification';
+
+// Modals
 import TaskCreationModal from '../components/application/tasksPageComponents/TaskCreationModal';
+import TaskViewModal from '../components/application/tasksPageComponents/TaskViewModal';
 
 // TODO go through the records in a list so they are all visible and depends who you pick it will get his authid and this will be assigned to a created task
 // BUG When page realods it waits longser for getting the assigned to as it is another call, to it should all be printed in teh same time \
@@ -31,15 +34,41 @@ const TasksPage = () => {
 	const [currentUndoTimeout, setCurrentUndoTimeout] = useState(null);
 	const [currentTask, setCurrentTask] = useState(null);
 
-	// Modal functions
-	const closeModal = () => setIsModalOpen(false);
-	const openModal = () => setIsModalOpen(true);
+	// // Modal functions
+	// const closeModal = () => setIsModalOpen(false);
+	// const openModal = () => setIsModalOpen(true);
+
 	const closeNotification = () => {
 		setShowSuccessNotification(false);
 	};
 
+	// Pagination
+	// TODO
+
+	const openCreateModal = () => {
+		setIsCreateModalOpen(true); // Specific to the creation modal
+	};
+
+	const closeCreateModal = () => {
+		setIsCreateModalOpen(false);
+	};
+
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
+	};
+
+	const [viewingTask, setViewingTask] = useState(null);
+	const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+	const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // Rename the existing state for clarity if it was `isModalOpen`
+
+	const openViewModal = (task) => {
+		setViewingTask(task);
+		setIsViewModalOpen(true); // Specific to the view modal
+	};
+
+	const closeViewModal = () => {
+		setIsViewModalOpen(false);
+		setViewingTask(null);
 	};
 
 	const editTask = (taskId) => {
@@ -183,21 +212,21 @@ const TasksPage = () => {
 			<div className={TasksPageCSS.container_tasks}>
 				<h1 className={TasksPageCSS.tasks_heading}>Task Manager</h1>
 
-				{/* <div className={TasksPageCSS.tasks_crud_containter}>
+				<div className={TasksPageCSS.tasks_crud_containter}>
 					<CrudElement
 						icon="post_add"
 						color="green"
-						onClick={openModal}
+						onClick={openCreateModal}
 					/>
-					<CrudElement
+					{/* <CrudElement
 						icon="edit_note"
 						color="orange"
-					/>
-					<CrudElement
+					/> */}
+					{/* <CrudElement
 						icon="playlist_remove"
 						color="red"
-					/>
-				</div> */}
+					/> */}
+				</div>
 
 				<div className={TasksPageCSS.tasks_grid}>
 					{/* TODO i need to get the assigned to seperately, basically it will need to tranlate authid to a record in a database and from there i will be getting the name  */}
@@ -213,6 +242,8 @@ const TasksPage = () => {
 								assignedTo={userNames[task.assignedtoauthid] || 'Not assigned'}
 								onEdit={() => editTask(task.taskid)}
 								onArchive={() => archiveTask(task)}
+								onComplete={() => archiveTask(task)}
+								onView={() => openViewModal(task)}
 							/>
 						))}
 				</div>
@@ -262,16 +293,22 @@ const TasksPage = () => {
 					</tbody>
 				</table>
 			</div>
+			<TaskViewModal
+				isOpen={isViewModalOpen}
+				task={viewingTask}
+				onClose={closeViewModal}
+			/>
 
 			<TaskCreationModal
 				// TODO so tje infromation are needed to be passed here
-				isOpen={isModalOpen}
-				onClose={() => setIsModalOpen(false)}
+				isOpen={isCreateModalOpen}
+				onClose={() => setIsCreateModalOpen(false)}
 				onSave={saveTask}
 				employees={employeesForTask}
 				loading={loading} // Pass loading state to the modal
 				setLoading={setLoading} // Pass setLoading function to the modal to control loading state from within
 			/>
+
 			<SuccessNotification
 				message={successMessage}
 				isVisible={showSuccessNotification}
