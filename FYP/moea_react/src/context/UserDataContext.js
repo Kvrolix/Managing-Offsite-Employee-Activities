@@ -60,6 +60,7 @@ export const UserDataProvider = ({ children }) => {
 		fetchEmployeesForTaskAssignment();
 	}, [userRecord]); // Re-fetch employees when userRecord changes
 
+	// --- FETCHING TASKS
 	const fetchTasks = async () => {
 		try {
 			if (!userRecord) return; // Exit if userRecord is not loaded
@@ -138,6 +139,8 @@ export const UserDataProvider = ({ children }) => {
 			authListener.subscription.unsubscribe();
 		};
 	}, []);
+
+	// --- SIGNOUT USER
 
 	const signOutUser = useCallback(async () => {
 		const { error } = await supabase.auth.signOut();

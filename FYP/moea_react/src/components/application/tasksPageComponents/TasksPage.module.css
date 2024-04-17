@@ -87,7 +87,19 @@
 	margin-top: 1rem;
 	font-style: italic;
 }
+.task_options {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.75);
+	color: white;
+	display: flex;
+	justify-content: space-around;
+	padding: 10px 0;
+}
 
+/* REMOVE*/
 .tasks_crud_containter {
 	display: flex;
 	flex-direction: row;
@@ -97,6 +109,7 @@
 	margin-top: 3rem;
 }
 
+/* REMOVE */
 .crud_icon {
 	display: flex;
 	justify-content: center;
@@ -173,6 +186,7 @@
 	color: #666; /* Consistent with task card text color */
 }
 
+/* FIXME NAME*/
 .modalBackdrop {
 	position: fixed;
 	top: 0;
@@ -186,7 +200,7 @@
 	align-items: center;
 	z-index: 1000;
 }
-
+/* FIXME NAME*/
 .modalContent {
 	background-color: #fff;
 	padding: 40px;
@@ -198,7 +212,7 @@
 	display: flex;
 	flex-direction: column; /* Stack elements vertically */
 }
-
+/* FIXME NAME */
 .modalHeading {
 	margin-bottom: 20px;
 	padding-bottom: 10px;
@@ -208,14 +222,14 @@
 	text-align: center;
 	color: #333;
 }
-
+/* FIXME NAME */
 .modalFieldTitle {
 	margin-left: 0.5rem;
 	margin-bottom: 0.5rem;
 	font-weight: bold;
 	font-size: 1.4rem;
 }
-
+/* FIXME NAME */
 .modalInput,
 .modalTextarea {
 	margin-bottom: 20px;
@@ -224,17 +238,17 @@
 	border-radius: 5px; /* Slight rounding of corners */
 	width: calc(100% - 20px); /* Full width minus padding */
 }
-
+/* FIXME NAME */
 .modalTextarea {
 	height: 100px; /* Fixed height for the textarea */
 	resize: vertical; /* Allows vertical resizing */
 }
-
+/* FIXME NAME */
 .modalButtonGroup {
 	display: flex;
 	justify-content: flex-end; /* Align buttons to the right */
 }
-
+/* FIXME NAME */
 .modalButton {
 	padding: 1rem 2rem;
 	margin-left: 1rem; /* Space between buttons */
@@ -243,17 +257,17 @@
 	cursor: pointer;
 	font-weight: bold;
 }
-
+/* FIXME NAME */
 .modalButton__save {
 	background-color: #4caf50; /* Green background */
 	color: white;
 }
-
+/* FIXME NAME */
 .modalButton__cancel {
 	background-color: #f44336; /* Red background */
 	color: white;
 }
-
+/* FIXME NAME */
 .successNotification {
 	position: fixed;
 	bottom: 20px;
@@ -268,7 +282,7 @@
 	justify-content: space-between;
 	z-index: 1002; /* Ensure it appears above all other content */
 }
-
+/* FIXME NAME */
 .notificationCloseButton {
 	background-color: transparent;
 	border: none;
