@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage.js';
 import LoginPage2 from './pages/LoginPage2.js';
 import DashboardPage from './pages/DashboardPage.js';
 import TasksPage from './pages/TasksPage.js';
+import OrganizationPage from './pages/OrganizationPage.js';
 
 function App() {
 	return (
@@ -29,6 +30,10 @@ function App() {
 					<Route
 						path="/tasks"
 						element={<TasksPage />}
+					/>
+					<Route
+						path="/organization"
+						element={<OrganizationPage />}
 					/>
 				</Routes>
 			</BrowserRouter>

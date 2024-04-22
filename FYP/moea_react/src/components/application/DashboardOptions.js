@@ -29,20 +29,21 @@ const DashboardElement = ({ icon, text, navigateTo }) => (
 
 const DashboardOptions = ({ isSidebarOpen }) => {
 	const { userRecord } = useContext(UserDataContext);
-	const { navigateToTasks } = useAppNavigate();
+	const { navigateToTasks, navigateToOrganization } = useAppNavigate();
 
 	// Ensure userRecord exists before trying to access its properties
 	if (!userRecord) {
 		// Render a loading message or null if userRecord is not yet available
 		return null;
 	}
-	// Now it's safe to destructure userRecord as it's guaranteed to be non-null
+
 	const { firstname, surname } = userRecord;
 
 	return (
 		<>
 			<div className={`${DashboardOptionsCSS.options_container}  ${isSidebarOpen ? DashboardOptionsCSS.expanded : DashboardOptionsCSS.collapsed}`}>
 				<h2 className={DashboardOptionsCSS.greeting}>{`Welcome, ${firstname} ${surname}!`}</h2>
+				<h2 className={DashboardOptionsCSS.greeting}>{`REMEMBER ABOUT ADDING NEW WORKERS PAGE`}</h2>
 				<div className={DashboardOptionsCSS.dashboard_grid}>
 					<div className={`grid ${DashboardOptionsCSS.dashboard_goto}`}>
 						<DashboardElement
@@ -69,6 +70,7 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 						<DashboardElement
 							icon="hub"
 							text="Organization"
+							navigateTo={navigateToOrganization}
 						/>
 					</div>
 					<div className={DashboardOptionsCSS.dashboard_calendar}>Calendar</div>
