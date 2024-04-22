@@ -18,52 +18,90 @@ import SuccessNotification from '../components/application/tasksPageComponents/S
 // Modals
 import TaskCreationModal from '../components/application/tasksPageComponents/TaskCreationModal';
 import TaskViewModal from '../components/application/tasksPageComponents/TaskViewModal';
+import TaskEditModal from '../components/application/tasksPageComponents/TaskEditModal';
 
 // TODO go through the records in a list so they are all visible and depends who you pick it will get his authid and this will be assigned to a created task
 // BUG When page realods it waits longser for getting the assigned to as it is another call, to it should all be printed in teh same time \
+
+// TODO I need to create a big container, that will be adjusting itself based wether the sidebar is open is not
+
+// TODO Task can be only deleted from the archives
+// BUG When the task is updated the colour is not changing and the assigned person is not changing too, whic means we need to re-render the entire tab?
+//
+
+// TODO infrom the user that the task was created or updated
+// TODO Edit the button slightly
+// FIXME some other stuff througout the code, it is commented
+
 const TasksPage = () => {
 	// DATA
 	const { userRecord, tasks, fetchTasks, employeesForTask, fetchUserByAuthId } = useContext(UserDataContext);
+	const [userNames, setUserNames] = useState({});
+	const [archivedTasks, setArchivedTasks] = useState([]);
+	const [editingTask, setEditingTask] = useState(null);
+	const [viewingTask, setViewingTask] = useState(null);
+	const [currentTask, setCurrentTask] = useState(null);
+	const [loading, setLoading] = useState(false);
 
 	// Modals and rendering states
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+	const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+	const [isArchivesOpen, setIsArchivesOpen] = useState(false);
+	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
 	const [showSuccessNotification, setShowSuccessNotification] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
-	const [loading, setLoading] = useState(false);
 	const [currentUndoTimeout, setCurrentUndoTimeout] = useState(null);
-	const [currentTask, setCurrentTask] = useState(null);
 
-	// // Modal functions
-	// const closeModal = () => setIsModalOpen(false);
-	// const openModal = () => setIsModalOpen(true);
+	// MODALS
+	const toggleArchives = async () => {
+		setIsArchivesOpen(!isArchivesOpen);
+		if (!isArchivesOpen && archivedTasks.length === 0) {
+			// Load archived tasks only if the archive is being opened and tasks have not been loaded yet
+			await fetchArchivedTasks();
+		}
+	};
+
+	// EDIT TASK MODAL
+
+	const openEditModal = (task) => {
+		setEditingTask(task);
+		setIsEditModalOpen(true);
+	};
+
+	const closeEditModal = () => {
+		setIsEditModalOpen(false);
+		setEditingTask(null);
+	};
+
+	// NOTIFICATION
 
 	const closeNotification = () => {
 		setShowSuccessNotification(false);
 	};
 
-	// Pagination
-	// TODO
+	// CREATE TASK MODAL
 
 	const openCreateModal = () => {
-		setIsCreateModalOpen(true); // Specific to the creation modal
+		setIsCreateModalOpen(true);
 	};
 
 	const closeCreateModal = () => {
 		setIsCreateModalOpen(false);
 	};
 
+	// SIDEBAR
+
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
 
-	const [viewingTask, setViewingTask] = useState(null);
-	const [isViewModalOpen, setIsViewModalOpen] = useState(false);
-	const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // Rename the existing state for clarity if it was `isModalOpen`
+	// VIEW TASK MODAL
 
 	const openViewModal = (task) => {
 		setViewingTask(task);
-		setIsViewModalOpen(true); // Specific to the view modal
+		setIsViewModalOpen(true);
 	};
 
 	const closeViewModal = () => {
@@ -71,36 +109,7 @@ const TasksPage = () => {
 		setViewingTask(null);
 	};
 
-	const editTask = (taskId) => {
-		console.log('Editing task:', taskId);
-		// Placeholder for edit task functionality
-	};
-
-	// const archiveTask = (taskId) => {
-	// 	console.log('Archiving task:', taskId);
-	// 	// Placeholder for archive task functionality
-	// };
-	const archiveTask = async (task) => {
-		try {
-			// Update task status to archived and completed in Supabase
-			const { error } = await supabase.from('task').update({ isCompleted: true, isArchived: true }).eq('taskid', task.taskid);
-			console.log(`Archived Task:`, task.taskid);
-
-			if (error) throw error;
-
-			// UI Feedback
-			setSuccessMessage('Task archived successfully. Undo?');
-			setShowSuccessNotification(true);
-
-			// Set up undo functionality
-			enableUndo(task);
-
-			// Update local tasks state or refetch from backend
-			fetchTasks(); // Assuming this updates your local state reflecting the archive
-		} catch (error) {
-			console.error('Error archiving task:', error.message);
-		}
-	};
+	// UNDO NOTIFICATION
 
 	const enableUndo = (task) => {
 		// Set a timeout to disable undo after 7 seconds
@@ -108,12 +117,10 @@ const TasksPage = () => {
 			setShowSuccessNotification(false);
 		}, 7000);
 
-		// Save the timeout ID if we need to clear it on undo
 		setCurrentUndoTimeout(undoTimeout);
 		setCurrentTask(task); // Keep track of the task for undoing
 	};
 
-	console.log(`Current task: `, currentTask);
 	const undoArchive = async () => {
 		if (currentUndoTimeout) {
 			clearTimeout(currentUndoTimeout);
@@ -139,10 +146,76 @@ const TasksPage = () => {
 		};
 	}, [currentUndoTimeout]);
 
-	// console.log(fetchUserByAuthId('291924e5-0dbd-4ec7-9ce6-e5eb6317c1f0'));
-	// SUPABASE VERSION
+	// UPDATE TASK
 
-	const [userNames, setUserNames] = useState({}); // To store usernames
+	const updateTask = async (taskData) => {
+		setLoading(true);
+		try {
+			const { data, error } = await supabase
+				.from('task')
+				.update({
+					taskname: taskData.title,
+					description: taskData.description,
+					deadline: taskData.deadline,
+					assignedtoauthid: taskData.assignedToPerson,
+				})
+				.match({ taskid: taskData.taskId });
+
+			if (error) throw error;
+
+			setSuccessMessage('Task updated successfully');
+			setShowSuccessNotification(true);
+			setTimeout(() => setShowSuccessNotification(false), 3000);
+			fetchTasks(); // Refresh the task list to show the updated data
+		} catch (error) {
+			console.error('Error updating task:', error.message);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const handleUpdateTask = async (updatedTaskData) => {
+		try {
+			const { error } = await supabase.from('task').update(updatedTaskData).eq('taskid', editingTask.taskid);
+
+			if (error) throw error;
+
+			setSuccessMessage('Task updated successfully');
+			setShowSuccessNotification(true);
+			setTimeout(() => setShowSuccessNotification(false), 3000);
+			fetchTasks();
+			closeEditModal();
+		} catch (error) {
+			console.error('Error updating task:', error.message);
+		}
+	};
+
+	const fetchArchivedTasks = async () => {
+		try {
+			const { data, error } = await supabase.from('task').select('*').eq('isArchived', true);
+			if (error) throw error;
+			setArchivedTasks(data);
+		} catch (error) {
+			console.error('Error fetching archived tasks:', error.message);
+		}
+	};
+
+	const archiveTask = async (task) => {
+		try {
+			const { error } = await supabase.from('task').update({ isCompleted: true, isArchived: true }).eq('taskid', task.taskid);
+			console.log(`Archived Task:`, task.taskid);
+
+			if (error) throw error;
+
+			// UI Feedback
+			setSuccessMessage('Task archived successfully. Undo?');
+			setShowSuccessNotification(true);
+			enableUndo(task);
+			fetchTasks();
+		} catch (error) {
+			console.error('Error archiving task:', error.message);
+		}
+	};
 
 	useEffect(() => {
 		const fetchAndSetUserNames = async () => {
@@ -156,7 +229,6 @@ const TasksPage = () => {
 					}
 				}
 			}
-
 			setUserNames(names);
 		};
 
@@ -173,7 +245,6 @@ const TasksPage = () => {
 
 		const organizationId = userRecord.organizationid;
 		const createdByAuthId = userRecord.authid;
-
 		try {
 			const { data, error } = await supabase.from('task').insert([
 				{
@@ -182,18 +253,14 @@ const TasksPage = () => {
 					deadline: deadline,
 					organizationid: organizationId,
 					assignedtoauthid: assignedToPerson,
-					// assignedtoteamid: assignedToTeam,
+					// assignedtoteamid: assignedToTeam, TODO
 					createdbyauthid: createdByAuthId,
 				},
 			]);
-
 			if (error) throw error;
-
-			console.log('Saved task:', data);
 			setSuccessMessage('Task created successfully');
 			setShowSuccessNotification(true);
 			setTimeout(() => setShowSuccessNotification(false), 3000);
-
 			fetchTasks();
 		} catch (error) {
 			// TODO This should be display to user on the screen not in console
@@ -202,7 +269,6 @@ const TasksPage = () => {
 			setLoading(false);
 		}
 	};
-
 	return (
 		<>
 			<SideNavigationBar
@@ -218,18 +284,8 @@ const TasksPage = () => {
 						color="green"
 						onClick={openCreateModal}
 					/>
-					{/* <CrudElement
-						icon="edit_note"
-						color="orange"
-					/> */}
-					{/* <CrudElement
-						icon="playlist_remove"
-						color="red"
-					/> */}
 				</div>
-
 				<div className={TasksPageCSS.tasks_grid}>
-					{/* TODO i need to get the assigned to seperately, basically it will need to tranlate authid to a record in a database and from there i will be getting the name  */}
 					{tasks
 						.filter((task) => !task.isCompleted && !task.isArchived)
 						.map((task) => (
@@ -240,75 +296,69 @@ const TasksPage = () => {
 								deadline={task.deadline}
 								dateCreated={task.datecreated}
 								assignedTo={userNames[task.assignedtoauthid] || 'Not assigned'}
-								onEdit={() => editTask(task.taskid)}
+								onEdit={() => openEditModal(task)}
 								onArchive={() => archiveTask(task)}
 								onComplete={() => archiveTask(task)}
 								onView={() => openViewModal(task)}
 							/>
 						))}
 				</div>
+				<button
+					className={TasksPageCSS.show_archive}
+					onClick={toggleArchives}>
+					{isArchivesOpen ? 'Hide Archives' : 'Show Archives'}
+				</button>
+				{isArchivesOpen && (
+					<div className={TasksPageCSS.archives_container}>
+						<h2 className={TasksPageCSS.archives_heading}>Archives</h2>
+						<table className={TasksPageCSS.archives_table}>
+							<thead>
+								<tr>
+									<th>Title</th>
+									<th>Description</th>
+									<th>Deadline</th>
+									<th>Assigned To</th>
+									<th>TaskID</th>
+								</tr>
+							</thead>
+							<tbody>
+								{archivedTasks.map((task) => (
+									<ArchiveRow
+										key={task.taskid}
+										title={task.taskname}
+										description={task.description}
+										deadline={task.deadline}
+										taskid={task.taskid}
+										assignedTo={userNames[task.assignedtoauthid] || 'Not assigned'}
+									/>
+								))}
+							</tbody>
+						</table>
+					</div>
+				)}
 			</div>
-			<div className={TasksPageCSS.archives_container}>
-				<h2 className={TasksPageCSS.archives_heading}>Archives</h2>
-				<table className={TasksPageCSS.archives_table}>
-					<thead>
-						<tr>
-							<th>Title</th>
-							<th>Description</th>
-							<th>Completion Date</th>
-							<th>Assigned To</th>
-						</tr>
-					</thead>
-					<tbody>
-						<ArchiveRow
-							title={'Task Example'}
-							description={'Description of the completed task.'}
-							deadline={'06/03/2024'}
-							assignedTo={'Karolo Zigolo'}
-						/>
-						<ArchiveRow
-							title={'Task Example'}
-							description={'Description of the completed task.'}
-							deadline={'06/03/2024'}
-							assignedTo={'Karolo Zigolo'}
-						/>
-						<ArchiveRow
-							title={'Task Example'}
-							description={'Description of the completed task.'}
-							deadline={'06/03/2024'}
-							assignedTo={'Karolo Zigolo'}
-						/>
-						<ArchiveRow
-							title={'Task Example'}
-							description={'Description of the completed task.'}
-							deadline={'06/03/2024'}
-							assignedTo={'Karolo Zigolo'}
-						/>
-						<ArchiveRow
-							title={'Task Example'}
-							description={'Description of the completed task.'}
-							deadline={'06/03/2024'}
-							assignedTo={'Karolo Zigolo'}
-						/>
-					</tbody>
-				</table>
-			</div>
+
 			<TaskViewModal
 				isOpen={isViewModalOpen}
 				task={viewingTask}
 				onClose={closeViewModal}
 			/>
-
 			<TaskCreationModal
 				// TODO so tje infromation are needed to be passed here
 				isOpen={isCreateModalOpen}
 				onClose={() => setIsCreateModalOpen(false)}
 				onSave={saveTask}
 				employees={employeesForTask}
-				loading={loading} // Pass loading state to the modal
-				setLoading={setLoading} // Pass setLoading function to the modal to control loading state from within
+				loading={loading}
+				setLoading={setLoading}
 			/>
-
+			<TaskEditModal
+				isOpen={isEditModalOpen}
+				onClose={closeEditModal}
+				onSave={handleUpdateTask}
+				task={editingTask}
+				employees={employeesForTask}
+			/>
 			<SuccessNotification
 				message={successMessage}
 				isVisible={showSuccessNotification}
@@ -320,23 +370,3 @@ const TasksPage = () => {
 };
 
 export default TasksPage;
-
-// ALL TODO
-// TODO The date needs to be added automatically
-// 	// TODO I will need to work somehow with assigning, maybe it will give the list as well from poeple to choose from like on supabase
-// TODO make the archives toggle so it doesn't load the date when not needed
-// TODO when delete is pressed it moves the task to the archives /
-// Option 2 is to create an X on the task and once pressed it will be moved to the archives, it owrk based on the column completed
-// TODO List all the queries that needs to be implemented through supabase
-// Do the pagination for the tasks, maximum of 12 on each page
-
-// TODO This section
-// I will want te task creator have the same top for creating deleting etc.
-// But for the task itself I will have it in form of cards
-// The done Tasks will be in the list format or a table this should be exported via pdf so the button would be created
-
-// TODO I need to create a big container, that will be adjusting itself based wether the sidebar is open is not
-
-// TODO Create the prompt about sucessfull/unsucessfull Task generation
-// TODO Task can be only deleted from the archives
-// TODO Add functionlity that based on the date how close to deadline it is there will be a red circle printed on the card

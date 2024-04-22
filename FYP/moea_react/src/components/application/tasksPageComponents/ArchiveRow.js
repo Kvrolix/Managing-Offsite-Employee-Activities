@@ -1,7 +1,6 @@
 import React from 'react';
-import TasksPageCSS from './TasksPage.module.css';
 
-const ArchiveRow = ({ title, description, deadline, assignedTo }) => {
+const ArchiveRow = ({ title, description, deadline, taskid, assignedTo }) => {
 	return (
 		<>
 			<tr>
@@ -9,6 +8,7 @@ const ArchiveRow = ({ title, description, deadline, assignedTo }) => {
 				<td>{description}</td>
 				<td>{deadline}</td>
 				<td>{assignedTo}</td>
+				<td>{taskid}</td>
 			</tr>
 		</>
 	);
