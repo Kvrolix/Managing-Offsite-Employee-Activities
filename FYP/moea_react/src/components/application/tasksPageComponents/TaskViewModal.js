@@ -16,7 +16,7 @@ const TaskViewModal = ({ isOpen, task, onClose }) => {
 				if (user) {
 					setCreatedByUser(`${user.firstname} ${user.surname}`);
 				} else {
-					setCreatedByUser('Unknown User');
+					setCreatedByUser('Not assigned');
 				}
 
 				// Fetching details for the assigned user
@@ -24,7 +24,7 @@ const TaskViewModal = ({ isOpen, task, onClose }) => {
 				if (assignee) {
 					setAssignedToUser(`${assignee.firstname} ${assignee.surname}`);
 				} else {
-					setAssignedToUser('Unknown User');
+					setAssignedToUser('Not assigned');
 				}
 			};
 
@@ -36,26 +36,30 @@ const TaskViewModal = ({ isOpen, task, onClose }) => {
 	return (
 		<div className={TasksPageCSS.modalBackdrop}>
 			<div className={TasksPageCSS.modalContent}>
-				<h2>View Task</h2>
-				<p>
-					<strong>Title:</strong> {task.taskname}
-				</p>
-				<p>
-					<strong>Description:</strong> {task.description}
-				</p>
-				<p>
-					<strong>Deadline:</strong> {task.deadline}
-				</p>
-				<p>
-					<strong>Assigned To:</strong> {assignedToUser}
-				</p>
-				<p>
-					<strong>Created by:</strong> {createdByUser}
-				</p>
-				<p>
-					<strong>Date Created:</strong> {formatDateTime(task.datecreated)}
-				</p>
-				<button onClick={onClose}>Close</button>
+				<h2 className={TasksPageCSS.modalHeading}>View Task</h2>
+				{/* TITLE */}
+				<h3 className={TasksPageCSS.modalFieldTitle}>Title</h3>
+				<p className={TasksPageCSS.modalInput}>{task.taskname}</p>
+				{/* DESCRIPTION */}
+				<h3 className={TasksPageCSS.modalFieldTitle}>Description</h3>
+				<p className={TasksPageCSS.modalInput}>{task.description}</p>
+				{/* DEADLINE */}
+				<h3 className={TasksPageCSS.modalFieldTitle}>Deadline</h3>
+				<p className={TasksPageCSS.modalInput}>{task.deadline}</p>
+				{/* ASSIGNED TO */}
+				<h3 className={TasksPageCSS.modalFieldTitle}>Assigned To</h3>
+				<p className={TasksPageCSS.modalInput}>{assignedToUser}</p>
+				{/* CREATOR */}
+				<h3 className={TasksPageCSS.modalFieldTitle}>Created by</h3>
+				<p className={TasksPageCSS.modalInput}>{createdByUser}</p>
+				{/* DATE CREATED */}
+				<h3 className={TasksPageCSS.modalFieldTitle}>Date Created</h3>
+				<p className={TasksPageCSS.modalInput}>{formatDateTime(task.datecreated)}</p>
+				<button
+					className={`${TasksPageCSS.modalButton} ${TasksPageCSS.modalButton__cancel}`}
+					onClick={onClose}>
+					Close
+				</button>
 			</div>
 		</div>
 	);

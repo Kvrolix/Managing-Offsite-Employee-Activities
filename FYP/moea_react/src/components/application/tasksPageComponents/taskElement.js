@@ -3,8 +3,8 @@ import TasksPageCSS from './TasksPage.module.css'; // Adjust the import path as 
 
 export const formatDateTime = (isoString) => {
 	const date = new Date(isoString);
-	const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-	const dateFormatted = date.toLocaleDateString('en-US');
+	const time = date.toLocaleTimeString('en-UK', { hour: 'numeric', minute: '2-digit' });
+	const dateFormatted = date.toLocaleDateString('en-UK');
 	return `${time} on ${dateFormatted}`;
 };
 
@@ -25,6 +25,14 @@ const getDeadlineColor = (deadline) => {
 	}
 };
 
+function truncateString(str, length) {
+	if (str.length > length) {
+		return str.substring(0, length) + ' Expand...';
+	}
+	return str;
+}
+const descriptionVisibleLength = 30;
+
 const TaskElement = ({ title, description, dateCreated, deadline, assignedTo, onEdit, onArchive, onComplete, onView }) => {
 	const [showOptions, setShowOptions] = useState(false);
 
@@ -42,7 +50,7 @@ const TaskElement = ({ title, description, dateCreated, deadline, assignedTo, on
 					style={{ backgroundColor: deadlineColor }}
 				/>
 				<h2>{title}</h2>
-				<p>{description}</p>
+				<p>{truncateString(description, descriptionVisibleLength)}</p>
 				<div className={TasksPageCSS.task_info}>Deadline: {deadline}</div>
 				<div className={TasksPageCSS.task_info}>Assigned to: {assignedTo}</div>
 				<div className={TasksPageCSS.task_info}>Created: {formattedDate}</div>

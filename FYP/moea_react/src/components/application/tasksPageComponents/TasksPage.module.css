@@ -15,7 +15,7 @@
 	margin-left: 25rem;
 	padding-top: 7rem;
 	background-color: aquamarine;
-	height: 95vh;
+	height: 100vh;
 }
 
 .tasks_heading {
@@ -138,7 +138,7 @@
 .archives_container {
 	background-color: aquamarine; /* Matching the main container color */
 	padding: 2rem;
-	margin-left: 25rem; /* Aligns with the rest of the content */
+
 	height: auto; /* Adjust based on content */
 }
 
@@ -315,4 +315,22 @@
 
 .pagination button:hover {
 	background-color: #ddd;
+}
+
+.show_archive {
+	/* display: flex;
+	align-items: center;
+	justify-content: center; */
+	background-color: #f4f4f4;
+	font-size: 1.6rem;
+	border-radius: 5px;
+	outline: none;
+	cursor: pointer;
+	font-weight: 500;
+	padding: 0.5rem;
+	margin-left: 1rem;
+}
+
+.modalContent p {
+	font-size: 1.4rem;
 }
