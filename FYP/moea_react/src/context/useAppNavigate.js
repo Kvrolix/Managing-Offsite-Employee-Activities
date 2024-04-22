@@ -5,13 +5,14 @@ export const useAppNavigate = () => {
 
 	const navigateToDashboard = () => navigate('/dashboard');
 	const navigateToTasks = () => navigate('/tasks');
+	const navigateToOrganization = () => navigate('/organization');
 	// Add more navigation functions as needed
 
 	const navigateToTeams = () => {};
 	const navigateToChat = () => {};
 	const navigateToFiles = () => {};
 	const navigateToUsers = () => {};
-	const navigateToOrganization = () => {};
+	// const navigateToOrganization = () => {};
 
-	return { navigateToDashboard, navigateToTasks };
+	return { navigateToDashboard, navigateToTasks, navigateToOrganization };
 };

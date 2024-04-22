@@ -46,32 +46,10 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 
 	const navigate = useNavigate(); // TODO I think it can be removed
 
-	const { navigateToDashboard, navigateToTasks } = useAppNavigate();
+	const { navigateToDashboard, navigateToTasks, navigateToOrganization } = useAppNavigate();
 	const [jobroleid, setJobRoleId] = useState(null);
 	const { userRecord, signOutUser } = useContext(UserDataContext);
 
-	// useEffect(() => {
-	// 	const fetchJobRoleId = async () => {
-	// 		try {
-	// 			// Example query to fetch jobRoleId
-	// 			const user = supabase.auth.user();
-	// 			if (user) {
-	// 				let { data, error } = await supabase.from('users2').select('jobroleid').eq('id', user.id).single();
-	// 				// console.log(data);
-
-	// 				if (error) throw error;
-	// 				if (data) setJobRoleId(data.jobroleid);
-	// 				console.log(data);
-	// 			}
-	// 		} catch (error) {
-	// 			console.error('Error fetching job role ID', error);
-	// 		}
-	// 	};
-
-	// 	fetchJobRoleId();
-	// }, []); // Empty dependency array means this effect runs once on mount
-
-	// Ensure userRecord exists before trying to access its properties
 	if (!userRecord) {
 		// Render a loading message or null if userRecord is not yet available
 		return (
@@ -82,7 +60,7 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 	}
 
 	// Now it's safe to destructure userRecord as it's guaranteed to be non-null
-	const { firstname, surname, jobRoleId } = userRecord;
+	const { firstname, surname, jobroleId } = userRecord;
 
 	// TODO This will be transferred to the other places as well
 	const handleLogout = async () => {
@@ -148,7 +126,7 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 								<SideBarLink
 									iconClass="bx bx-briefcase"
 									text="Organization"
-									// navigateTo={}
+									navigateTo={navigateToOrganization}
 								/>
 							</ul>
 						</div>

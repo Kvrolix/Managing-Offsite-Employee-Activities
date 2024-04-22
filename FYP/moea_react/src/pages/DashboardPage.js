@@ -1,7 +1,6 @@
 // React
 import React, { useState } from 'react';
 // Data
-import TestingUserContext from './TestingUserContext.js';
 
 // Styles
 import SideNavigationBar from '../components/application/SideNaviagtionBar.js';
@@ -13,6 +12,7 @@ const DashboardPage = () => {
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
+	console.log('Organization page');
 
 	return (
 		<>
@@ -21,7 +21,6 @@ const DashboardPage = () => {
 				toggleSidebar={toggleSidebar}
 			/>
 			<DashboardOptions isSidebarOpen={isSidebarOpen} />
-			<TestingUserContext />
 		</>
 	);
 };
