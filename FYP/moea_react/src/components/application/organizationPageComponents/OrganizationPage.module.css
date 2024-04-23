@@ -1,0 +1,34 @@
+.container_organization {
+	margin-left: 8rem;
+	padding-top: 7rem;
+	background-color: rgb(127, 178, 255);
+	height: 100vh;
+}
+
+.organization_heading {
+	font-size: 3rem;
+	text-align: center;
+}
+
+.organization_heading::after {
+	content: '';
+	display: block;
+	width: 15%;
+	height: 6px;
+	background-color: rgb(72, 207, 72);
+	margin: auto;
+	position: relative;
+	top: 20px;
+	border-radius: 4px;
+}
+
+.margin_left_10 {
+	margin-left: 10rem;
+}
+
+.employee_card {
+	margin: 10px;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+}

@@ -143,6 +143,44 @@ export const UserDataProvider = ({ children }) => {
 		};
 	}, []);
 
+	// --- ORGANIZATION PAGE
+
+	const [allEmployees, setAllEmployees] = useState([]);
+
+	const fetchAllEmployees = async () => {
+		try {
+			if (!userRecord) return; // Ensure there is a user record
+			const { data, error } = await supabase.from('users2').select('*').eq('organizationid', userRecord.organizationid);
+			if (error) throw error;
+			setAllEmployees(data);
+		} catch (error) {
+			console.error('Error fetching all employees:', error.message);
+		}
+	};
+
+	useEffect(() => {
+		fetchAllEmployees();
+	}, [userRecord]); // Fetch when userRecord changes
+
+	const fetchJobRoleNameById = async (jobroleid) => {
+		try {
+			const { data, error } = await supabase
+				.from('jobrole') // Replace 'jobroles' with your actual table name
+				.select('rolename') // Assuming 'name' is the column storing job role names
+				.eq('jobroleid', jobroleid)
+				.single(); // Using single because jobroleid is expected to uniquely identify a role
+
+			if (error) {
+				throw error;
+			}
+
+			return data.name; // Returning the name of the job role
+		} catch (error) {
+			console.error(`Error fetching job role name for id ${jobroleid}:`, error.message);
+			return 'Unknown'; // Return a default or error-specific name
+		}
+	};
+
 	// --- SIGNOUT USER
 
 	const signOutUser = useCallback(async () => {
@@ -158,7 +196,11 @@ export const UserDataProvider = ({ children }) => {
 	}, []);
 
 	// BUG user can be removed?
-	return <UserDataContext.Provider value={{ user, userRecord, error, signOutUser, tasks, fetchTasks, employeesForTask, fetchUserByAuthId }}>{children}</UserDataContext.Provider>;
+	return (
+		<UserDataContext.Provider value={{ user, userRecord, error, signOutUser, tasks, fetchTasks, employeesForTask, fetchUserByAuthId, allEmployees, fetchJobRoleNameById }}>
+			{children}
+		</UserDataContext.Provider>
+	);
 };
 
 // Create a list of queries i want to perform for the task table
