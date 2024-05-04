@@ -1,8 +1,10 @@
 // Data
 import { UserDataContext } from '../context/UserDataContext';
-import SideNavigationBar from '../components/application/SideNaviagtionBar.js';
+import SideNavigationBar from '../components/application/sideBarComponents/SideNaviagtionBar.js';
 import OrganizationPageCSS from '../components/application/organizationPageComponents/OrganizationPage.module.css';
 import React, { useState, useContext, useEffect } from 'react';
+
+// TODO I want to see the actual organization name on the top "Essa Organization "
 
 const OrganizationPage = () => {
 	const { allEmployees, fetchJobRoleNameById } = useContext(UserDataContext);
@@ -12,22 +14,27 @@ const OrganizationPage = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
 
-	const renderEmployeesByRole = (role) => {
-		return allEmployees
-			.filter((employee) => employee.jobroleid === role)
-			.map((employee) => (
-				<div
-					key={employee.authid}
-					className={OrganizationPageCSS.employee_card}>
-					<p>
-						{employee.firstname} {employee.surname}
-					</p>
-					<p>{employee.email}</p>
-					<p>{employee.phonenumber}</p>
-					<p>{getPositionName(employee.jobroleid)}</p>
-				</div>
-			));
-	};
+	const renderEmployeesByRole = (role, roleName) => (
+		<div>
+			<h2 className={OrganizationPageCSS.position_title}>{roleName}</h2>
+			<div className={OrganizationPageCSS.role_container}>
+				{allEmployees
+					.filter((e) => e.jobroleid === role)
+					.map((employee) => (
+						<div
+							key={employee.authid}
+							className={OrganizationPageCSS.employee_card}>
+							<p>
+								{employee.firstname} {employee.surname}
+							</p>
+							<p>{employee.email}</p>
+							<p>{employee.phonenumber}</p>
+							<p>{getPositionName(employee.jobroleid)}</p>
+						</div>
+					))}
+			</div>
+		</div>
+	);
 
 	const getPositionName = (jobrole) => {
 		switch (jobrole) {
@@ -53,32 +60,14 @@ const OrganizationPage = () => {
 				toggleSidebar={toggleSidebar}
 			/>
 			<div className={OrganizationPageCSS.container_organization}>
-				<h1 className={OrganizationPageCSS.organization_heading}>Organization</h1>
+				<div className={OrganizationPageCSS.container_organization}>
+					<h1 className={OrganizationPageCSS.organization_heading}>Organization</h1>
 
-				<div>
-					<h2>Chief</h2>
-					{renderEmployeesByRole(1)}
-					{/* Chiefs */}
-				</div>
-				<div>
-					<h3>Managers</h3>
-					{renderEmployeesByRole(2)}
-					{/* Managers */}
-				</div>
-				<h3>Secretaries</h3>
-				<div>
-					{renderEmployeesByRole(3)}
-					{/* Secretaries */}
-				</div>
-				<h3>Team Leaders</h3>
-				<div>
-					{renderEmployeesByRole(4)}
-					{/* Team Leaders */}
-				</div>
-				<h4>Employees</h4>
-				<div>
-					{renderEmployeesByRole(5)}
-					{/* Employees */}
+					{renderEmployeesByRole(1, 'Chief')}
+					{renderEmployeesByRole(2, 'Managers')}
+					{renderEmployeesByRole(3, 'Secretaries')}
+					{renderEmployeesByRole(4, 'Team Leaders')}
+					{renderEmployeesByRole(5, 'Employees')}
 				</div>
 			</div>
 		</>

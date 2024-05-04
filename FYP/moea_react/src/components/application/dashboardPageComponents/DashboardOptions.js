@@ -1,12 +1,12 @@
 // React
 import React, { useContext } from 'react';
-import { useAppNavigate } from '../../context/useAppNavigate.js';
+import { useAppNavigate } from '../../../context/useAppNavigate.js';
 
 // Styles
 import DashboardOptionsCSS from './DashboardOptions.module.css';
 
 // Data
-import { UserDataContext } from '../../context/UserDataContext';
+import { UserDataContext } from '../../../context/UserDataContext.js';
 
 // Components
 // TODO export it to a different file as there will be too many of them soon

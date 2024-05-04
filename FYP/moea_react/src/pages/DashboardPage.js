@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 // Data
 
 // Styles
-import SideNavigationBar from '../components/application/SideNaviagtionBar.js';
-import DashboardOptions from '../components/application/DashboardOptions.js';
+import SideNavigationBar from '../components/application/sideBarComponents/SideNaviagtionBar.js';
+import DashboardOptions from '../components/application/dashboardPageComponents/DashboardOptions.js';
 
 const DashboardPage = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);

@@ -9,7 +9,7 @@ import { UserDataContext } from '../context/UserDataContext';
 import supabase from '../config/supabaseClient';
 
 // Components
-import SideNavigationBar from '../components/application/SideNaviagtionBar';
+import SideNavigationBar from '../components/application/sideBarComponents/SideNaviagtionBar';
 import TaskElement from '../components/application/tasksPageComponents/taskElement';
 import CrudElement from '../components/application/tasksPageComponents/CrudElement';
 import ArchiveRow from '../components/application/tasksPageComponents/ArchiveRow';

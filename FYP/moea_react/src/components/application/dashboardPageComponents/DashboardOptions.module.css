@@ -27,7 +27,7 @@ NEW */
 .options_container {
 	height: 100vh;
 	width: 94.5vw;
-	background: #1fcbe2;
+	background: #f7f8ff;
 }
 
 .greeting {
@@ -56,7 +56,7 @@ NEW */
 	width: 70vw;
 	margin-top: 15rem;
 	margin-inline: auto; /*So it it exacly in the middl*/
-	background: #695cfe;
+	background: #f7f8fd;
 }
 
 .dashboard_container h2 {
