@@ -18,10 +18,10 @@ export const UserDataProvider = ({ children }) => {
 	const fetchUserRecord = async (userId) => {
 		try {
 			let { data: userRecord, error } = await supabase.from('users2').select('*').eq('authid', userId).single();
-			console.log(userRecord);
+			// console.log(userRecord);
 			if (error) throw error;
 			setUserRecord(userRecord);
-			console.log(`Fetched user record:`, userRecord);
+			// console.log(`Fetched user record:`, userRecord);
 		} catch (error) {
 			console.error('Error fetching user record:', error.message);
 			setError(error.message);
@@ -49,7 +49,7 @@ export const UserDataProvider = ({ children }) => {
 			if (!userRecord) return;
 			const { data: employees, error } = await supabase.from('users2').select('*').eq('organizationid', userRecord.organizationid).in('jobroleid', [4, 5]);
 			if (error) throw error;
-			console.log('Employees for task assignment:', employees);
+			// console.log('Employees for task assignment:', employees);
 			setEmployeesForTask(employees);
 		} catch (error) {
 			console.error('Error fetching employees for task assignment:', error.message);
@@ -59,7 +59,7 @@ export const UserDataProvider = ({ children }) => {
 	useEffect(() => {
 		fetchEmployeesForTaskAssignment();
 	}, [userRecord]); // Re-fetch employees when userRecord changes
-	console.log(`User Record:`, userRecord);
+	// console.log(`User Record:`, userRecord);
 
 	// --- FETCHING TASKS
 	const fetchTasks = async () => {
@@ -67,7 +67,7 @@ export const UserDataProvider = ({ children }) => {
 			if (!userRecord) return; // Exit if userRecord is not loaded
 			// BUG MAKE SURE ALL THE LEETERS ARE LOWERCASE FOR SELECIT
 			let query = supabase.from('task').select('*');
-			console.log(`User Record:`, userRecord);
+			// console.log(`User Record:`, userRecord);
 			// Determine tasks visibility based on the user's role
 			switch (userRecord.jobroleid) {
 				case 1: // Chief
@@ -143,8 +143,143 @@ export const UserDataProvider = ({ children }) => {
 		};
 	}, []);
 
-	// --- SIGNOUT USER
+	// --- ORGANIZATION PAGE
 
+	const [allEmployees, setAllEmployees] = useState([]);
+
+	const fetchAllEmployees = async () => {
+		try {
+			if (!userRecord) return; // Ensure there is a user record
+			const { data, error } = await supabase.from('users2').select('*').eq('organizationid', userRecord.organizationid);
+			if (error) throw error;
+			setAllEmployees(data);
+		} catch (error) {
+			console.error('Error fetching all employees:', error.message);
+		}
+	};
+
+	useEffect(() => {
+		fetchAllEmployees();
+	}, [userRecord]); // Fetch when userRecord changes
+
+	const fetchJobRoleNameById = async (jobroleid) => {
+		try {
+			const { data, error } = await supabase
+				.from('jobrole') // Replace 'jobroles' with your actual table name
+				.select('rolename') // Assuming 'name' is the column storing job role names
+				.eq('jobroleid', jobroleid)
+				.single(); // Using single because jobroleid is expected to uniquely identify a role
+
+			if (error) {
+				throw error;
+			}
+
+			return data.name; // Returning the name of the job role
+		} catch (error) {
+			console.error(`Error fetching job role name for id ${jobroleid}:`, error.message);
+			return 'Unknown'; // Return a default or error-specific name
+		}
+	};
+
+	// UPDATE USER RECORD
+	const updateEmployeeDetails = async (authid, formData) => {
+		try {
+			const { data, error } = await supabase
+				.from('users2')
+				.update({
+					firstname: formData.firstname,
+					surname: formData.lastname,
+					phonenumber: formData.phone,
+					emailaddress: formData.email,
+					jobroleid: formData.jobrole, // Make sure your table has an 'email' column if you're including this
+				})
+				.eq('authid', authid);
+
+			if (error) throw error;
+			console.log('Updated user details:', data);
+			return data;
+		} catch (error) {
+			console.error('Error updating employee details:', error.message);
+			return null;
+		}
+	};
+
+	// Get Company name
+	const [organizationName, setOrganizationName] = useState('');
+	const fetchOrganizationName = async (organizationId) => {
+		try {
+			const { data, error } = await supabase.from('organizations').select('organizationname').eq('organizationid', organizationId).single(); // Assuming each organization ID uniquely identifies one organization
+
+			if (error) {
+				throw error;
+			}
+
+			if (data) {
+				setOrganizationName(data.organizationname);
+				return data.organizationname;
+			}
+		} catch (error) {
+			console.error('Error fetching organization name:', error.message);
+			setError(error.message);
+			return null; // You can handle the error as needed
+		}
+	};
+
+	// CHAT FUNCTIONALITY
+	// Function to create a new chat session
+	const createChatSession = async () => {
+		const { data, error } = await supabase.from('ChatSessions').insert([{ createdDate: new Date() }]);
+		if (error) {
+			console.error('Error creating chat session:', error.message);
+			setError(error.message);
+			return null;
+		}
+		return data[0].id; // return the new session ID
+	};
+
+	// Function to add participants to a chat session
+	const addChatParticipants = async (sessionId, participantIds) => {
+		const participantRecords = participantIds.map((userId) => ({
+			ChatSessionID: sessionId,
+			UserID: userId,
+		}));
+
+		const { error } = await supabase.from('ChatParticipants').insert(participantRecords);
+		if (error) {
+			console.error('Error adding chat participants:', error.message);
+			setError(error.message);
+		}
+	};
+
+	// Function to send a message in a chat session
+	const sendMessage = async (sessionId, userId, messageText) => {
+		const { error } = await supabase.from('Message').insert([
+			{
+				ChatSessionID: sessionId,
+				SentByUserID: userId,
+				MessageText: messageText,
+				SendDateTime: new Date(),
+			},
+		]);
+
+		if (error) {
+			console.error('Error sending message:', error.message);
+			setError(error.message);
+		}
+	};
+
+	// Function to fetch messages for a chat session
+	const fetchMessages = async (sessionId) => {
+		const { data, error } = await supabase.from('Message').select('*').eq('ChatSessionID', sessionId);
+		if (error) {
+			console.error('Error fetching messages:', error.message);
+			setError(error.message);
+			return [];
+		}
+		return data;
+	};
+
+	// --- SIGNOUT USER
 	const signOutUser = useCallback(async () => {
 		const { error } = await supabase.auth.signOut();
 		if (error) {
@@ -158,7 +293,29 @@ export const UserDataProvider = ({ children }) => {
 	}, []);
 
 	// BUG user can be removed?
-	return <UserDataContext.Provider value={{ user, userRecord, error, signOutUser, tasks, fetchTasks, employeesForTask, fetchUserByAuthId }}>{children}</UserDataContext.Provider>;
+	return (
+		<UserDataContext.Provider
+			value={{
+				user,
+				userRecord,
+				error,
+				signOutUser,
+				tasks,
+				fetchTasks,
+				employeesForTask,
+				fetchUserByAuthId,
+				allEmployees,
+				fetchJobRoleNameById,
+				updateEmployeeDetails,
+				fetchOrganizationName,
+				createChatSession,
+				addChatParticipants,
+				sendMessage,
+				fetchMessages,
+			}}>
+			{children}
+		</UserDataContext.Provider>
+	);
 };
 
 // Create a list of queries i want to perform for the task table

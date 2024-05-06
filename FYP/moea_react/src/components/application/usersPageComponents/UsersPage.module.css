@@ -1,0 +1,266 @@
+.container_page {
+	margin-left: 8rem;
+	padding: 2rem;
+	background-color: #e3f2fd;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start; /* Ensures content starts from the top */
+}
+
+.page_heading {
+	font-size: 3rem;
+	text-align: center;
+	margin-bottom: 3rem; /* Increased bottom margin */
+	color: #333; /* Adds text color for contrast */
+}
+
+.page_heading::after {
+	content: '';
+	display: block;
+	width: 100%;
+	height: 6px;
+	background-color: rgb(165, 73, 230);
+	margin: auto;
+	position: relative;
+	top: 2rem;
+	border-radius: 4px;
+	margin-bottom: 3rem;
+}
+
+/* TODO This should be moved to the global CSS */
+.modal_backdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1050;
+}
+/* TODO This should be moved to the global CSS */
+.modal_content {
+	background: white;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.container_modal {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 1000;
+}
+
+.modal_content {
+	background-color: white;
+	padding: 2rem;
+	border-radius: 0.5rem;
+	box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.2);
+	width: 40rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.modal_heading {
+	margin-bottom: 2rem;
+	font-size: 2.5rem;
+	text-align: center;
+	color: #333;
+}
+
+.input_field {
+	margin-bottom: 1.5rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.input_label {
+	font-size: 1.5rem;
+	margin-bottom: 0.5rem;
+	color: #666;
+}
+
+.input_text {
+	padding: 0.8rem;
+	font-size: 1.2rem;
+	border: 1px solid #ccc;
+	border-radius: 0.3rem;
+}
+
+.button_group {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 2rem;
+}
+
+.button {
+	/* padding: 0.8rem 2rem;
+	font-size: 1.2rem;
+	font-weight: 600;
+	letter-spacing: 0.7px;
+	border: none;
+	border-radius: 0.3rem;
+	cursor: pointer;
+	transition: background-color 0.3s; */
+
+	padding: 0.8rem 2rem;
+	font-size: 1.2rem;
+	font-weight: 600;
+	color: white; /* Text color */
+	background-color: #007bff; /* Bootstrap primary color */
+	border: none;
+	border-radius: 0.3rem;
+	cursor: pointer;
+	transition: background-color 0.3s, transform 0.2s; /* Smooth background and transform transition */
+	margin-right: 1rem; /* Adds margin to the right of each button */
+}
+
+.button:hover {
+	background-color: #0056b3; /* Darker shade on hover */
+	transform: scale(1.05); /* Slightly enlarge button on hover */
+}
+
+.button_primary {
+	background-color: #4caf50;
+	color: white;
+}
+
+.button_primary:hover {
+	background-color: #45a049;
+}
+
+.button_secondary {
+	background-color: #f44336;
+	color: white;
+}
+
+.button_secondary:hover {
+	background-color: #da190b;
+}
+
+/* SPINNER */
+
+.spinner {
+	align-self: center;
+	border: 4px solid rgba(0, 0, 0, 0.1);
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	border-left-color: #09f;
+	animation: spin 1s infinite linear;
+	border-color: #ccc;
+	border-top-color: #007bff;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.success_message {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: #4caf50;
+	color: white;
+	text-align: center;
+	padding: 1rem;
+	font-size: 1.5rem;
+	box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+	z-index: 1000;
+}
+
+/* NEW */
+
+.modal_content {
+	background: white;
+	padding: 3rem;
+	border-radius: 5px;
+	max-width: 50rem;
+	width: 100%;
+}
+
+.close_button {
+	float: right;
+	cursor: pointer;
+}
+
+.users_list_container {
+	margin-top: 1rem;
+}
+
+.employee_item {
+	padding: 1rem;
+	border-bottom: 1px solid #ccc;
+	cursor: pointer;
+}
+
+.employee_name {
+	font-weight: bold;
+	font-size: 1.6rem;
+}
+
+.employee_details {
+	font-size: 1.4rem;
+	letter-spacing: 0.7px;
+	line-height: 1.5;
+	color: #666;
+	margin-top: 0.5rem;
+}
+
+.employee_column {
+	color: #222;
+	font-weight: bold;
+}
+.employee_details :last-child {
+	/* margin-bottom: 3rem; */
+}
+
+.margin_top_2rem {
+	margin-top: 2rem;
+}
+
+.page_buttons {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	/* background-color: white; */
+	/* width: 50rem;
+	height: 30rem; */
+}
+
+/* MEDIA QUERRIES */
+
+@media (max-width: 768px) {
+	.container_page {
+		margin-left: 0;
+		padding: 1rem;
+	}
+
+	.button {
+		padding: 0.6rem 1.5rem;
+		margin-right: 0.5rem;
+	}
+
+	.page_heading {
+		font-size: 2.5rem;
+	}
+}

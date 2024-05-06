@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 
 // Styles and images
 import SideNavigationBarCSS from './SideNavigationBar.module.css';
-import logo from '../../images/MOEA_logo.png';
+import logo from '../../../images/MOEA_logo.png';
 
 // Data
-import { UserDataContext } from '../../context/UserDataContext.js';
+import { UserDataContext } from '../../../context/UserDataContext.js';
 
 // Navigation
-import { useAppNavigate } from '../../context/useAppNavigate.js';
+import { useAppNavigate } from '../../../context/useAppNavigate.js';
 
 const SideBarLink = ({ iconClass, text, navigateTo }) => (
 	// TODO Add onchange to the li element
@@ -28,10 +28,6 @@ const SideBarLink = ({ iconClass, text, navigateTo }) => (
 	</li>
 );
 
-// onClick={() => {
-// 	handleLogout();
-// }}>
-
 const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 	// TODO every <a></a> needs to be replaced with a button class
 	// Icons needs to be fixed and replaced
@@ -46,7 +42,7 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 
 	const navigate = useNavigate(); // TODO I think it can be removed
 
-	const { navigateToDashboard, navigateToTasks, navigateToOrganization } = useAppNavigate();
+	const { navigateToDashboard, navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat } = useAppNavigate();
 	const [jobroleid, setJobRoleId] = useState(null);
 	const { userRecord, signOutUser } = useContext(UserDataContext);
 
@@ -92,37 +88,44 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 					<div className={SideNavigationBarCSS.menu_bar}>
 						<div className={SideNavigationBarCSS.menu}>
 							<ul className={SideNavigationBarCSS.menu_links}>
+								{/* DASHBOARD */}
 								<SideBarLink
 									iconClass="bx bx-home-smile"
 									text="Dashboard"
 									navigateTo={navigateToDashboard}
 								/>
+								{/* TASKS */}
 								<SideBarLink
 									iconClass="bx bx-list-ul"
 									text="Tasks"
 									// visible={jobroleid === 1}
 									navigateTo={navigateToTasks}
 								/>
+								{/* TEAMS */}
 								<SideBarLink
 									iconClass="bx bx-group"
 									text="Teams"
 									// navigateTo={}
 								/>
+								{/* CHAT */}
 								<SideBarLink
 									iconClass="bx bx-message-dots"
 									text="Chat"
-									// navigateTo={}
+									navigateTo={navigateToChat}
 								/>
+								{/* FILES */}
 								<SideBarLink
 									iconClass="bx bx-file"
 									text="Files"
 									// navigateTo={}
 								/>
+								{/* USERS */}
 								<SideBarLink
 									iconClass="bx bx-user-check"
 									text="Users"
-									// navigateTo={}
+									navigateTo={navigateToUsers}
 								/>
+								{/* ORGANIZATION */}
 								<SideBarLink
 									iconClass="bx bx-briefcase"
 									text="Organization"

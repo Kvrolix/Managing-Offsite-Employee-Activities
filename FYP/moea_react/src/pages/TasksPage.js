@@ -9,7 +9,7 @@ import { UserDataContext } from '../context/UserDataContext';
 import supabase from '../config/supabaseClient';
 
 // Components
-import SideNavigationBar from '../components/application/SideNaviagtionBar';
+import SideNavigationBar from '../components/application/sideBarComponents/SideNaviagtionBar';
 import TaskElement from '../components/application/tasksPageComponents/taskElement';
 import CrudElement from '../components/application/tasksPageComponents/CrudElement';
 import ArchiveRow from '../components/application/tasksPageComponents/ArchiveRow';
@@ -20,6 +20,8 @@ import TaskCreationModal from '../components/application/tasksPageComponents/Tas
 import TaskViewModal from '../components/application/tasksPageComponents/TaskViewModal';
 import TaskEditModal from '../components/application/tasksPageComponents/TaskEditModal';
 
+// TODO
+import HelpIcon from '../components/application/HelpIcon.js';
 // TODO go through the records in a list so they are all visible and depends who you pick it will get his authid and this will be assigned to a created task
 // BUG When page realods it waits longser for getting the assigned to as it is another call, to it should all be printed in teh same time \
 
@@ -203,7 +205,7 @@ const TasksPage = () => {
 	const archiveTask = async (task) => {
 		try {
 			const { error } = await supabase.from('task').update({ isCompleted: true, isArchived: true }).eq('taskid', task.taskid);
-			console.log(`Archived Task:`, task.taskid);
+			// console.log(`Archived Task:`, task.taskid);
 
 			if (error) throw error;
 
@@ -235,11 +237,11 @@ const TasksPage = () => {
 		if (tasks.length > 0) {
 			fetchAndSetUserNames();
 		}
-		console.log(tasks[1]);
+		// console.log(tasks[1]);
 	}, [tasks, fetchUserByAuthId]);
 
 	const saveTask = async (taskData) => {
-		console.log('Task to save:', taskData);
+		// console.log('Task to save:', taskData);
 		// TODO The extra fields i have added are need to be here too
 		const { title, description, deadline, assignedToPerson } = taskData;
 
