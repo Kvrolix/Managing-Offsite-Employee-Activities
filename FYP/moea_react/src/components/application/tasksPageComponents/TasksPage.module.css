@@ -12,9 +12,11 @@
 }
 
 .container_tasks {
-	margin-left: 25rem;
+	margin-left: 8rem;
 	padding-top: 7rem;
-	background-color: aquamarine;
+	/* background-color: aquamarine;
+	 */
+	background-color: #e3f2fd;
 	height: 100vh;
 }
 
@@ -46,8 +48,8 @@
 	background-color: #ffffff;
 	border-radius: 8px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	margin: 20px;
-	padding: 20px;
+	margin: 2rem;
+	padding: 2rem;
 	transition: transform 0.3s ease-in-out;
 	position: relative;
 }
@@ -87,16 +89,33 @@
 	margin-top: 1rem;
 	font-style: italic;
 }
+
 .task_options {
 	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	background: rgba(0, 0, 0, 0.75);
-	color: white;
+	top: -25%;
+	right: -5%; /* Position it to the right of the card */
+	background: white;
+	border: 1px solid #ccc;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 100;
+	border-radius: 8px;
 	display: flex;
-	justify-content: space-around;
-	padding: 10px 0;
+	flex-direction: column;
+	padding: 10px;
+	transition: all 0.3s ease;
+}
+
+.task_options button {
+	margin: 5px 0;
+	padding: 8px;
+	background-color: #f0f0f0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.task_options button:hover {
+	background-color: #e0e0e0;
 }
 
 .task_deadline_indicator {
@@ -136,16 +155,16 @@
 }
 
 .archives_container {
-	background-color: aquamarine; /* Matching the main container color */
+	background-color: white; /* Matching the main container color */
 	padding: 2rem;
 
-	height: auto; /* Adjust based on content */
+	height: auto;
 }
 
 .archives_heading {
-	font-size: 2.5rem; /* Slightly smaller than the main tasks heading for hierarchy */
+	font-size: 2.5rem;
 	text-align: center;
-	margin-bottom: 1rem; /* Space between heading and table */
+	margin-bottom: 1rem;
 }
 
 .archives_heading::after {

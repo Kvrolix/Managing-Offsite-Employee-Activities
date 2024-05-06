@@ -1,4 +1,3 @@
-// TaskViewModal.js
 import React, { useContext, useEffect, useState } from 'react';
 import TasksPageCSS from './TasksPage.module.css';
 import { formatDateTime } from '../../../context/helpers';
@@ -18,7 +17,6 @@ const TaskViewModal = ({ isOpen, task, onClose }) => {
 				} else {
 					setCreatedByUser('Not assigned');
 				}
-
 				// Fetching details for the assigned user
 				const assignee = await fetchUserByAuthId(task.assignedtoauthid);
 				if (assignee) {

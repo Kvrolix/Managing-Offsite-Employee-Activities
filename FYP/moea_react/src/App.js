@@ -9,6 +9,8 @@ import LoginPage2 from './pages/LoginPage2.js';
 import DashboardPage from './pages/DashboardPage.js';
 import TasksPage from './pages/TasksPage.js';
 import OrganizationPage from './pages/OrganizationPage.js';
+import UsersPage from './pages/UsersPage.js';
+import ChatPage from './pages/ChatPage.js';
 
 function App() {
 	return (
@@ -34,6 +36,14 @@ function App() {
 					<Route
 						path="/organization"
 						element={<OrganizationPage />}
+					/>
+					<Route
+						path="/users"
+						element={<UsersPage />}
+					/>
+					<Route
+						path="/chat"
+						element={<ChatPage />}
 					/>
 				</Routes>
 			</BrowserRouter>

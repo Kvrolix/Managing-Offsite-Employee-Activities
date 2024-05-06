@@ -1,12 +1,12 @@
 // React
 import React, { useContext } from 'react';
-import { useAppNavigate } from '../../context/useAppNavigate.js';
+import { useAppNavigate } from '../../../context/useAppNavigate.js';
 
 // Styles
 import DashboardOptionsCSS from './DashboardOptions.module.css';
 
 // Data
-import { UserDataContext } from '../../context/UserDataContext';
+import { UserDataContext } from '../../../context/UserDataContext.js';
 
 // Components
 // TODO export it to a different file as there will be too many of them soon
@@ -29,7 +29,7 @@ const DashboardElement = ({ icon, text, navigateTo }) => (
 
 const DashboardOptions = ({ isSidebarOpen }) => {
 	const { userRecord } = useContext(UserDataContext);
-	const { navigateToTasks, navigateToOrganization } = useAppNavigate();
+	const { navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat } = useAppNavigate();
 
 	// Ensure userRecord exists before trying to access its properties
 	if (!userRecord) {
@@ -42,31 +42,38 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 	return (
 		<>
 			<div className={`${DashboardOptionsCSS.options_container}  ${isSidebarOpen ? DashboardOptionsCSS.expanded : DashboardOptionsCSS.collapsed}`}>
-				<h2 className={DashboardOptionsCSS.greeting}>{`Welcome, ${firstname} ${surname}!`}</h2>
-				<h2 className={DashboardOptionsCSS.greeting}>{`REMEMBER ABOUT ADDING NEW WORKERS PAGE`}</h2>
+				<h2 className={DashboardOptionsCSS.greeting}>{`Welcome, ${firstname}!`}</h2>
 				<div className={DashboardOptionsCSS.dashboard_grid}>
 					<div className={`grid ${DashboardOptionsCSS.dashboard_goto}`}>
+						{/* TASKS */}
 						<DashboardElement
 							icon="assignment"
 							text="Tasks"
 							navigateTo={navigateToTasks}
 						/>
+						{/* TEAMS */}
 						<DashboardElement
 							icon="supervised_user_circle"
 							text="Teams"
 						/>
+						{/* CHAT */}
 						<DashboardElement
 							icon="question_answer"
 							text="Chat"
+							navigateTo={navigateToChat}
 						/>
+						{/* FILES */}
 						<DashboardElement
 							icon="description"
 							text="Files"
 						/>
+						{/* USERS */}
 						<DashboardElement
 							icon="group"
 							text="Users"
+							navigateTo={navigateToUsers}
 						/>
+						{/* ORGANIZATION */}
 						<DashboardElement
 							icon="hub"
 							text="Organization"
