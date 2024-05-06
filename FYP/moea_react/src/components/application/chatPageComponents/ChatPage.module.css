@@ -1,0 +1,132 @@
+.page_heading {
+	font-size: 3rem;
+	text-align: center;
+}
+
+.page_heading::after {
+	content: '';
+	display: block;
+	width: 15%;
+	height: 6px;
+	background-color: rgb(72, 207, 72);
+	margin: auto;
+	position: relative;
+	top: 2rem;
+	border-radius: 4px;
+}
+
+.page_container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-left: 8rem;
+	padding-top: 2rem;
+	background-color: #e3f2fd;
+	height: calc(100vh - 4rem);
+	box-sizing: border-box;
+}
+
+.chat_container {
+	display: flex;
+	width: 60%; /* Smaller and centered chat window */
+	height: 80vh; /* Defines a fixed height for chat container */
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	background-color: #ffffff;
+}
+
+.chat_main {
+	width: 75%;
+	display: flex;
+	flex-direction: column;
+}
+.chat_sidebar {
+	width: 25%;
+	background-color: #f7f7f7;
+	overflow-y: auto;
+	border-right: 1px solid #ddd;
+	padding: 10px;
+}
+
+.contact_item {
+	font-weight: bold;
+	padding: 1rem;
+	border-bottom: 1px solid #ccc;
+	cursor: pointer;
+}
+
+.contact_item:nth-child(even) {
+	background-color: #f0f0f0;
+}
+
+.contact_item:hover {
+	background-color: #e0e0e0;
+}
+
+.contact_status {
+	width: 1rem;
+	height: 1rem;
+	border-radius: 50%;
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.status_online {
+	background-color: #4caf50;
+}
+
+.status_offline {
+	background-color: #f44336;
+}
+
+.contact_details {
+	display: flex;
+	align-items: center;
+}
+
+/* LATER IMPLEEMANTAUITON */
+.contact_image {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background-color: #ddd;
+	margin-right: 10px;
+	overflow: hidden;
+}
+
+.contact_text {
+	flex-grow: 1;
+}
+
+.messages_display {
+	flex-grow: 1;
+	overflow-y: auto;
+	background-color: #fff;
+	padding: 10px;
+}
+
+.message_input_container {
+	padding: 10px;
+	background-color: #f1f1f1;
+	display: flex;
+}
+
+.input_message {
+	flex-grow: 1;
+	padding: 8px;
+	margin-right: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.send_button {
+	padding: 8px 16px;
+	background-color: #4caf50;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.send_button:hover {
+	background-color: #43a047;
+}

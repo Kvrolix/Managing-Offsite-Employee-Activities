@@ -29,7 +29,7 @@ const DashboardElement = ({ icon, text, navigateTo }) => (
 
 const DashboardOptions = ({ isSidebarOpen }) => {
 	const { userRecord } = useContext(UserDataContext);
-	const { navigateToTasks, navigateToOrganization, navigateToUsers } = useAppNavigate();
+	const { navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat } = useAppNavigate();
 
 	// Ensure userRecord exists before trying to access its properties
 	if (!userRecord) {
@@ -60,6 +60,7 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 						<DashboardElement
 							icon="question_answer"
 							text="Chat"
+							navigateTo={navigateToChat}
 						/>
 						{/* FILES */}
 						<DashboardElement

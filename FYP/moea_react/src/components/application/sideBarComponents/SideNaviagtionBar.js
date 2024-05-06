@@ -42,7 +42,7 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 
 	const navigate = useNavigate(); // TODO I think it can be removed
 
-	const { navigateToDashboard, navigateToTasks, navigateToOrganization, navigateToUsers } = useAppNavigate();
+	const { navigateToDashboard, navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat } = useAppNavigate();
 	const [jobroleid, setJobRoleId] = useState(null);
 	const { userRecord, signOutUser } = useContext(UserDataContext);
 
@@ -111,7 +111,7 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 								<SideBarLink
 									iconClass="bx bx-message-dots"
 									text="Chat"
-									// navigateTo={}
+									navigateTo={navigateToChat}
 								/>
 								{/* FILES */}
 								<SideBarLink
