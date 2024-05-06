@@ -1,29 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import SideNavigationBar from '../components/application/sideBarComponents/SideNaviagtionBar';
 import ChatPageCSS from '../components/application/chatPageComponents/ChatPage.module.css';
+import { UserDataContext } from '../context/UserDataContext';
 
 const ChatPage = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const [message, setMessage] = useState('');
 	const [messages, setMessages] = useState([]);
+	const [activeSessionId, setActiveSessionId] = useState(null);
+	const [contacts, setContacts] = useState([]);
+	const [activeContact, setActiveContact] = useState(null);
+	const { allEmployees, sendMessage, fetchMessages } = useContext(UserDataContext);
 
-	const contacts = [
-		{ id: 1, firstname: 'John', lastname: 'Doe', status: 'online' },
-		{ id: 2, firstname: 'Jane', lastname: 'Doe', status: 'offline' },
-		{ id: 3, firstname: 'Alice', lastname: 'Johnson', status: 'online' },
-		// Add more contacts as needed
-	];
+	useEffect(() => {
+		const loadContacts = async () => {
+			const employees = await allEmployees;
+			setContacts(employees);
+		};
+		loadContacts();
+	}, []); // Dependency array is empty to ensure this runs only once when the component mounts
+	useEffect(() => {
+		if (activeContact) {
+			fetchMessages(activeContact.authid).then(setMessages);
+		}
+	}, [activeContact, fetchMessages]);
 
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
 
-	const handleSendMessage = () => {
-		if (message.trim()) {
-			setMessages([...messages, message]);
-			setMessage('');
+	const handleSendMessage = async () => {
+		if (message.trim() && activeContact) {
+			const msg = {
+				senderId: 'yourUserId', // Should be dynamically set based on the logged-in user
+				receiverId: activeContact.authid,
+				text: message,
+				timestamp: new Date().toISOString(),
+			};
+			const sentMessage = await sendMessage(msg);
+			if (sentMessage) {
+				setMessages([...messages, msg]);
+				setMessage('');
+			}
 		}
 	};
+
+	// Fetch messages when the session changes
+	useEffect(() => {
+		const loadMessages = async () => {
+			if (activeSessionId) {
+				const loadedMessages = await fetchMessages(activeSessionId);
+				setMessages(loadedMessages);
+			}
+		};
+		loadMessages();
+	}, [activeSessionId, fetchMessages]);
 
 	return (
 		<>
@@ -36,12 +67,13 @@ const ChatPage = () => {
 					<div className={ChatPageCSS.chat_sidebar}>
 						{contacts.map((contact) => (
 							<div
-								key={contact.id}
-								className={ChatPageCSS.contact_item}>
+								key={contact.authid} // Make sure to use a unique key
+								className={ChatPageCSS.contact_item}
+								onClick={() => setActiveSessionId(contact.sessionId)}>
 								<div className={ChatPageCSS.contact_details}>
 									<span className={`${ChatPageCSS.contact_status} ${contact.status === 'online' ? ChatPageCSS.status_online : ChatPageCSS.status_offline}`}></span>
 									<div className={ChatPageCSS.contact_text}>
-										{contact.firstname} {contact.lastname}
+										{contact.firstname} {contact.surname}
 									</div>
 								</div>
 							</div>

@@ -1,19 +1,19 @@
 .container_page {
 	margin-left: 8rem;
-	padding-top: 2rem;
-	padding-bottom: 2rem;
-	background-color: rgb(127, 178, 255);
+	padding: 2rem;
+	background-color: #e3f2fd;
 	min-height: 100vh;
-	/* BY SETTING MIN HEIGHT- The problem when f12 is pressed dissapears */
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: flex-start; /* Ensures content starts from the top */
 }
 
 .page_heading {
 	font-size: 3rem;
 	text-align: center;
-	margin-bottom: 20px;
+	margin-bottom: 3rem; /* Increased bottom margin */
+	color: #333; /* Adds text color for contrast */
 }
 
 .page_heading::after {
@@ -106,14 +106,30 @@
 }
 
 .button {
-	padding: 0.8rem 2rem;
+	/* padding: 0.8rem 2rem;
 	font-size: 1.2rem;
 	font-weight: 600;
 	letter-spacing: 0.7px;
 	border: none;
 	border-radius: 0.3rem;
 	cursor: pointer;
-	transition: background-color 0.3s;
+	transition: background-color 0.3s; */
+
+	padding: 0.8rem 2rem;
+	font-size: 1.2rem;
+	font-weight: 600;
+	color: white; /* Text color */
+	background-color: #007bff; /* Bootstrap primary color */
+	border: none;
+	border-radius: 0.3rem;
+	cursor: pointer;
+	transition: background-color 0.3s, transform 0.2s; /* Smooth background and transform transition */
+	margin-right: 1rem; /* Adds margin to the right of each button */
+}
+
+.button:hover {
+	background-color: #0056b3; /* Darker shade on hover */
+	transform: scale(1.05); /* Slightly enlarge button on hover */
 }
 
 .button_primary {
@@ -137,13 +153,15 @@
 /* SPINNER */
 
 .spinner {
-	align-self: center; /* spinner in the centre */
+	align-self: center;
 	border: 4px solid rgba(0, 0, 0, 0.1);
 	width: 36px;
 	height: 36px;
 	border-radius: 50%;
 	border-left-color: #09f;
 	animation: spin 1s infinite linear;
+	border-color: #ccc;
+	border-top-color: #007bff;
 }
 
 @keyframes spin {
@@ -217,4 +235,32 @@
 
 .margin_top_2rem {
 	margin-top: 2rem;
+}
+
+.page_buttons {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	/* background-color: white; */
+	/* width: 50rem;
+	height: 30rem; */
+}
+
+/* MEDIA QUERRIES */
+
+@media (max-width: 768px) {
+	.container_page {
+		margin-left: 0;
+		padding: 1rem;
+	}
+
+	.button {
+		padding: 0.6rem 1.5rem;
+		margin-right: 0.5rem;
+	}
+
+	.page_heading {
+		font-size: 2.5rem;
+	}
 }

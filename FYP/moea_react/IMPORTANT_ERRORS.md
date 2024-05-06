@@ -16,3 +16,19 @@
 # GENERAL
 
 Add a trasnsition before loading a page to make sure all the elements are loadded
+
+Support file sharing for document and resource exchange.
+
+Implement a time-tracking feature to record employees' time on each task or project to generate data for payroll and project management.
+
+Integrate Google Maps or Leaflet to display the real-time location of employees.
+
+Allow employees to update the status of tasks, mark them as complete, or request additional information or assistance.
+
+TODO
+Notifications and alerts to keep everyone informed about task updates.
+
+TODO
+Add to every page a question mark how to use the page
+
+Create Media queries for different phones

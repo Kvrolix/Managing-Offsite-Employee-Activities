@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import TasksPageCSS from './TasksPage.module.css'; // Adjust the import path as necessary
 
 export const formatDateTime = (isoString) => {
@@ -25,6 +25,7 @@ const getDeadlineColor = (deadline) => {
 	}
 };
 
+// TODO
 function truncateString(str, length) {
 	if (str.length > length) {
 		return str.substring(0, length) + ' Expand...';
@@ -35,11 +36,25 @@ const descriptionVisibleLength = 30;
 
 const TaskElement = ({ title, description, dateCreated, deadline, assignedTo, onEdit, onArchive, onComplete, onView }) => {
 	const [showOptions, setShowOptions] = useState(false);
+	const optionsRef = useRef(null);
+
+	useEffect(() => {
+		function handleClickOutside(event) {
+			if (optionsRef.current && !optionsRef.current.contains(event.target)) {
+				setShowOptions(false);
+			}
+		}
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [optionsRef]);
 
 	const formattedDate = formatDateTime(dateCreated);
 	const deadlineColor = getDeadlineColor(deadline);
 
 	const toggleOptions = () => setShowOptions(!showOptions);
+
 	return (
 		<>
 			<div
@@ -50,12 +65,14 @@ const TaskElement = ({ title, description, dateCreated, deadline, assignedTo, on
 					style={{ backgroundColor: deadlineColor }}
 				/>
 				<h2>{title}</h2>
-				<p>{truncateString(description, descriptionVisibleLength)}</p>
+				<p>{description}</p>
 				<div className={TasksPageCSS.task_info}>Deadline: {deadline}</div>
 				<div className={TasksPageCSS.task_info}>Assigned to: {assignedTo}</div>
 				<div className={TasksPageCSS.task_info}>Created: {formattedDate}</div>
 				{showOptions && (
-					<div className={TasksPageCSS.task_options}>
+					<div
+						className={TasksPageCSS.task_options}
+						ref={optionsRef}>
 						<button onClick={onView}>View</button>
 						<button onClick={onComplete}>Complete</button>
 						<button onClick={onEdit}>Edit</button>

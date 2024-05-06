@@ -20,6 +20,8 @@ import TaskCreationModal from '../components/application/tasksPageComponents/Tas
 import TaskViewModal from '../components/application/tasksPageComponents/TaskViewModal';
 import TaskEditModal from '../components/application/tasksPageComponents/TaskEditModal';
 
+// TODO
+import HelpIcon from '../components/application/HelpIcon.js';
 // TODO go through the records in a list so they are all visible and depends who you pick it will get his authid and this will be assigned to a created task
 // BUG When page realods it waits longser for getting the assigned to as it is another call, to it should all be printed in teh same time \
 

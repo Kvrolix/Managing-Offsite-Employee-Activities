@@ -225,6 +225,60 @@ export const UserDataProvider = ({ children }) => {
 		}
 	};
 
+	// CHAT FUNCTIONALITY
+	// Function to create a new chat session
+	const createChatSession = async () => {
+		const { data, error } = await supabase.from('ChatSessions').insert([{ createdDate: new Date() }]);
+		if (error) {
+			console.error('Error creating chat session:', error.message);
+			setError(error.message);
+			return null;
+		}
+		return data[0].id; // return the new session ID
+	};
+
+	// Function to add participants to a chat session
+	const addChatParticipants = async (sessionId, participantIds) => {
+		const participantRecords = participantIds.map((userId) => ({
+			ChatSessionID: sessionId,
+			UserID: userId,
+		}));
+
+		const { error } = await supabase.from('ChatParticipants').insert(participantRecords);
+		if (error) {
+			console.error('Error adding chat participants:', error.message);
+			setError(error.message);
+		}
+	};
+
+	// Function to send a message in a chat session
+	const sendMessage = async (sessionId, userId, messageText) => {
+		const { error } = await supabase.from('Message').insert([
+			{
+				ChatSessionID: sessionId,
+				SentByUserID: userId,
+				MessageText: messageText,
+				SendDateTime: new Date(),
+			},
+		]);
+
+		if (error) {
+			console.error('Error sending message:', error.message);
+			setError(error.message);
+		}
+	};
+
+	// Function to fetch messages for a chat session
+	const fetchMessages = async (sessionId) => {
+		const { data, error } = await supabase.from('Message').select('*').eq('ChatSessionID', sessionId);
+		if (error) {
+			console.error('Error fetching messages:', error.message);
+			setError(error.message);
+			return [];
+		}
+		return data;
+	};
+
 	// --- SIGNOUT USER
 	const signOutUser = useCallback(async () => {
 		const { error } = await supabase.auth.signOut();
@@ -241,7 +295,24 @@ export const UserDataProvider = ({ children }) => {
 	// BUG user can be removed?
 	return (
 		<UserDataContext.Provider
-			value={{ user, userRecord, error, signOutUser, tasks, fetchTasks, employeesForTask, fetchUserByAuthId, allEmployees, fetchJobRoleNameById, updateEmployeeDetails, fetchOrganizationName }}>
+			value={{
+				user,
+				userRecord,
+				error,
+				signOutUser,
+				tasks,
+				fetchTasks,
+				employeesForTask,
+				fetchUserByAuthId,
+				allEmployees,
+				fetchJobRoleNameById,
+				updateEmployeeDetails,
+				fetchOrganizationName,
+				createChatSession,
+				addChatParticipants,
+				sendMessage,
+				fetchMessages,
+			}}>
 			{children}
 		</UserDataContext.Provider>
 	);

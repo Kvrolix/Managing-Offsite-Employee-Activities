@@ -27,7 +27,8 @@ NEW */
 .options_container {
 	height: 100vh;
 	width: 94.5vw;
-	background: #f7f8ff;
+	/* background: #f7f8ff; */
+	background-color: #e3f2fd;
 }
 
 .greeting {
