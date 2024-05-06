@@ -2,14 +2,14 @@
 import { UserDataContext } from '../context/UserDataContext';
 import SideNavigationBar from '../components/application/sideBarComponents/SideNaviagtionBar.js';
 import OrganizationPageCSS from '../components/application/organizationPageComponents/OrganizationPage.module.css';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 
 // TODO I want to see the actual organization name on the top "Essa Organization "
 
 const OrganizationPage = () => {
 	const { allEmployees, fetchJobRoleNameById } = useContext(UserDataContext);
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-	const [employees, setEmployees] = useState([]);
+
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};

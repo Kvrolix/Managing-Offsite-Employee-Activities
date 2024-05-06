@@ -18,10 +18,10 @@ export const UserDataProvider = ({ children }) => {
 	const fetchUserRecord = async (userId) => {
 		try {
 			let { data: userRecord, error } = await supabase.from('users2').select('*').eq('authid', userId).single();
-			console.log(userRecord);
+			// console.log(userRecord);
 			if (error) throw error;
 			setUserRecord(userRecord);
-			console.log(`Fetched user record:`, userRecord);
+			// console.log(`Fetched user record:`, userRecord);
 		} catch (error) {
 			console.error('Error fetching user record:', error.message);
 			setError(error.message);
@@ -49,7 +49,7 @@ export const UserDataProvider = ({ children }) => {
 			if (!userRecord) return;
 			const { data: employees, error } = await supabase.from('users2').select('*').eq('organizationid', userRecord.organizationid).in('jobroleid', [4, 5]);
 			if (error) throw error;
-			console.log('Employees for task assignment:', employees);
+			// console.log('Employees for task assignment:', employees);
 			setEmployeesForTask(employees);
 		} catch (error) {
 			console.error('Error fetching employees for task assignment:', error.message);
@@ -59,7 +59,7 @@ export const UserDataProvider = ({ children }) => {
 	useEffect(() => {
 		fetchEmployeesForTaskAssignment();
 	}, [userRecord]); // Re-fetch employees when userRecord changes
-	console.log(`User Record:`, userRecord);
+	// console.log(`User Record:`, userRecord);
 
 	// --- FETCHING TASKS
 	const fetchTasks = async () => {
@@ -67,7 +67,7 @@ export const UserDataProvider = ({ children }) => {
 			if (!userRecord) return; // Exit if userRecord is not loaded
 			// BUG MAKE SURE ALL THE LEETERS ARE LOWERCASE FOR SELECIT
 			let query = supabase.from('task').select('*');
-			console.log(`User Record:`, userRecord);
+			// console.log(`User Record:`, userRecord);
 			// Determine tasks visibility based on the user's role
 			switch (userRecord.jobroleid) {
 				case 1: // Chief
