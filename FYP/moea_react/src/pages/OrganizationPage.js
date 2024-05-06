@@ -2,13 +2,32 @@
 import { UserDataContext } from '../context/UserDataContext';
 import SideNavigationBar from '../components/application/sideBarComponents/SideNaviagtionBar.js';
 import OrganizationPageCSS from '../components/application/organizationPageComponents/OrganizationPage.module.css';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 // TODO I want to see the actual organization name on the top "Essa Organization "
 
 const OrganizationPage = () => {
-	const { allEmployees, fetchJobRoleNameById } = useContext(UserDataContext);
+	const { userRecord, allEmployees, fetchJobRoleNameById, fetchOrganizationName } = useContext(UserDataContext);
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+	const [organizationName, setOrganizationName] = useState('');
+
+	const userOrganizationId = userRecord.organizationid;
+	// const getOrganizationName = fetchJobRoleNameById(userOrganizationId);
+
+	useEffect(() => {
+		const getOrganizationName = async () => {
+			if (userRecord && userRecord.organizationid) {
+				try {
+					const fetchedOrganizationName = await fetchOrganizationName(userRecord.organizationid);
+					setOrganizationName(fetchedOrganizationName);
+				} catch (error) {
+					console.error('Failed to fetch organization name:', error);
+				}
+			}
+		};
+
+		getOrganizationName();
+	}, [userRecord, fetchOrganizationName]);
 
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
@@ -61,7 +80,7 @@ const OrganizationPage = () => {
 			/>
 			<div className={OrganizationPageCSS.container_organization}>
 				<div className={OrganizationPageCSS.container_organization}>
-					<h1 className={OrganizationPageCSS.organization_heading}>Organization</h1>
+					<h1 className={OrganizationPageCSS.organization_heading}>{`${organizationName} Organization`} </h1>
 
 					{renderEmployeesByRole(1, 'Chief')}
 					{renderEmployeesByRole(2, 'Managers')}

@@ -181,8 +181,51 @@ export const UserDataProvider = ({ children }) => {
 		}
 	};
 
-	// --- SIGNOUT USER
+	// UPDATE USER RECORD
+	const updateEmployeeDetails = async (authid, formData) => {
+		try {
+			const { data, error } = await supabase
+				.from('users2')
+				.update({
+					firstname: formData.firstname,
+					surname: formData.lastname,
+					phonenumber: formData.phone,
+					emailaddress: formData.email,
+					jobroleid: formData.jobrole, // Make sure your table has an 'email' column if you're including this
+				})
+				.eq('authid', authid);
 
+			if (error) throw error;
+			console.log('Updated user details:', data);
+			return data;
+		} catch (error) {
+			console.error('Error updating employee details:', error.message);
+			return null;
+		}
+	};
+
+	// Get Company name
+	const [organizationName, setOrganizationName] = useState('');
+	const fetchOrganizationName = async (organizationId) => {
+		try {
+			const { data, error } = await supabase.from('organizations').select('organizationname').eq('organizationid', organizationId).single(); // Assuming each organization ID uniquely identifies one organization
+
+			if (error) {
+				throw error;
+			}
+
+			if (data) {
+				setOrganizationName(data.organizationname);
+				return data.organizationname;
+			}
+		} catch (error) {
+			console.error('Error fetching organization name:', error.message);
+			setError(error.message);
+			return null; // You can handle the error as needed
+		}
+	};
+
+	// --- SIGNOUT USER
 	const signOutUser = useCallback(async () => {
 		const { error } = await supabase.auth.signOut();
 		if (error) {
@@ -197,7 +240,8 @@ export const UserDataProvider = ({ children }) => {
 
 	// BUG user can be removed?
 	return (
-		<UserDataContext.Provider value={{ user, userRecord, error, signOutUser, tasks, fetchTasks, employeesForTask, fetchUserByAuthId, allEmployees, fetchJobRoleNameById }}>
+		<UserDataContext.Provider
+			value={{ user, userRecord, error, signOutUser, tasks, fetchTasks, employeesForTask, fetchUserByAuthId, allEmployees, fetchJobRoleNameById, updateEmployeeDetails, fetchOrganizationName }}>
 			{children}
 		</UserDataContext.Provider>
 	);

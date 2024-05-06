@@ -203,7 +203,7 @@ const TasksPage = () => {
 	const archiveTask = async (task) => {
 		try {
 			const { error } = await supabase.from('task').update({ isCompleted: true, isArchived: true }).eq('taskid', task.taskid);
-			console.log(`Archived Task:`, task.taskid);
+			// console.log(`Archived Task:`, task.taskid);
 
 			if (error) throw error;
 
@@ -235,11 +235,11 @@ const TasksPage = () => {
 		if (tasks.length > 0) {
 			fetchAndSetUserNames();
 		}
-		console.log(tasks[1]);
+		// console.log(tasks[1]);
 	}, [tasks, fetchUserByAuthId]);
 
 	const saveTask = async (taskData) => {
-		console.log('Task to save:', taskData);
+		// console.log('Task to save:', taskData);
 		// TODO The extra fields i have added are need to be here too
 		const { title, description, deadline, assignedToPerson } = taskData;
 

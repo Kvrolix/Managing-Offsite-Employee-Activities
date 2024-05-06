@@ -214,3 +214,7 @@
 .employee_details :last-child {
 	/* margin-bottom: 3rem; */
 }
+
+.margin_top_2rem {
+	margin-top: 2rem;
+}

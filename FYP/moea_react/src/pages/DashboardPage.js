@@ -12,7 +12,6 @@ const DashboardPage = () => {
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
-	console.log('Organization page');
 
 	return (
 		<>
