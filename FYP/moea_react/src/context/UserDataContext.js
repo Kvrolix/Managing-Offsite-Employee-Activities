@@ -1,4 +1,3 @@
-// UserDataContext.js
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import supabase from '../config/supabaseClient';
 
@@ -280,21 +279,34 @@ export const UserDataProvider = ({ children }) => {
 	};
 
 	// --------------------------------TEAMS PAGE-----------------------------------------
+	// THIS WORKS
+	// const createTeam = async (teamName, teamLeaderId) => {
+	// 	try {
+	// 		const { data, error } = await supabase.from('team').insert([{ teamname: teamName, teamleaderauthid: teamLeaderId, OrganizationID: userRecord.organizationid }]);
+	// 		if (error) throw error;
+	// 		return data;
+	// 	} catch (error) {
+	// 		console.error('Error adding team:', error.message);
+	// 		return false;
+	// 	}
+	// };
 	const createTeam = async (teamName, teamLeaderId) => {
 		try {
 			const { data, error } = await supabase.from('team').insert([{ teamname: teamName, teamleaderauthid: teamLeaderId, OrganizationID: userRecord.organizationid }]);
 
-			if (error) throw error;
+			if (error) {
+				console.error('Error adding team:', error.message);
+				throw new Error('Failed to create team');
+			}
 
-			return data;
+			return data[0]; // Returns the first element of the data array, assuming data is an array with the new team
 		} catch (error) {
-			console.error('Error adding team:', error.message);
-			return false;
+			console.error('Error during team creation:', error.message);
+			return null; // Explicitly return null to indicate failure
 		}
 	};
 
 	const [teamLeaders, setTeamLeaders] = useState([]);
-	// Function to fetch team leaders
 	const fetchTeamLeaders = async () => {
 		try {
 			let { data: teamLeaders, error } = await supabase.from('users2').select('*').eq('jobroleid', 4);
@@ -302,24 +314,128 @@ export const UserDataProvider = ({ children }) => {
 			if (error) throw error;
 
 			setTeamLeaders(teamLeaders);
-			console.log(teamLeaders);
 		} catch (error) {
 			console.error('Error fetching team leaders:', error.message);
 		}
 	};
 
 	const [workers, setWorkers] = useState([]);
-	// Function to fetch team leaders
 	const fetchWorkers = async () => {
 		try {
 			let { data: workers, error } = await supabase.from('users2').select('*').eq('jobroleid', 5);
 			if (error) throw error;
 			setWorkers(workers);
-			console.log(workers);
 		} catch (error) {
 			console.error('Error fetching workers:', error.message);
 		}
 	};
+
+	const [teams, setTeams] = useState([]);
+	const fetchTeams = async () => {
+		try {
+			let { data: teams, error } = await supabase.from('team').select('*');
+			if (error) throw error;
+			setTeams(teams);
+		} catch (error) {
+			console.error('Error fetching teams', error.message);
+		}
+	};
+
+	const fetchTeamsByLeaderId = async (leaderId) => {
+		try {
+			const { data, error } = await supabase.from('team').select('*').eq('teamleaderauthid', leaderId);
+
+			if (error) {
+				console.error('Failed to fetch teams:', error.message);
+				return { success: false, error: error.message };
+			}
+
+			return { success: true, teams: data };
+		} catch (error) {
+			console.error('Error fetching teams:', error.message);
+			return { success: false, error: error.message };
+		}
+	};
+
+	const checkTeamLeaderAssigned = async (leaderId) => {
+		try {
+			const { data, error } = await supabase.from('team').select('teamleaderauthid').eq('teamleaderauthid', leaderId).single(); // Assumes 'teamleaderauthid' should be unique in the table
+
+			if (error) {
+				console.error('Error checking team leader assignment:', error.message);
+				throw error;
+			}
+
+			// If data is found, it means the leader is already assigned to a team
+			return data ? true : false;
+		} catch (error) {
+			console.error('Error during check:', error.message);
+			return null; // Null indicating an error occurred
+		}
+	};
+
+	const fetchAssignedTeamMembers = async () => {
+		try {
+			const { data, error } = await supabase.from('teammembers').select('userauthid');
+			if (error) {
+				throw error;
+			}
+			return data.map((item) => item.userauthid); // Return an array of user IDs
+		} catch (error) {
+			console.error('Error fetching assigned team members:', error.message);
+			return [];
+		}
+	};
+
+	// const addTeamMember = async (teamID, userUID) => {
+	// 	try {
+	// 		const { data, error } = await supabase.from('teammembers').insert([{ teamid: teamID, userauthid: userUID }]);
+
+	// 		if (error) {
+	// 			console.error('Error with uploading a new record:', error.message);
+	// 			throw error;
+	// 		}
+
+	// 		console.log('Added team member successfully:', data);
+	// 		return data; // Returning data on successful insertion
+	// 	} catch (error) {
+	// 		console.error('Error during adding a record:', error.message);
+	// 		return null; // Null indicating an error occurred
+	// 	}
+	// };
+	const addTeamMember = async (members) => {
+		try {
+			const { data, error } = await supabase.from('teammembers').insert(members);
+
+			if (error) {
+				console.error('Error with uploading new records:', error.message);
+				throw error;
+			}
+
+			console.log('Added team members successfully:', data);
+			return true; // Indicating success
+		} catch (error) {
+			console.error('Error during adding records:', error.message);
+			return false; // Indicating failure
+		}
+	};
+
+	// BUG
+	// const addTeamMembers = async (members) => {
+	// 	try {
+	// 		const { data, error } = await supabase.from('teammembers').insert(members);
+
+	// 		if (error) {
+	// 			throw new Error(error.message);
+	// 		}
+	// 		console.log('Members added:', data);
+	// 		return true;
+	// 	} catch (error) {
+	// 		console.error('Error adding team members:', error);
+	// 		return false;
+	// 	}
+	// };
+
 	// -----------------------------------------------------------------------------------
 
 	// --- SIGNOUT USER
@@ -362,6 +478,12 @@ export const UserDataProvider = ({ children }) => {
 				fetchTeamLeaders,
 				workers,
 				fetchWorkers,
+				fetchTeams,
+				teams,
+				fetchTeamsByLeaderId,
+				checkTeamLeaderAssigned,
+				addTeamMember,
+				fetchAssignedTeamMembers,
 			}}>
 			{children}
 		</UserDataContext.Provider>
