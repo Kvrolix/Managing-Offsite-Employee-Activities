@@ -29,7 +29,7 @@ const DashboardElement = ({ icon, text, navigateTo }) => (
 
 const DashboardOptions = ({ isSidebarOpen }) => {
 	const { userRecord } = useContext(UserDataContext);
-	const { navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat } = useAppNavigate();
+	const { navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat, navigateToTeams } = useAppNavigate();
 
 	// Ensure userRecord exists before trying to access its properties
 	if (!userRecord) {
@@ -55,6 +55,7 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 						<DashboardElement
 							icon="supervised_user_circle"
 							text="Teams"
+							navigateTo={navigateToTeams}
 						/>
 						{/* CHAT */}
 						<DashboardElement

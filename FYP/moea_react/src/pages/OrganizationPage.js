@@ -48,9 +48,9 @@ const OrganizationPage = () => {
 						<p className={OrganizationPageCSS.employee_name}>
 							{employee.firstname} {employee.surname}
 						</p>
-						<p>{employee.emailaddress}</p>
-						<p>{employee.phonenumber}</p>
-						<p>{getPositionName(employee.jobroleid)}</p>
+						{/* <p>{employee.emailaddress}</p>
+						<p>{employee.phonenumber}</p> */}
+						{/* <p>{getPositionName(employee.jobroleid)}</p> */}
 					</div>
 				))}
 		</div>

@@ -13,7 +13,7 @@ import HelpIcon from '../components/application/HelpIcon.js';
 // BUG Skipt if for now and wait for teh authorization of the domain
 const UsersPage = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-	const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+	const [isAddUsersModalOpen, setIsAddUsersModalOpen] = useState(false);
 	const [isViewUsersModalOpen, setIsViewUsersModalOpen] = useState(false);
 	const [isEditUsersModalOpen, setIsEditUsersModalOpen] = useState(false);
 
@@ -41,6 +41,17 @@ const UsersPage = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
 
+	const ContentElement = ({ icon, text, navigateTo }) => (
+		<div
+			className={UsersPageCSS.content_element}
+			onClick={navigateTo}>
+			<div className={UsersPageCSS.content_icon}>
+				<span class="material-symbols-outlined">{icon}</span>
+			</div>
+			<p>{text}</p>
+		</div>
+	);
+
 	return (
 		<>
 			<SideNavigationBar
@@ -50,38 +61,45 @@ const UsersPage = () => {
 			<HelpIcon helpContent={helpContent} />
 			<div className={UsersPageCSS.container_page}>
 				<h1 className={UsersPageCSS.page_heading}>USERS PAGE</h1>
-				<div className={UsersPageCSS.page_buttons}>
-					<button
-						className={`${UsersPageCSS.button} ${UsersPageCSS.button_primary}`}
-						onClick={() => setIsAddUserModalOpen(true)}>
-						Add New User
-					</button>
-					<AddUserModal
-						isOpen={isAddUserModalOpen}
-						onClose={() => setIsAddUserModalOpen(false)}
-					/>
-					<button
-						className={`${UsersPageCSS.button} ${UsersPageCSS.button_primary}`}
-						onClick={() => setIsViewUsersModalOpen(true)}>
-						View Users
-					</button>
-					<ViewUsersModal
-						isOpen={isViewUsersModalOpen}
-						onClose={() => setIsViewUsersModalOpen(false)}
-					/>
-					<button
-						className={`${UsersPageCSS.button} ${UsersPageCSS.button_secondary}`}
-						onClick={() => setIsEditUsersModalOpen(true)}>
-						Edit Users
-					</button>
-					<EditUserModal
-						isOpen={isEditUsersModalOpen}
-						onClose={() => setIsEditUsersModalOpen(false)}
-						users={allEmployees}
-					/>
-					<button className={`${UsersPageCSS.button} ${UsersPageCSS.button_secondary}`}>Delete User</button>
+				<div className={UsersPageCSS.content}>
+					<div className={UsersPageCSS.content_grid}>
+						<ContentElement
+							icon="person_add"
+							text="Add Users"
+							navigateTo={() => setIsAddUsersModalOpen(true)}
+						/>
+						<ContentElement
+							icon="conditions"
+							text="View Users"
+							navigateTo={() => setIsViewUsersModalOpen(true)}
+						/>
+						<ContentElement
+							icon="edit_note"
+							text="Edit Users"
+							navigateTo={() => setIsEditUsersModalOpen(true)}
+						/>
+						<ContentElement
+							icon="person_remove"
+							text="Delete Users"
+							// TODO
+							// navigateTo={() => setIsViewUsersModalOpen(true)}
+						/>
+					</div>
 				</div>
 			</div>
+			<EditUserModal
+				isOpen={isEditUsersModalOpen}
+				onClose={() => setIsEditUsersModalOpen(false)}
+				users={allEmployees}
+			/>
+			<ViewUsersModal
+				isOpen={isViewUsersModalOpen}
+				onClose={() => setIsViewUsersModalOpen(false)}
+			/>
+			<AddUserModal
+				isOpen={isAddUsersModalOpen}
+				onClose={() => setIsAddUsersModalOpen(false)}
+			/>
 		</>
 	);
 };

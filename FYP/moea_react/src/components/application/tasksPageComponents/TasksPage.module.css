@@ -30,7 +30,8 @@
 	display: block;
 	width: 15%;
 	height: 6px;
-	background-color: rgb(72, 207, 72);
+	/* background-color: rgb(72, 207, 72); */
+	background-color: rgb(165, 73, 230);
 	margin: auto;
 	position: relative;
 	top: 20px;
@@ -127,7 +128,6 @@
 	right: 1rem;
 }
 
-/* REMOVE*/
 .tasks_crud_containter {
 	display: flex;
 	flex-direction: row;
@@ -137,14 +137,13 @@
 	margin-top: 3rem;
 }
 
-/* REMOVE */
 .crud_icon {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	width: 5rem;
 	height: 5rem;
-	border-radius: 50%;
+	border-radius: 10px;
 	cursor: pointer;
 	transition: transform 0.3s ease-in-out;
 }
@@ -155,9 +154,8 @@
 }
 
 .archives_container {
-	background-color: white; /* Matching the main container color */
+	background-color: #e3f2fd;
 	padding: 2rem;
-
 	height: auto;
 }
 
@@ -172,10 +170,11 @@
 	display: block;
 	width: 15%;
 	height: 6px;
-	background-color: rgb(72, 207, 72);
+	/* background-color: rgb(72, 207, 72); */
+	background-color: rgb(165, 73, 230);
 	margin: auto;
 	position: relative;
-	top: 20px;
+	top: 2rem;
 	border-radius: 4px;
 	margin-bottom: 5rem;
 }
@@ -298,11 +297,11 @@
 /* FIXME NAME */
 .successNotification {
 	position: fixed;
-	bottom: 20px;
-	right: 20px;
+	bottom: 2rem;
+	right: 2rem;
 	background-color: #4caf50; /* Green background */
 	color: white;
-	padding: 15px;
+	padding: 1.5rem;
 	border-radius: 5px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	display: flex;
@@ -318,36 +317,21 @@
 	cursor: pointer;
 }
 
-/* PAGINATION */
-
-.pagination button {
-	padding: 10px;
-	margin: 5px;
-	border: none;
-	background-color: #f4f4f4;
-}
-
-.pagination button.active {
-	background-color: #428bca;
-	color: white;
-}
-
-.pagination button:hover {
-	background-color: #ddd;
-}
-
 .show_archive {
-	/* display: flex;
-	align-items: center;
-	justify-content: center; */
 	background-color: #f4f4f4;
-	font-size: 1.6rem;
+	font-size: 1.5rem;
 	border-radius: 5px;
-	outline: none;
 	cursor: pointer;
 	font-weight: 500;
 	padding: 0.5rem;
-	margin-left: 1rem;
+	margin-left: 2rem;
+	border: none;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease-in-out;
+}
+.show_archive:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .modalContent p {
