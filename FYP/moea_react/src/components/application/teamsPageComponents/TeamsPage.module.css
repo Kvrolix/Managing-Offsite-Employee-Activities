@@ -1,0 +1,177 @@
+.page_container {
+	margin-left: 8rem;
+	padding: 2rem;
+	background-color: #e3f2fd;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start; /* Ensures content starts from the top */
+}
+
+.page_heading {
+	font-size: 3rem;
+	text-align: center;
+	margin-bottom: 3rem; /* Increased bottom margin */
+	color: #333; /* Adds text color for contrast */
+}
+
+.page_heading::after {
+	content: '';
+	display: block;
+	width: 100%;
+	height: 6px;
+	background-color: rgb(165, 73, 230);
+	margin: auto;
+	position: relative;
+	top: 2rem;
+	border-radius: 4px;
+	margin-bottom: 3rem;
+}
+
+.content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 5rem;
+	width: 85rem;
+	border-radius: 10px;
+	min-height: 40rem;
+	/* background-color: #45a049; */
+	/* background-color: rgb(48, 197, 170); */
+	/* background-color: #ffff00bc; */
+	background-color: #8feec5;
+	box-shadow: 2px 2px 10px rgba(51, 51, 51, 0.3);
+}
+
+.content_grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 3rem;
+	justify-content: center;
+}
+
+.content_element {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	height: 18rem;
+	width: 18rem;
+	background-color: #fff;
+	box-shadow: 2px 2px 10px rgba(51, 51, 51, 0.3);
+	border-radius: 10px;
+	/* border: 2px solid #1fcbe2; */
+	border: 2px solid #8feec5;
+
+	cursor: pointer;
+	transition: transform 0.3s ease-in-out;
+}
+
+.content_element:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.content_element p {
+	margin-top: 1.6rem;
+	text-align: center;
+	font-size: 2.4rem;
+}
+.content_icon {
+	background-color: rgba(176, 98, 232, 0.701);
+	border-radius: 50px;
+	padding: 1rem;
+}
+
+/* Modal backdrop style */
+.modal_backdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1050;
+}
+
+/* Modal content box */
+.modal_content {
+	display: flex;
+	flex-direction: column;
+	background: white;
+	padding: 3rem;
+	margin: 5rem;
+	border-radius: 0.5rem;
+	box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.25);
+	width: 50rem;
+	min-height: 40rem;
+}
+
+.modal_heading {
+	margin-bottom: 2rem;
+	font-size: 1.8rem;
+	text-align: center;
+	color: #333;
+}
+
+.input_field,
+select {
+	margin-bottom: 1.5rem;
+	padding: 0.8rem;
+	font-size: 1.4rem;
+	border: 1px solid #ccc;
+	border-radius: 0.3rem;
+	width: 100%;
+}
+
+.button_group {
+	display: flex;
+	justify-content: center;
+	margin-top: 4rem;
+}
+/* Button styles */
+.button {
+	padding: 0.8rem 2rem;
+	font-size: 1rem;
+	font-weight: 600;
+	letter-spacing: 0.1rem;
+	border: none;
+	border-radius: 0.3rem;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	/* margin-top: 5rem; */
+}
+
+.button_primary {
+	background-color: #4caf50;
+	color: white;
+}
+
+.button_primary:hover {
+	background-color: #43a047; /* Slightly darker on hover */
+}
+
+.button_secondary {
+	background-color: #f44336;
+	color: white;
+	margin-left: 1rem;
+}
+
+.button_secondary:hover {
+	background-color: #d32f2f; /* Slightly darker on hover */
+}
+
+.close_button {
+	align-self: flex-end;
+	cursor: pointer;
+	font-size: 1.5rem;
+	color: #666;
+	border: none;
+	background: none;
+}
+
+/* Use these classes in your component by adding 'className' to the respective elements */

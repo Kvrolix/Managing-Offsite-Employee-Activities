@@ -271,12 +271,39 @@ const TasksPage = () => {
 			setLoading(false);
 		}
 	};
+	const jobRole = userRecord.jobroleid;
+
+	const getHelpContentBasedOnRole = (jobRole) => {
+		switch (jobRole) {
+			case 1: // Chief
+				return 'As a Chief, you have complete control over the Tasks Page. You can create, view, edit, complete, and archive tasks. This access allows you to manage tasks across the entire organization, ensuring everything is on track and up-to-date.';
+
+			case 2: // Manager
+				return "As a Manager, you have the ability to create new tasks, view all tasks, edit them, and move them to archive. This role enables you to manage tasks within your department, ensuring that your team's objectives are clearly defined and monitored.";
+
+			case 3: // Secretary
+				return 'As a Secretary, your access includes the creation of new tasks and the ability to view and archive existing tasks. This role allows you to support the management team by organizing and updating tasks as needed, ensuring operational efficiency.';
+
+			case 4: // Team Leader
+				return 'As a Team Leader, you are permitted to view tasks specifically assigned to your team. This focused access helps you manage and monitor the progress of tasks within your direct responsibility, aiding in the efficient management of your team’s workload.';
+
+			case 5: // Employee
+				return 'As an Employee, you can view tasks that are directly assigned to you. This allows you to keep track of your individual responsibilities and deadlines, ensuring you stay informed about your specific contributions to team goals.';
+
+			default:
+				return 'Access to this page is restricted based on your user role. If you believe you are seeing this message in error, please contact your system administrator.';
+		}
+	};
+
+	const helpContent = getHelpContentBasedOnRole(jobRole);
+
 	return (
 		<>
 			<SideNavigationBar
 				isSidebarOpen={isSidebarOpen}
 				toggleSidebar={toggleSidebar}
 			/>
+			<HelpIcon helpContent={helpContent} />
 			<div className={TasksPageCSS.container_tasks}>
 				<h1 className={TasksPageCSS.tasks_heading}>Task Manager</h1>
 

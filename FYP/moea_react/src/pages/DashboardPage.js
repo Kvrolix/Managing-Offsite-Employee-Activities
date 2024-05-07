@@ -13,7 +13,6 @@ const DashboardPage = () => {
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
-
 	return (
 		<>
 			<SideNavigationBar
@@ -25,5 +24,4 @@ const DashboardPage = () => {
 		</>
 	);
 };
-
 export default DashboardPage;

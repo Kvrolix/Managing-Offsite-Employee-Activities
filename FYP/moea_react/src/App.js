@@ -11,6 +11,7 @@ import TasksPage from './pages/TasksPage.js';
 import OrganizationPage from './pages/OrganizationPage.js';
 import UsersPage from './pages/UsersPage.js';
 import ChatPage from './pages/ChatPage.js';
+import TeamsPage from './pages/TeamsPage.js';
 
 function App() {
 	return (
@@ -44,6 +45,10 @@ function App() {
 					<Route
 						path="/chat"
 						element={<ChatPage />}
+					/>
+					<Route
+						path="/teams"
+						element={<TeamsPage />}
 					/>
 				</Routes>
 			</BrowserRouter>

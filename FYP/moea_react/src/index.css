@@ -135,6 +135,11 @@ body {
 	font-size: 48px;
 }
 
+.material-symbols-outlined {
+	font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 28;
+	font-size: 3rem;
+}
+
 .btn {
 	border-radius: 10px;
 	padding: 8px 10px;
@@ -220,7 +225,7 @@ section {
 }
 
 .green {
-	background: green;
+	background: rgb(72, 207, 72);
 }
 
 .orange {
@@ -238,7 +243,7 @@ section {
 	width: 3rem;
 	height: 3rem;
 	border-radius: 50%;
-	background-color: #007bff; /* Bootstrap blue */
+	background-color: #007bff;
 	color: white;
 	font-size: 1.2rem;
 	border: none;

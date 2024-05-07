@@ -68,7 +68,7 @@ const TaskElement = ({ title, description, dateCreated, deadline, assignedTo, on
 				<p>{description}</p>
 				<div className={TasksPageCSS.task_info}>Deadline: {deadline}</div>
 				<div className={TasksPageCSS.task_info}>Assigned to: {assignedTo}</div>
-				<div className={TasksPageCSS.task_info}>Created: {formattedDate}</div>
+				{/* <div className={TasksPageCSS.task_info}>Created: {formattedDate}</div> */}
 				{showOptions && (
 					<div
 						className={TasksPageCSS.task_options}

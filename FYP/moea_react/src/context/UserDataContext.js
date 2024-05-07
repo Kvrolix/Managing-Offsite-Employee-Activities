@@ -279,6 +279,49 @@ export const UserDataProvider = ({ children }) => {
 		return data;
 	};
 
+	// --------------------------------TEAMS PAGE-----------------------------------------
+	const createTeam = async (teamName, teamLeaderId) => {
+		try {
+			const { data, error } = await supabase.from('team').insert([{ teamname: teamName, teamleaderauthid: teamLeaderId, OrganizationID: userRecord.organizationid }]);
+
+			if (error) throw error;
+
+			return data;
+		} catch (error) {
+			console.error('Error adding team:', error.message);
+			return false;
+		}
+	};
+
+	const [teamLeaders, setTeamLeaders] = useState([]);
+	// Function to fetch team leaders
+	const fetchTeamLeaders = async () => {
+		try {
+			let { data: teamLeaders, error } = await supabase.from('users2').select('*').eq('jobroleid', 4);
+
+			if (error) throw error;
+
+			setTeamLeaders(teamLeaders);
+			console.log(teamLeaders);
+		} catch (error) {
+			console.error('Error fetching team leaders:', error.message);
+		}
+	};
+
+	const [workers, setWorkers] = useState([]);
+	// Function to fetch team leaders
+	const fetchWorkers = async () => {
+		try {
+			let { data: workers, error } = await supabase.from('users2').select('*').eq('jobroleid', 5);
+			if (error) throw error;
+			setWorkers(workers);
+			console.log(workers);
+		} catch (error) {
+			console.error('Error fetching workers:', error.message);
+		}
+	};
+	// -----------------------------------------------------------------------------------
+
 	// --- SIGNOUT USER
 	const signOutUser = useCallback(async () => {
 		const { error } = await supabase.auth.signOut();
@@ -293,6 +336,8 @@ export const UserDataProvider = ({ children }) => {
 	}, []);
 
 	// BUG user can be removed?
+
+	// CLEAN IT UP
 	return (
 		<UserDataContext.Provider
 			value={{
@@ -312,6 +357,11 @@ export const UserDataProvider = ({ children }) => {
 				addChatParticipants,
 				sendMessage,
 				fetchMessages,
+				createTeam,
+				teamLeaders,
+				fetchTeamLeaders,
+				workers,
+				fetchWorkers,
 			}}>
 			{children}
 		</UserDataContext.Provider>

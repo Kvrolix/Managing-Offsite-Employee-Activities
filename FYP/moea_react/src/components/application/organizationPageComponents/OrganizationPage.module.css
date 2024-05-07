@@ -44,7 +44,7 @@
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-evenly;
-	width: 100%;
+	width: 80%;
 	padding: 1rem 0;
 }
 
@@ -60,6 +60,12 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	transition: transform 0.3s ease-in-out;
+}
+
+.employee_card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 .employee_card p {
 	text-align: center;
