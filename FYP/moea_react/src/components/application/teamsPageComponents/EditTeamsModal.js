@@ -3,45 +3,62 @@ import { UserDataContext } from '../../../context/UserDataContext';
 import TeamsPageCSS from './TeamsPage.module.css';
 
 const EditTeamsModal = ({ isOpen, onClose }) => {
-	const { fetchTeams, updateTeamName, fetchAvailableWorkers, addTeamMember, removeTeamMember } = useContext(UserDataContext);
+	const { fetchTeams, updateTeamName, fetchTeamMembers, fetchAvailableWorkers, addTeamMember, fetchUserByAuthId } = useContext(UserDataContext);
 
 	const [teams, setTeams] = useState([]);
 	const [selectedTeamId, setSelectedTeamId] = useState(null);
-	const [teamName, setTeamName] = useState('');
+	const [teamDetails, setTeamDetails] = useState({});
+	const [editMode, setEditMode] = useState(false);
 	const [availableWorkers, setAvailableWorkers] = useState([]);
 	const [selectedWorkers, setSelectedWorkers] = useState([]);
 
 	useEffect(() => {
 		if (isOpen) {
-			fetchTeams().then(setTeams);
-			fetchAvailableWorkers().then(setAvailableWorkers);
+			fetchTeams().then((teams) => {
+				setTeams(teams);
+				teams.forEach((team) => {
+					fetchTeamMembers(team.teamid).then((members) => {
+						const detailedMembers = Promise.all(
+							members.map(async (member) => {
+								const userDetails = await fetchUserByAuthId(member.userauthid);
+								return { ...member, ...userDetails };
+							})
+						);
+						detailedMembers.then((detailedMembers) => {
+							setTeamDetails((prev) => ({ ...prev, [team.teamid]: { ...team, members: detailedMembers } }));
+						});
+					});
+				});
+				fetchAvailableWorkers().then(setAvailableWorkers);
+			});
 		}
-	}, [isOpen, fetchTeams, fetchAvailableWorkers]);
+	}, [isOpen, fetchTeams, fetchTeamMembers, fetchAvailableWorkers]);
 
-	const handleSelectTeam = async (team) => {
-		setSelectedTeamId(team.teamid);
-		setTeamName(team.teamname);
+	const handleSelectTeam = (teamId) => {
+		setSelectedTeamId(teamId);
+		setEditMode(false);
 	};
 
-	const handleTeamNameChange = async (e) => {
-		setTeamName(e.target.value);
+	const handleTeamNameChange = (e, teamId) => {
+		setTeamDetails((prev) => ({
+			...prev,
+			[teamId]: { ...prev[teamId], teamname: e.target.value },
+		}));
 	};
 
-	const handleUpdateTeamName = async () => {
-		const success = await updateTeamName(selectedTeamId, teamName);
+	const handleUpdateTeamName = async (teamId) => {
+		const { teamname } = teamDetails[teamId];
+		const success = await updateTeamName(teamId, teamname);
 		if (success) {
 			alert('Team name updated successfully!');
+			setEditMode(false);
 		} else {
 			alert('Failed to update team name.');
 		}
 	};
+
 	const handleWorkerSelection = (workerId) => {
-		console.log('Current selected workers before update:', selectedWorkers);
-		setSelectedWorkers((prev) => {
-			const newSelectedWorkers = prev.includes(workerId) ? prev.filter((id) => id !== workerId) : [...prev, workerId];
-			console.log('New selected workers after update:', newSelectedWorkers);
-			return newSelectedWorkers;
-		});
+		setSelectedWorkers((prev) => (prev.includes(workerId) ? prev.filter((id) => id !== workerId) : [...prev, workerId]));
 	};
 
 	const handleAddMembers = async () => {
@@ -74,54 +91,68 @@ const EditTeamsModal = ({ isOpen, onClose }) => {
 		<div className={TeamsPageCSS.modal_backdrop}>
 			<div className={TeamsPageCSS.modal_content}>
 				<h2>Edit Teams</h2>
-				<ul>
+				<div className={TeamsPageCSS.team_list}>
 					{teams.map((team) => (
-						<li key={team.teamid}>
-							<button onClick={() => handleSelectTeam(team)}>{team.teamname}</button>
-						</li>
+						<div
+							key={team.teamid}
+							className={TeamsPageCSS.team_item}>
+							<button onClick={() => handleSelectTeam(team.teamid)}>{team.teamname}</button>
+						</div>
 					))}
-				</ul>
+				</div>
 				{selectedTeamId && (
-					<>
-						<input
-							type="text"
-							value={teamName}
-							onChange={handleTeamNameChange}
-							onBlur={handleUpdateTeamName}
-						/>
-						<h3>Add New Members:</h3>
-						{availableWorkers.map((worker) => (
-							<div
-								key={worker.authid}
-								className={TeamsPageCSS.employee_item}>
-								<input
-									type="checkbox"
-									checked={selectedWorkers.includes(worker.authid)}
-									onChange={() => handleWorkerSelection(worker.authid)}
-								/>
-								{worker.firstname} {worker.surname}
-							</div>
-						))}
+					<div className={TeamsPageCSS.team_details}>
 						<div>
-							<h3>Available Workers:</h3>
+							{editMode ? (
+								<>
+									<input
+										type="text"
+										value={teamDetails[selectedTeamId]?.teamname || ''}
+										onChange={(e) => handleTeamNameChange(e, selectedTeamId)}
+									/>
+									<button onClick={() => handleUpdateTeamName(selectedTeamId)}>Save</button>
+									<button onClick={() => setEditMode(false)}>Cancel</button>
+								</>
+							) : (
+								<>
+									<h3>{teamDetails[selectedTeamId]?.teamname}</h3>
+									<button onClick={() => setEditMode(true)}>Edit Name</button>
+								</>
+							)}
+						</div>
+						<div>
+							<h4>Team Members:</h4>
+							<ul>
+								{teamDetails[selectedTeamId]?.members.map((member) => (
+									<li key={member.userauthid}>
+										{member.firstname} {member.surname}
+									</li>
+								))}
+							</ul>
+						</div>
+						<div>
+							<h4>Add New Members:</h4>
 							{availableWorkers.map((worker) => (
-								<div key={worker.authid}>
-									{worker.firstname} {worker.lastname}
+								<div
+									key={worker.authid}
+									className={TeamsPageCSS.worker_item}>
+									<input
+										type="checkbox"
+										checked={selectedWorkers.includes(worker.authid)}
+										onChange={() => handleWorkerSelection(worker.authid)}
+									/>
+									{worker.firstname} {worker.surname}
 								</div>
 							))}
+							<button onClick={() => handleAddMembers(selectedTeamId)}>Add Selected Members</button>
 						</div>
-						<button
-							className={`${TeamsPageCSS.button} ${TeamsPageCSS.button_primary}`}
-							onClick={handleAddMembers}>
-							Add Selected Members
-						</button>
-						<button
-							className={`${TeamsPageCSS.button} ${TeamsPageCSS.button_secondary}`}
-							onClick={onClose}>
-							Close
-						</button>
-					</>
+					</div>
 				)}
+				<button
+					onClick={onClose}
+					className={TeamsPageCSS.close_button}>
+					Close
+				</button>
 			</div>
 		</div>
 	);
