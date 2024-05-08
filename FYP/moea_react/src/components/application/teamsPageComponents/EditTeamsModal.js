@@ -3,7 +3,7 @@ import { UserDataContext } from '../../../context/UserDataContext';
 import TeamsPageCSS from './TeamsPage.module.css';
 
 const EditTeamsModal = ({ isOpen, onClose }) => {
-	const { fetchTeams, updateTeamName, fetchTeamMembers, fetchAvailableWorkers, addTeamMember, fetchUserByAuthId } = useContext(UserDataContext);
+	const { fetchTeams, updateTeamName, fetchTeamMembers, fetchAvailableWorkers, addTeamMember, fetchUserByAuthId, removeTeamMember } = useContext(UserDataContext);
 
 	const [teams, setTeams] = useState([]);
 	const [selectedTeamId, setSelectedTeamId] = useState(null);
@@ -11,6 +11,7 @@ const EditTeamsModal = ({ isOpen, onClose }) => {
 	const [editMode, setEditMode] = useState(false);
 	const [availableWorkers, setAvailableWorkers] = useState([]);
 	const [selectedWorkers, setSelectedWorkers] = useState([]);
+	const [isRemoveMemberVisible, setIsRemoveMemberVisible] = useState(false);
 
 	useEffect(() => {
 		if (isOpen) {
@@ -85,18 +86,40 @@ const EditTeamsModal = ({ isOpen, onClose }) => {
 		}
 	};
 
+	const handleRemoveMember = async (teamId, userAuthId) => {
+		const success = await removeTeamMember(teamId, userAuthId);
+		if (success) {
+			alert('Member removed successfully!');
+			// Update local state to reflect the change
+			setTeamDetails((prev) => ({
+				...prev,
+				[teamId]: {
+					...prev[teamId],
+					members: prev[teamId].members.filter((member) => member.userauthid !== userAuthId),
+				},
+			}));
+		} else {
+			alert('Failed to remove member.');
+		}
+	};
+
 	if (!isOpen) return null;
 
 	return (
 		<div className={TeamsPageCSS.modal_backdrop}>
 			<div className={TeamsPageCSS.modal_content}>
-				<h2>Edit Teams</h2>
+				<h2 className={TeamsPageCSS.modal_heading}>Edit Teams</h2>
 				<div className={TeamsPageCSS.team_list}>
 					{teams.map((team) => (
 						<div
 							key={team.teamid}
 							className={TeamsPageCSS.team_item}>
-							<button onClick={() => handleSelectTeam(team.teamid)}>{team.teamname}</button>
+							{/* TODO This can be a div not a button */}
+							<div
+								className={TeamsPageCSS.modal_team_item}
+								onClick={() => handleSelectTeam(team.teamid)}>
+								{team.teamname}
+							</div>
 						</div>
 					))}
 				</div>
@@ -115,23 +138,32 @@ const EditTeamsModal = ({ isOpen, onClose }) => {
 								</>
 							) : (
 								<>
-									<h3>{teamDetails[selectedTeamId]?.teamname}</h3>
-									<button onClick={() => setEditMode(true)}>Edit Name</button>
+									<h3 className={TeamsPageCSS.h3_heading}>
+										Selected Team:<span className={TeamsPageCSS.modal_team_selected}>{teamDetails[selectedTeamId]?.teamname}</span>
+									</h3>
+
+									<div
+										className={TeamsPageCSS.modal_settings_button}
+										onClick={() => setEditMode(true)}>
+										Edit Name
+									</div>
 								</>
 							)}
 						</div>
 						<div>
-							<h4>Team Members:</h4>
-							<ul>
+							<h3 className={TeamsPageCSS.h3_heading}>Team Members</h3>
+							<ul className={TeamsPageCSS.modal_list}>
 								{teamDetails[selectedTeamId]?.members.map((member) => (
-									<li key={member.userauthid}>
+									<li
+										key={member.userauthid}
+										className={TeamsPageCSS.modal_list_item}>
 										{member.firstname} {member.surname}
 									</li>
 								))}
 							</ul>
 						</div>
 						<div>
-							<h4>Add New Members:</h4>
+							<h3 className={TeamsPageCSS.h3_heading}>Add New Members</h3>
 							{availableWorkers.map((worker) => (
 								<div
 									key={worker.authid}
@@ -144,15 +176,38 @@ const EditTeamsModal = ({ isOpen, onClose }) => {
 									{worker.firstname} {worker.surname}
 								</div>
 							))}
-							<button onClick={() => handleAddMembers(selectedTeamId)}>Add Selected Members</button>
+							<div
+								className={`${TeamsPageCSS.modal_settings_button} ${TeamsPageCSS.modal_settings_button_members}`}
+								onClick={() => handleAddMembers(selectedTeamId)}>
+								Add Selected Members
+							</div>
+							<div>
+								<h3 className={TeamsPageCSS.h3_heading}>Remove a member</h3>
+								<ul className={TeamsPageCSS.modal_list}>
+									{teamDetails[selectedTeamId]?.members.map((member) => (
+										<li
+											key={member.userauthid}
+											className={TeamsPageCSS.modal_list_item}>
+											<div className={TeamsPageCSS.modal_list_item_flex}>
+												{member.firstname} {member.surname}
+												<div
+													className={TeamsPageCSS.modal_button_remove}
+													onClick={() => handleRemoveMember(selectedTeamId, member.userauthid)}>
+													Remove
+												</div>
+											</div>
+										</li>
+									))}
+								</ul>
+							</div>
 						</div>
 					</div>
 				)}
-				<button
+				<div
 					onClick={onClose}
-					className={TeamsPageCSS.close_button}>
+					className={TeamsPageCSS.modal_button_close}>
 					Close
-				</button>
+				</div>
 			</div>
 		</div>
 	);

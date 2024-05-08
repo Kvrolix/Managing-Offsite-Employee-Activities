@@ -80,19 +80,6 @@ const AddTeamModal = ({ isOpen, onClose }) => {
 				alert('Failed to add team members');
 			}
 
-			// const membersToAdd = selectedMembers.map((memberId) => ({
-			// 	teamid: teamId,
-			// 	userauthid: memberId,
-			// }));
-
-			// Include team leader as a member
-			// membersToAdd.push({ teamid: teamId, userauthid: teamLeaderId });
-			// console.log(`Results:`, teamId, teamLeaderId);
-
-			// ADD A MEMBER
-			// await addTeamMember(teamId, teamLeaderId);
-			// alert('Team created and verified successfully!');
-
 			onClose();
 		} else {
 			alert('Team created, but failed to verify: ', fetchedTeams.error);
@@ -130,13 +117,14 @@ const AddTeamModal = ({ isOpen, onClose }) => {
 					))}
 				</select>
 				<div>
-					<h3>Select Team Members:</h3>
+					<h3 className={TeamsPageCSS.h3_heading}>Select Team Members:</h3>
 					{availableWorkers.map((employee) => (
 						<div
 							key={employee.authid}
 							className={TeamsPageCSS.employee_item}>
 							<input
 								type="checkbox"
+								className={TeamsPageCSS.employee_list_item}
 								checked={selectedMembers.includes(employee.authid)}
 								onChange={() => handleMemberSelection(employee.authid)}
 							/>
@@ -145,16 +133,27 @@ const AddTeamModal = ({ isOpen, onClose }) => {
 					))}
 				</div>
 				<div className={TeamsPageCSS.button_group}>
-					<button
+					{/* <button
 						className={`${TeamsPageCSS.button} ${TeamsPageCSS.button_primary}`}
 						onClick={handleCreateTeam}>
 						Create Team
-					</button>
-					<button
-						className={`${TeamsPageCSS.button} ${TeamsPageCSS.button_secondary}`}
+					</button> */}
+
+					<div
+						className={TeamsPageCSS.modal_button_save}
+						onClick={handleCreateTeam}>
+						Create Team
+					</div>
+					<div
+						className={TeamsPageCSS.modal_button_close}
 						onClick={onClose}>
 						Cancel
-					</button>
+					</div>
+					{/* <button
+						className={TeamsPageCSS.modal_button_close}
+						onClick={onClose}>
+						Cancel
+					</button> */}
 				</div>
 			</div>
 		</div>

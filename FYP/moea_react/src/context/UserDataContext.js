@@ -504,6 +504,19 @@ export const UserDataProvider = ({ children }) => {
 		}
 	};
 
+	const removeTeamMember = async (teamId, userAuthId) => {
+		try {
+			let { error } = await supabase.from('teammembers').delete().match({ teamid: teamId, userauthid: userAuthId });
+
+			if (error) throw error;
+
+			return true; // Indicate success
+		} catch (error) {
+			console.error('Error removing team member:', error.message);
+			return false; // Indicate failure
+		}
+	};
+
 	//
 
 	// BUG
@@ -573,6 +586,7 @@ export const UserDataProvider = ({ children }) => {
 				fetchTeamMembers,
 				updateTeamName,
 				fetchAvailableWorkers,
+				removeTeamMember,
 			}}>
 			{children}
 		</UserDataContext.Provider>
