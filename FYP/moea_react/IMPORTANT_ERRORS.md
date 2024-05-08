@@ -40,3 +40,34 @@ on dashboard when a box is hovered it the icon acts weird
 
 Add more employyes
 And Teams
+
+/_ TODO Copy this button allover _/
+
+.modal_button_close {
+display: flex;
+align-self: end;
+background-color: #f44336;
+padding: 1rem;
+font-size: 1.6rem;
+border-radius: 4px;
+font-weight: 500;
+cursor: pointer;
+box-shadow: 0 0.5px 1.2rem rgba(0, 0, 0, 0.25);
+transition: transform 0.3s ease-in-out;
+}
+
+.modal_button_close:hover {
+transform: translateY(-5px);
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+## Things To do:
+
+- complete Teams
+- Create Map
+- Change Login Page
+- Add Counting hours for each task
+- User Profile where All teh infromations are stored, worked hours will be stored here two, for each month
+- Ladning Page
+- Clean Up every function
+- Make sure the informations availlable are based on role

@@ -132,6 +132,7 @@ select {
 	display: flex;
 	justify-content: center;
 	margin-top: 4rem;
+	gap: 1rem;
 }
 /* Button styles */
 .button {
@@ -225,4 +226,159 @@ select {
 	margin-right: 10px;
 }
 
+.employee_list_item {
+	font-size: 1.4rem;
+}
 /* -------- */
+.employee_item {
+	font-size: 1.4rem;
+}
+.employee_item input {
+	margin-left: 1rem;
+}
+.employee_list_item {
+	margin-right: 1rem;
+}
+
+.h3_heading {
+	font-size: 1.6rem;
+	margin: 1rem 0;
+	margin-top: 3rem;
+}
+
+/* ------------------------------EDIT TEAMS MODAL ------------------------- */
+
+.modal_team_item {
+	display: flex;
+	background-color: rgb(181, 80, 254);
+	color: #111;
+	max-width: 15rem;
+	min-height: 2rem;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	font-size: 1.5rem;
+	padding: 1rem;
+	font-weight: 600;
+	margin-bottom: 1rem;
+	cursor: pointer;
+	box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.25);
+	transition: transform 0.3s ease-in-out;
+}
+
+.modal_team_item:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal_team_selected {
+	color: rgb(181, 80, 254);
+	margin-left: 2rem;
+	font-size: 1.8rem;
+
+	border-radius: 4px;
+	padding: 0.5rem;
+}
+
+.modal_settings_button {
+	display: flex;
+	justify-content: center;
+	/* align-items: center; */
+	background-color: #8feec5;
+	outline: #75c5a2;
+	font-size: 1.6rem;
+	margin: 0.5rem;
+	max-width: 10rem;
+	padding: 0.5rem;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: transform 0.3s ease-in-out;
+	margin-bottom: 1rem;
+}
+
+.modal_settings_button:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal_list {
+	list-style: none;
+	margin: 1rem;
+}
+
+.modal_list_item {
+	margin-bottom: 1rem;
+	font-size: 1.4rem;
+}
+
+.modal_list_item:last-child {
+	margin-bottom: 2rem;
+}
+
+.modal_settings_button_members {
+	max-width: 20rem;
+}
+
+/* TODO Copy this button allover */
+
+.modal_button_close {
+	display: flex;
+	align-self: end;
+	background-color: #f44336;
+	padding: 1rem;
+	font-size: 1.6rem;
+	border-radius: 4px;
+	font-weight: 500;
+	cursor: pointer;
+	box-shadow: 0 0.5px 1.2rem rgba(0, 0, 0, 0.25);
+	transition: transform 0.3s ease-in-out;
+}
+
+.modal_button_close:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal_button_save {
+	display: flex;
+	align-self: end;
+	background-color: #55c759;
+	padding: 1rem;
+	font-size: 1.6rem;
+	border-radius: 4px;
+	font-weight: 500;
+	cursor: pointer;
+	box-shadow: 0 0.5px 1.2rem rgba(0, 0, 0, 0.25);
+	transition: transform 0.3s ease-in-out;
+}
+
+.modal_button_save:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal_button_remove {
+	display: flex;
+
+	background-color: red;
+	max-width: 10rem;
+	padding: 0.5rem;
+	font-size: 1.2rem;
+	border-radius: 4px;
+	font-weight: 500;
+	cursor: pointer;
+	box-shadow: 0 0.5px 1.2rem rgba(0, 0, 0, 0.25);
+	transition: transform 0.3s ease-in-out;
+}
+
+.modal_button_remove:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal_list_item_flex {
+	display: flex;
+	align-items: center;
+
+	gap: 2rem;
+}
