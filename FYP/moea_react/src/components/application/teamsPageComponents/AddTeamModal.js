@@ -100,14 +100,14 @@ const AddTeamModal = ({ isOpen, onClose }) => {
 	};
 
 	const availableWorkers = workers.filter((worker) => !assignedMembers.includes(worker.authid));
-	console.log(`Availlable workers:`, availableWorkers);
+	// console.log(`Availlable workers:`, availableWorkers);
 
 	if (!isOpen) return null;
 
 	return (
 		<div className={TeamsPageCSS.modal_backdrop}>
 			<div className={TeamsPageCSS.modal_content}>
-				<h2>Add New Team</h2>
+				<h2 className={TeamsPageCSS.modal_heading}>Add New Team</h2>
 				<input
 					className={TeamsPageCSS.input_field}
 					type="text"
