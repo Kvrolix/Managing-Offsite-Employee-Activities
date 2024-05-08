@@ -1,12 +1,9 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import supabase from '../config/supabaseClient';
 
-// Create a context for the user data
 export const UserDataContext = createContext();
 
 export const UserDataProvider = ({ children }) => {
-	// TODO fetch the jobroles
-
 	const [user, setUser] = useState(null);
 	const [error, setError] = useState(null);
 	const [employeesForTask, setEmployeesForTask] = useState([]);
@@ -29,11 +26,7 @@ export const UserDataProvider = ({ children }) => {
 
 	const fetchUserByAuthId = async (authid) => {
 		try {
-			let { data: user, error } = await supabase
-				.from('users2') // Replace 'users2' with your actual user table name
-				.select('*')
-				.eq('authid', authid)
-				.single(); // Assuming authid is unique and returns a single record
+			let { data: user, error } = await supabase.from('users2').select('*').eq('authid', authid).single();
 
 			if (error) throw error;
 			return user; // Return the user record
@@ -279,17 +272,7 @@ export const UserDataProvider = ({ children }) => {
 	};
 
 	// --------------------------------TEAMS PAGE-----------------------------------------
-	// THIS WORKS
-	// const createTeam = async (teamName, teamLeaderId) => {
-	// 	try {
-	// 		const { data, error } = await supabase.from('team').insert([{ teamname: teamName, teamleaderauthid: teamLeaderId, OrganizationID: userRecord.organizationid }]);
-	// 		if (error) throw error;
-	// 		return data;
-	// 	} catch (error) {
-	// 		console.error('Error adding team:', error.message);
-	// 		return false;
-	// 	}
-	// };
+
 	const createTeam = async (teamName, teamLeaderId) => {
 		try {
 			const { data, error } = await supabase.from('team').insert([{ teamname: teamName, teamleaderauthid: teamLeaderId, OrganizationID: userRecord.organizationid }]);
@@ -299,7 +282,7 @@ export const UserDataProvider = ({ children }) => {
 				throw new Error('Failed to create team');
 			}
 
-			return data[0]; // Returns the first element of the data array, assuming data is an array with the new team
+			return data[0];
 		} catch (error) {
 			console.error('Error during team creation:', error.message);
 			return null; // Explicitly return null to indicate failure
@@ -330,14 +313,28 @@ export const UserDataProvider = ({ children }) => {
 		}
 	};
 
-	const [teams, setTeams] = useState([]);
+	// const [teams, setTeams] = useState([]);
+	// const fetchTeams = async () => {
+	// 	try {
+	// 		let { data: teams, error } = await supabase.from('team').select('*');
+	// 		if (error) throw error;
+	// 		setTeams(teams);
+	// 	} catch (error) {
+	// 		console.error('Error fetching teams', error.message);
+	// 	}
+	// };
 	const fetchTeams = async () => {
 		try {
-			let { data: teams, error } = await supabase.from('team').select('*');
-			if (error) throw error;
-			setTeams(teams);
+			// It will fetch the record for a correct organization
+			const { data, error } = await supabase.from('team').select('*').eq('OrganizationID', userRecord.organizationid);
+			if (error) {
+				console.error('Error fetching teams:', error.message);
+				throw error;
+			}
+			return data || [];
 		} catch (error) {
-			console.error('Error fetching teams', error.message);
+			console.error('Error during team fetch:', error.message);
+			return [];
 		}
 	};
 
@@ -366,11 +363,10 @@ export const UserDataProvider = ({ children }) => {
 				throw error;
 			}
 
-			// If data is found, it means the leader is already assigned to a team
 			return data ? true : false;
 		} catch (error) {
 			console.error('Error during check:', error.message);
-			return null; // Null indicating an error occurred
+			return null;
 		}
 	};
 
@@ -387,38 +383,128 @@ export const UserDataProvider = ({ children }) => {
 		}
 	};
 
-	// const addTeamMember = async (teamID, userUID) => {
+	// const addTeamMember = async (members) => {
 	// 	try {
-	// 		const { data, error } = await supabase.from('teammembers').insert([{ teamid: teamID, userauthid: userUID }]);
+	// 		const { data, error } = await supabase.from('teammembers').insert(members);
 
 	// 		if (error) {
-	// 			console.error('Error with uploading a new record:', error.message);
+	// 			console.error('Error with uploading new records:', error.message);
 	// 			throw error;
 	// 		}
 
-	// 		console.log('Added team member successfully:', data);
-	// 		return data; // Returning data on successful insertion
+	// 		console.log('Added team members successfully:', data);
+	// 		return true;
 	// 	} catch (error) {
-	// 		console.error('Error during adding a record:', error.message);
-	// 		return null; // Null indicating an error occurred
+	// 		console.error('Error during adding records:', error.message);
+	// 		return false;
 	// 	}
 	// };
 	const addTeamMember = async (members) => {
 		try {
+			console.log('Attempting to add team members:', JSON.stringify(members)); // Ensure data structure is correct
+			console.log(`Team member:`, members);
 			const { data, error } = await supabase.from('teammembers').insert(members);
 
 			if (error) {
 				console.error('Error with uploading new records:', error.message);
+				console.error('Detailed error:', error); // Log detailed error
 				throw error;
 			}
 
 			console.log('Added team members successfully:', data);
-			return true; // Indicating success
+			return true; // Return true on success
 		} catch (error) {
 			console.error('Error during adding records:', error.message);
-			return false; // Indicating failure
+			return false; // Return false to indicate failure
 		}
 	};
+
+	const fetchTeamMembers = async (teamid) => {
+		try {
+			const { data, error } = await supabase.from('teammembers').select('*').eq('teamid', teamid);
+			if (error) {
+				console.error('Error fetching team members:', error.message);
+				throw error;
+			}
+			return data;
+		} catch (error) {
+			console.error('Error during fetching team members:', error.message);
+			return [];
+		}
+	};
+
+	const updateTeamName = async (teamId, newName) => {
+		try {
+			const { data, error } = await supabase.from('team').update({ teamname: newName }).eq('teamid', teamId);
+
+			if (error) throw error;
+
+			console.log('Update successful:', data);
+			return true;
+		} catch (error) {
+			console.error('Failed to update team name:', error.message);
+			return false;
+		}
+	};
+
+	// const fetchAvailableWorkers = async () => {
+	// 	try {
+	// 		let { data: assignedMembers, error: assignedError } = await supabase.from('teammembers').select('userauthid');
+
+	// 		if (assignedError) {
+	// 			throw assignedError;
+	// 		}
+
+	// 		const assignedIds = assignedMembers.map((member) => member.userauthid);
+
+	// 		let { data: availableWorkers, error: availableError } = await supabase
+	// 			.from('users2')
+	// 			.eq('organizationid', userRecord.organizationid)
+	// 			.eq('jobroleid', 5)
+	// 			.select('*')
+	// 			.not('authid', 'in', `(${assignedIds.join(',')})`);
+
+	// 		if (availableError) {
+	// 			throw availableError;
+	// 		}
+
+	// 		return availableWorkers;
+	// 	} catch (error) {
+	// 		console.error('Error fetching available workers:', error.message);
+	// 		return [];
+	// 	}
+	// };
+	const fetchAvailableWorkers = async () => {
+		try {
+			let { data: assignedMembers, error: assignedError } = await supabase.from('teammembers').select('userauthid');
+
+			if (assignedError) {
+				throw assignedError;
+			}
+
+			// Extract userauthid directly for SQL query
+			const assignedIds = assignedMembers.map((member) => member.userauthid);
+			const idsFormattedForSQL = assignedIds.length ? assignedIds.join(',') : 'NULL';
+
+			let { data: availableWorkers, error: availableError } = await supabase
+				.from('users2')
+				.select('*')
+				.eq('organizationid', userRecord.organizationid)
+				.eq('jobroleid', 5)
+				.not('authid', 'in', `(${idsFormattedForSQL})`);
+
+			if (availableError) {
+				throw availableError;
+			}
+			console.log(availableWorkers);
+			return availableWorkers;
+		} catch (error) {
+			console.error('Error fetching available workers:', error.message);
+			return [];
+		}
+	};
+
+	//
 
 	// BUG
 	// const addTeamMembers = async (members) => {
@@ -479,11 +565,14 @@ export const UserDataProvider = ({ children }) => {
 				workers,
 				fetchWorkers,
 				fetchTeams,
-				teams,
+				// teams,
 				fetchTeamsByLeaderId,
 				checkTeamLeaderAssigned,
 				addTeamMember,
 				fetchAssignedTeamMembers,
+				fetchTeamMembers,
+				updateTeamName,
+				fetchAvailableWorkers,
 			}}>
 			{children}
 		</UserDataContext.Provider>

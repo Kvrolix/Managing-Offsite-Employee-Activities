@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import SideNavigationBar from '../components/application/sideBarComponents/SideNaviagtionBar';
 import TeamsPageCSS from '../components/application/teamsPageComponents/TeamsPage.module.css';
 import AddTeamModal from '../components/application/teamsPageComponents/AddTeamModal';
+import ViewTeamsModal from '../components/application/teamsPageComponents/ViewTeamsModal';
+import EditTeamsModal from '../components/application/teamsPageComponents/EditTeamsModal';
 const TeamsPage = () => {
 	const [isAddTeamsModalOpen, setIsAddTeamsModalOpen] = useState(false);
-	// const [isViewUsersModalOpen, setIsViewUsersModalOpen] = useState(false);
-	// const [isEditUsersModalOpen, setIsEditUsersModalOpen] = useState(false);
+	const [isViewTeamsModalOpen, setIsViewTeamsModalOpen] = useState(false);
+	const [isEditTeamsModalOpen, setIsEditTeamsModalOpen] = useState(false);
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
 	const toggleSidebar = () => {
@@ -40,12 +42,12 @@ const TeamsPage = () => {
 						<ContentElement
 							icon="conditions"
 							text="View Teams"
-							// navigateTo={() => setIsViewUsersModalOpen(true)}
+							navigateTo={() => setIsViewTeamsModalOpen(true)}
 						/>
 						<ContentElement
 							icon="edit_note"
 							text="Edit Teams"
-							// navigateTo={() => setIsViewUsersModalOpen(true)}
+							navigateTo={() => setIsEditTeamsModalOpen(true)}
 						/>
 						<ContentElement
 							icon="group_remove"
@@ -58,6 +60,14 @@ const TeamsPage = () => {
 			<AddTeamModal
 				isOpen={isAddTeamsModalOpen}
 				onClose={() => setIsAddTeamsModalOpen(false)}
+			/>
+			<ViewTeamsModal
+				isOpen={isViewTeamsModalOpen}
+				onClose={() => setIsViewTeamsModalOpen(false)}
+			/>
+			<EditTeamsModal
+				isOpen={isEditTeamsModalOpen}
+				onClose={() => setIsEditTeamsModalOpen(false)}
 			/>
 		</>
 	);

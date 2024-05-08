@@ -32,3 +32,11 @@ TODO
 Add to every page a question mark how to use the page
 
 Create Media queries for different phones
+
+#####
+
+Errors:
+on dashboard when a box is hovered it the icon acts weird
+
+Add more employyes
+And Teams
