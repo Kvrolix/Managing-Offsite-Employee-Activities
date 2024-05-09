@@ -8,16 +8,16 @@ export const UserDataProvider = ({ children }) => {
 	const [error, setError] = useState(null);
 	const [employeesForTask, setEmployeesForTask] = useState([]);
 	const [tasks, setTasks] = useState([]);
+	// const [userRecord, setUserRecord] = useState(null); // BUG
 	const [userRecord, setUserRecord] = useState(null); // BUG
 
 	// BUG THIS CAN BE REMOVED? OR COMBINED WITH A FUNCTION BELOW
 	const fetchUserRecord = async (userId) => {
 		try {
 			let { data: userRecord, error } = await supabase.from('users2').select('*').eq('authid', userId).single();
-			// console.log(userRecord);
+
 			if (error) throw error;
 			setUserRecord(userRecord);
-			// console.log(`Fetched user record:`, userRecord);
 		} catch (error) {
 			console.error('Error fetching user record:', error.message);
 			setError(error.message);
@@ -29,10 +29,10 @@ export const UserDataProvider = ({ children }) => {
 			let { data: user, error } = await supabase.from('users2').select('*').eq('authid', authid).single();
 
 			if (error) throw error;
-			return user; // Return the user record
+			return user;
 		} catch (error) {
 			console.error('Error fetching user by authid:', error.message);
-			return null; // Return null or handle error as needed
+			return null;
 		}
 	};
 
@@ -41,7 +41,7 @@ export const UserDataProvider = ({ children }) => {
 			if (!userRecord) return;
 			const { data: employees, error } = await supabase.from('users2').select('*').eq('organizationid', userRecord.organizationid).in('jobroleid', [4, 5]);
 			if (error) throw error;
-			// console.log('Employees for task assignment:', employees);
+
 			setEmployeesForTask(employees);
 		} catch (error) {
 			console.error('Error fetching employees for task assignment:', error.message);
@@ -50,17 +50,14 @@ export const UserDataProvider = ({ children }) => {
 	};
 	useEffect(() => {
 		fetchEmployeesForTaskAssignment();
-	}, [userRecord]); // Re-fetch employees when userRecord changes
-	// console.log(`User Record:`, userRecord);
+	}, [userRecord]);
 
 	// --- FETCHING TASKS
 	const fetchTasks = async () => {
 		try {
-			if (!userRecord) return; // Exit if userRecord is not loaded
+			if (!userRecord) return;
 			// BUG MAKE SURE ALL THE LEETERS ARE LOWERCASE FOR SELECIT
 			let query = supabase.from('task').select('*');
-			// console.log(`User Record:`, userRecord);
-			// Determine tasks visibility based on the user's role
 			switch (userRecord.jobroleid) {
 				case 1: // Chief
 				case 2: // Manager
@@ -81,7 +78,6 @@ export const UserDataProvider = ({ children }) => {
 					query = query.eq('assignedtoauthid', userRecord.authid);
 					break;
 				default:
-					// Handle other roles or undefined role
 					setTasks([]);
 					return;
 			}
@@ -135,7 +131,68 @@ export const UserDataProvider = ({ children }) => {
 		};
 	}, []);
 
-	// --- ORGANIZATION PAGE
+	// ----------------------------------- USERS
+
+	const register = async (email, password) => {
+		const { user, error } = await supabase.auth.signUp({
+			email: email,
+			password: password,
+		});
+		console.log(user);
+
+		if (error) {
+			console.error('Error signing up:', error);
+			return { error };
+		}
+		return { user };
+	};
+
+	const registerAndCreateProfile = async (email, password, firstName, surname, phonenumber, dateofbirth) => {
+		// Sign up the user
+		const { user, error } = await supabase.auth.signUp(
+			{
+				email: email,
+				password: password,
+			}
+			// {
+			// 	data: {
+			// 		first_name: firstName,
+			// 	},
+			// }
+		);
+		console.log(user);
+
+		if (error) {
+			console.error('Error signing up:', error);
+			return { error };
+		}
+
+		// Create user profile in custom 'users2' table
+		console.log(user);
+		if (user) {
+			const { data, error: insertError } = await supabase.from('users2').insert([
+				{
+					authid: user.id,
+					emailaddress: email,
+					firstname: firstName,
+					surname: surname,
+					phonenumber: phonenumber,
+					dateofbirth: dateofbirth,
+				},
+			]);
+
+			if (insertError) {
+				console.error('Error creating user profile:', insertError);
+				return { error: insertError };
+			}
+			console.log(user);
+			return { user: data[0] }; // Return the newly created user profile
+		}
+
+		return { error: new Error('Unexpected error during the registration process.') };
+	};
+
+	// ------------------------------- ORGANIZATION PAGE -----------------------------------------
 
 	const [allEmployees, setAllEmployees] = useState([]);
 
@@ -156,11 +213,7 @@ export const UserDataProvider = ({ children }) => {
 
 	const fetchJobRoleNameById = async (jobroleid) => {
 		try {
-			const { data, error } = await supabase
-				.from('jobrole') // Replace 'jobroles' with your actual table name
-				.select('rolename') // Assuming 'name' is the column storing job role names
-				.eq('jobroleid', jobroleid)
-				.single(); // Using single because jobroleid is expected to uniquely identify a role
+			const { data, error } = await supabase.from('jobrole').select('rolename').eq('jobroleid', jobroleid).single();
 
 			if (error) {
 				throw error;
@@ -183,7 +236,7 @@ export const UserDataProvider = ({ children }) => {
 					surname: formData.lastname,
 					phonenumber: formData.phone,
 					emailaddress: formData.email,
-					jobroleid: formData.jobrole, // Make sure your table has an 'email' column if you're including this
+					jobroleid: formData.jobrole,
 				})
 				.eq('authid', authid);
 
@@ -313,16 +366,6 @@ export const UserDataProvider = ({ children }) => {
 		}
 	};
 
-	// const [teams, setTeams] = useState([]);
-	// const fetchTeams = async () => {
-	// 	try {
-	// 		let { data: teams, error } = await supabase.from('team').select('*');
-	// 		if (error) throw error;
-	// 		setTeams(teams);
-	// 	} catch (error) {
-	// 		console.error('Error fetching teams', error.message);
-	// 	}
-	// };
 	const fetchTeams = async () => {
 		try {
 			// It will fetch the record for a correct organization
@@ -383,22 +426,6 @@ export const UserDataProvider = ({ children }) => {
 		}
 	};
 
-	// const addTeamMember = async (members) => {
-	// 	try {
-	// 		const { data, error } = await supabase.from('teammembers').insert(members);
-
-	// 		if (error) {
-	// 			console.error('Error with uploading new records:', error.message);
-	// 			throw error;
-	// 		}
-
-	// 		console.log('Added team members successfully:', data);
-	// 		return true;
-	// 	} catch (error) {
-	// 		console.error('Error during adding records:', error.message);
-	// 		return false;
-	// 	}
-	// };
 	const addTeamMember = async (members) => {
 		try {
 			console.log('Attempting to add team members:', JSON.stringify(members)); // Ensure data structure is correct
@@ -446,34 +473,6 @@ export const UserDataProvider = ({ children }) => {
 			return false;
 		}
 	};
-
-	// const fetchAvailableWorkers = async () => {
-	// 	try {
-	// 		let { data: assignedMembers, error: assignedError } = await supabase.from('teammembers').select('userauthid');
-
-	// 		if (assignedError) {
-	// 			throw assignedError;
-	// 		}
-
-	// 		const assignedIds = assignedMembers.map((member) => member.userauthid);
-
-	// 		let { data: availableWorkers, error: availableError } = await supabase
-	// 			.from('users2')
-	// 			.eq('organizationid', userRecord.organizationid)
-	// 			.eq('jobroleid', 5)
-	// 			.select('*')
-	// 			.not('authid', 'in', `(${assignedIds.join(',')})`);
-
-	// 		if (availableError) {
-	// 			throw availableError;
-	// 		}
-
-	// 		return availableWorkers;
-	// 	} catch (error) {
-	// 		console.error('Error fetching available workers:', error.message);
-	// 		return [];
-	// 	}
-	// };
 	const fetchAvailableWorkers = async () => {
 		try {
 			let { data: assignedMembers, error: assignedError } = await supabase.from('teammembers').select('userauthid');
@@ -482,7 +481,6 @@ export const UserDataProvider = ({ children }) => {
 				throw assignedError;
 			}
 
-			// Extract userauthid directly for SQL query
 			const assignedIds = assignedMembers.map((member) => member.userauthid);
 			const idsFormattedForSQL = assignedIds.length ? assignedIds.join(',') : 'NULL';
 
@@ -507,33 +505,14 @@ export const UserDataProvider = ({ children }) => {
 	const removeTeamMember = async (teamId, userAuthId) => {
 		try {
 			let { error } = await supabase.from('teammembers').delete().match({ teamid: teamId, userauthid: userAuthId });
-
 			if (error) throw error;
 
-			return true; // Indicate success
+			return true;
 		} catch (error) {
 			console.error('Error removing team member:', error.message);
-			return false; // Indicate failure
+			return false;
 		}
 	};
-
-	//
-
-	// BUG
-	// const addTeamMembers = async (members) => {
-	// 	try {
-	// 		const { data, error } = await supabase.from('teammembers').insert(members);
-
-	// 		if (error) {
-	// 			throw new Error(error.message);
-	// 		}
-	// 		console.log('Members added:', data);
-	// 		return true;
-	// 	} catch (error) {
-	// 		console.error('Error adding team members:', error);
-	// 		return false;
-	// 	}
-	// };
 
 	// -----------------------------------------------------------------------------------
 
@@ -587,32 +566,10 @@ export const UserDataProvider = ({ children }) => {
 				updateTeamName,
 				fetchAvailableWorkers,
 				removeTeamMember,
+				registerAndCreateProfile,
+				register,
 			}}>
 			{children}
 		</UserDataContext.Provider>
 	);
 };
-
-// Create a list of queries i want to perform for the task table
-//  --- Getting data
-// 1. The orgatnization owner can see the tasks where the organization Id is the same as his
-// It includes the authetication table to check the logged in user -> users table (with all details like organizationId, jobroleId etc) and the jobroleid is equal to 1(chief),2(manager),3(secretary) only these 3 roles
-// 2. Another query will be for team leaders as he can see the records where he's assigned and his workers.
-// 3. The worker can only see his records
-//
-
-// --- Editing data
-// 1. people who can modify the data are job roles 1,2,3 only
-
-// --- Removing data
-// 1. Manager(2) and Secretary(3) can move the records to archives but they're not able to fully delete it, they can only move the record to archives and retrieve it so it's again visible
-// 2. Only chief can delete them permanently from the database
-
-//  --- Adding data
-// people with a job role id 1,2,3 can only add tasks
-
-// 2. Everone can mark the task as completed but when worker with jobrole 5 will mark it as completed it will need to be approved by a jobrole 4 or 2, secretary should ne be responsbile for that
-
-// When assigning someone to the task i want to have a scrolling list of who to pick, wheter a team or a single user, it will need to be visible
-// so it will need to fetch the records of employees who are in the same organization and who's jobroles are 4 and 5
-// and for teams it will just need to show teams, but how

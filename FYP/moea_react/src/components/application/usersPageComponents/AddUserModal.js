@@ -4,7 +4,7 @@ import supabase from '../../../config/supabaseClient.js';
 import UsersPageCSS from './UsersPage.module.css';
 
 const AddUserModal = ({ isOpen, onClose }) => {
-	const { userRecord } = useContext(UserDataContext);
+	const { userRecord, registerAndCreateProfile, register } = useContext(UserDataContext);
 
 	const [loading, setLoading] = useState(false);
 	const [email, setEmail] = useState('');
@@ -14,6 +14,24 @@ const AddUserModal = ({ isOpen, onClose }) => {
 	const [role, setRole] = useState('');
 	const [dateOfBirth, setDateOfBirth] = useState('');
 	const [phoneNumber, setPhoneNumber] = useState('');
+
+	// const handleTestingSubmission = async (event) => {
+	// 	event.preventDefault();
+	// 	// const response = await registerAndCreateProfile('CompeletelynewEmail04@gmail.com', '123456', 'Florian', 'Lyszka', '214124123123', '2024-04-24');
+	// 	const response = await register('f1233213212@gmail.com', '123456');
+	// 	console.log(`Printed response:`, response);
+	// 	if (response.error) {
+	// 		console.error('Failed to register:', response.error);
+	// 	} else {
+	// 		console.log('Registration successful, user created:', response.user);
+	// 		console.log(response);
+	// 	}
+	// };
+	// // Simulate event object
+	// const mockEvent = { preventDefault: () => {} };
+
+	// // Call the function with the mock event
+	// handleTestingSubmission(mockEvent);
 
 	// FIXME TODO
 	//BUG THE PROBLEM, IS RELATED TO THE SUPABASE, AS IT REQUIRES THE FOLLOWING FIELDS
