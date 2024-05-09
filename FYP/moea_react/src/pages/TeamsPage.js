@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SideNavigationBar from '../components/application/sideBarComponents/SideNaviagtionBar';
 import TeamsPageCSS from '../components/application/teamsPageComponents/TeamsPage.module.css';
 import AddTeamModal from '../components/application/teamsPageComponents/AddTeamModal';
 import ViewTeamsModal from '../components/application/teamsPageComponents/ViewTeamsModal';
 import EditTeamsModal from '../components/application/teamsPageComponents/EditTeamsModal';
+import DeleteTeamsModal from '../components/application/teamsPageComponents/DeleteTeamsModal';
+
 const TeamsPage = () => {
 	const [isAddTeamsModalOpen, setIsAddTeamsModalOpen] = useState(false);
 	const [isViewTeamsModalOpen, setIsViewTeamsModalOpen] = useState(false);
 	const [isEditTeamsModalOpen, setIsEditTeamsModalOpen] = useState(false);
+	const [isDeleteTeamsModalOpen, setIsDeleteTeamsModalOpen] = useState(false);
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
 	const toggleSidebar = () => {
@@ -24,6 +27,7 @@ const TeamsPage = () => {
 			<p>{text}</p>
 		</div>
 	);
+
 	return (
 		<>
 			<SideNavigationBar
@@ -52,11 +56,15 @@ const TeamsPage = () => {
 						<ContentElement
 							icon="group_remove"
 							text="Delete Team"
-							// navigateTo={() => setIsViewUsersModalOpen(true)}
+							navigateTo={() => setIsDeleteTeamsModalOpen(true)}
 						/>
 					</div>
 				</div>
 			</div>
+			<DeleteTeamsModal
+				isOpen={isDeleteTeamsModalOpen}
+				onClose={() => setIsDeleteTeamsModalOpen(false)}
+			/>
 			<AddTeamModal
 				isOpen={isAddTeamsModalOpen}
 				onClose={() => setIsAddTeamsModalOpen(false)}
