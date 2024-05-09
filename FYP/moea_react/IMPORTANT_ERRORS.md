@@ -17,8 +17,6 @@
 
 Add a trasnsition before loading a page to make sure all the elements are loadded
 
-Support file sharing for document and resource exchange.
-
 Implement a time-tracking feature to record employees' time on each task or project to generate data for payroll and project management.
 
 Integrate Google Maps or Leaflet to display the real-time location of employees.
@@ -63,11 +61,23 @@ box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 
 ## Things To do:
 
-- complete Teams
+!!!!
+
+Friday:
+
 - Create Map
-- Change Login Page
-- Add Counting hours for each task
 - User Profile where All teh infromations are stored, worked hours will be stored here two, for each month
+- Every Function should have a success rendered
+
+Saturday:
+
+- Support file sharing for document and resource exchange.
+- Add Counting hours for each task
+- Change Login Page
+- Make sure the informations availlable are based on role
+
+Sunday:
+
+- complete Teams
 - Ladning Page
 - Clean Up every function
-- Make sure the informations availlable are based on role

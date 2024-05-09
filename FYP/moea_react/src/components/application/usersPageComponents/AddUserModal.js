@@ -18,7 +18,7 @@ const AddUserModal = ({ isOpen, onClose }) => {
 	// const handleTestingSubmission = async (event) => {
 	// 	event.preventDefault();
 	// 	// const response = await registerAndCreateProfile('CompeletelynewEmail04@gmail.com', '123456', 'Florian', 'Lyszka', '214124123123', '2024-04-24');
-	// 	const response = await register('f1233213212@gmail.com', '123456');
+	// 	const response = await register('f1241241242132433221312313212@gmail.com', '123456');
 	// 	console.log(`Printed response:`, response);
 	// 	if (response.error) {
 	// 		console.error('Failed to register:', response.error);

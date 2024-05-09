@@ -8,10 +8,11 @@ export const UserDataProvider = ({ children }) => {
 	const [error, setError] = useState(null);
 	const [employeesForTask, setEmployeesForTask] = useState([]);
 	const [tasks, setTasks] = useState([]);
-	// const [userRecord, setUserRecord] = useState(null); // BUG
-	const [userRecord, setUserRecord] = useState(null); // BUG
+	const [userRecord, setUserRecord] = useState(); // BUG
 
 	// BUG THIS CAN BE REMOVED? OR COMBINED WITH A FUNCTION BELOW
+
+	// THIS FUNCTION SETS THE SESSION
 	const fetchUserRecord = async (userId) => {
 		try {
 			let { data: userRecord, error } = await supabase.from('users2').select('*').eq('authid', userId).single();
@@ -131,66 +132,77 @@ export const UserDataProvider = ({ children }) => {
 		};
 	}, []);
 
-	// ----------------------------------- USERS
+	// ----------------------------------- USERS -----------------
 
 	const register = async (email, password) => {
-		const { user, error } = await supabase.auth.signUp({
-			email: email,
-			password: password,
-		});
-		console.log(user);
-
-		if (error) {
-			console.error('Error signing up:', error);
-			return { error };
-		}
-		return { user };
-	};
-
-	const registerAndCreateProfile = async (email, password, firstName, surname, phonenumber, dateofbirth) => {
-		// Sign up the user
-		const { user, error } = await supabase.auth.signUp(
-			{
+		try {
+			const { user, error, session } = await supabase.auth.signUp({
 				email: email,
 				password: password,
+			});
+
+			console.log('SignUp response:', { user, error, session });
+
+			if (error) {
+				console.error('Error signing up:', error);
+				return { error };
 			}
-			// {
-			// 	data: {
-			// 		first_name: firstName,
-			// 	},
-			// }
-		);
-		console.log(user);
-
-		if (error) {
-			console.error('Error signing up:', error);
-			return { error };
-		}
-
-		// Create user profile in custom 'users2' table
-		console.log(user);
-		if (user) {
-			const { data, error: insertError } = await supabase.from('users2').insert([
-				{
-					authid: user.id,
-					emailaddress: email,
-					firstname: firstName,
-					surname: surname,
-					phonenumber: phonenumber,
-					dateofbirth: dateofbirth,
-				},
-			]);
-
-			if (insertError) {
-				console.error('Error creating user profile:', insertError);
-				return { error: insertError };
+			if (!user) {
+				console.log('User object is undefined, possibly pending confirmation.');
+				return { user: null, session };
 			}
-			console.log(user);
-			return { user: data[0] }; // Return the newly created user profile
+			return { user, session };
+		} catch (err) {
+			console.error('An exception occurred during signUp:', err);
+			return { error: err };
 		}
-
-		return { error: new Error('Unexpected error during the registration process.') };
 	};
+
+	//
+	// const registerAndCreateProfile = async (email, password, firstName, surname, phonenumber, dateofbirth) => {
+	// 	// Sign up the user
+	// 	const { user, error } = await supabase.auth.signUp(
+	// 		{
+	// 			email: email,
+	// 			password: password,
+	// 		}
+	// 		// {
+	// 		// 	data: {
+	// 		// 		first_name: firstName,
+	// 		// 	},
+	// 		// }
+	// 	);
+	// 	console.log(user);
+
+	// 	if (error) {
+	// 		console.error('Error signing up:', error);
+	// 		return { error };
+	// 	}
+
+	// 	// Create user profile in custom 'users2' table
+	// 	console.log(user);
+	// 	if (user) {
+	// 		const { data, error: insertError } = await supabase.from('users2').insert([
+	// 			{
+	// 				authid: user.id,
+	// 				emailaddress: email,
+	// 				firstname: firstName,
+	// 				surname: surname,
+	// 				phonenumber: phonenumber,
+	// 				dateofbirth: dateofbirth,
+	// 			},
+	// 		]);
+
+	// 		if (insertError) {
+	// 			console.error('Error creating user profile:', insertError);
+	// 			return { error: insertError };
+	// 		}
+	// 		console.log(user);
+	// 		return { user: data[0] }; // Return the newly created user profile
+	// 	}
+
+	// 	return { error: new Error('Unexpected error during the registration process.') };
+	// };
 
 	// ------------------------------- ORGANIZATION PAGE -----------------------------------------
 
@@ -566,7 +578,6 @@ export const UserDataProvider = ({ children }) => {
 				updateTeamName,
 				fetchAvailableWorkers,
 				removeTeamMember,
-				registerAndCreateProfile,
 				register,
 			}}>
 			{children}
