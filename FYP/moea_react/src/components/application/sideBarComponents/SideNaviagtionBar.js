@@ -11,6 +11,7 @@ import { UserDataContext } from '../../../context/UserDataContext.js';
 
 // Navigation
 import { useAppNavigate } from '../../../context/useAppNavigate.js';
+import { getPositionName } from '../../../context/helpers.js';
 
 const SideBarLink = ({ iconClass, text, navigateTo }) => (
 	// TODO Add onchange to the li element
@@ -47,7 +48,6 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 	const { userRecord, signOutUser } = useContext(UserDataContext);
 
 	if (!userRecord) {
-		// Render a loading message or null if userRecord is not yet available
 		return (
 			<>
 				<div>Loading user details...</div>
@@ -55,7 +55,6 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 		);
 	}
 
-	// Now it's safe to destructure userRecord as it's guaranteed to be non-null
 	const { firstname, surname, jobroleId } = userRecord;
 
 	// TODO This will be transferred to the other places as well
@@ -78,7 +77,7 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 							</span>
 							<div className={`${SideNavigationBarCSS.text} ${SideNavigationBarCSS.header_text}`}>
 								<span className={SideNavigationBarCSS.fullName}>{`${firstname} ${surname}`}</span>
-								<span className={SideNavigationBarCSS.position}>Chief</span> {/* TODO Update dynamically */}
+								<span className={SideNavigationBarCSS.position}>{getPositionName(userRecord.jobroleid)}</span>
 							</div>
 							<i
 								className={`bx bx-chevron-right ${SideNavigationBarCSS.toggle}`}

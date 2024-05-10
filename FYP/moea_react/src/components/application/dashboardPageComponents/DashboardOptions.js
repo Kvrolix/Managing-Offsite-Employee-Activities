@@ -1,5 +1,5 @@
 // React
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useAppNavigate } from '../../../context/useAppNavigate.js';
 
 // Styles
@@ -29,7 +29,7 @@ const DashboardElement = ({ icon, text, navigateTo }) => (
 
 const DashboardOptions = ({ isSidebarOpen }) => {
 	const { userRecord } = useContext(UserDataContext);
-	const { navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat, navigateToTeams } = useAppNavigate();
+	const { navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat, navigateToTeams, navigateToMap } = useAppNavigate();
 
 	// Ensure userRecord exists before trying to access its properties
 	if (!userRecord) {
@@ -38,6 +38,30 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 	}
 
 	const { firstname, surname } = userRecord;
+
+	const CalendarComponent = () => {
+		const [currentTime, setCurrentTime] = useState(new Date()); // State to hold the current time
+
+		useEffect(() => {
+			const timerId = setInterval(() => {
+				setCurrentTime(new Date()); // Update time every second
+			}, 1000);
+
+			return () => clearInterval(timerId); // Clean up the interval on component unmount
+		}, []);
+
+		const dayName = currentTime.toLocaleString('en-UK', { weekday: 'long' });
+		const dateStr = currentTime.toLocaleDateString('en-UK', { year: 'numeric', month: 'long', day: 'numeric' });
+		const timeStr = currentTime.toLocaleTimeString('en-UK', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+		return (
+			<div className={DashboardOptionsCSS.calendar}>
+				<div className={DashboardOptionsCSS.dayName}>{dayName}</div>
+				<div className={DashboardOptionsCSS.dateStr}>{dateStr}</div>
+				<div className={DashboardOptionsCSS.timeStr}>{timeStr}</div> {/* Display the time */}
+			</div>
+		);
+	};
 
 	return (
 		<>
@@ -81,8 +105,10 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 							navigateTo={navigateToOrganization}
 						/>
 					</div>
-					<div className={DashboardOptionsCSS.dashboard_calendar}>Calendar</div>
-					<div className={DashboardOptionsCSS.dashboard_map}>Map</div>
+					<CalendarComponent /> {/* </div> */}
+					<div
+						className={DashboardOptionsCSS.dashboard_map}
+						onClick={navigateToMap}></div>
 				</div>
 			</div>
 		</>

@@ -289,3 +289,7 @@ section {
 	font-size: 1.5rem;
 	cursor: pointer;
 }
+
+.leaflet_container {
+	height: 80vh;
+}

@@ -5,4 +5,21 @@ export const formatDateTime = (isoString) => {
 	return `${time} on ${dateFormatted}`;
 };
 
+export const getPositionName = (jobrole) => {
+	switch (jobrole) {
+		case 1:
+			return 'Chief';
+		case 2:
+			return 'Manager';
+		case 3:
+			return 'Secretary';
+		case 4:
+			return 'Team Leader';
+		case 5:
+			return 'Employee';
+		default:
+			return 'Unknown';
+	}
+};
+
 // helpers.js
