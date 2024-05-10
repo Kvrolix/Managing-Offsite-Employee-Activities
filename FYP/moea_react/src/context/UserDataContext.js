@@ -10,8 +10,6 @@ export const UserDataProvider = ({ children }) => {
 	const [tasks, setTasks] = useState([]);
 	const [userRecord, setUserRecord] = useState(); // BUG
 
-	// BUG THIS CAN BE REMOVED? OR COMBINED WITH A FUNCTION BELOW
-
 	// THIS FUNCTION SETS THE SESSION
 	const fetchUserRecord = async (userId) => {
 		try {
@@ -53,7 +51,7 @@ export const UserDataProvider = ({ children }) => {
 		fetchEmployeesForTaskAssignment();
 	}, [userRecord]);
 
-	// --- FETCHING TASKS
+	// -------------------------------------- FETCHING TASKS ------------------------------------------
 	const fetchTasks = async () => {
 		try {
 			if (!userRecord) return;
@@ -158,7 +156,7 @@ export const UserDataProvider = ({ children }) => {
 		}
 	};
 
-	//
+	// BUG TODO
 	// const registerAndCreateProfile = async (email, password, firstName, surname, phonenumber, dateofbirth) => {
 	// 	// Sign up the user
 	// 	const { user, error } = await supabase.auth.signUp(
@@ -282,6 +280,7 @@ export const UserDataProvider = ({ children }) => {
 		}
 	};
 
+	// REMOVE
 	// CHAT FUNCTIONALITY
 	// Function to create a new chat session
 	const createChatSession = async () => {
@@ -294,6 +293,7 @@ export const UserDataProvider = ({ children }) => {
 		return data[0].id; // return the new session ID
 	};
 
+	// REMOVE
 	// Function to add participants to a chat session
 	const addChatParticipants = async (sessionId, participantIds) => {
 		const participantRecords = participantIds.map((userId) => ({
@@ -308,6 +308,7 @@ export const UserDataProvider = ({ children }) => {
 		}
 	};
 
+	// REMOVE
 	// Function to send a message in a chat session
 	const sendMessage = async (sessionId, userId, messageText) => {
 		const { error } = await supabase.from('Message').insert([
@@ -325,6 +326,7 @@ export const UserDataProvider = ({ children }) => {
 		}
 	};
 
+	// REMOVE
 	// Function to fetch messages for a chat session
 	const fetchMessages = async (sessionId) => {
 		const { data, error } = await supabase.from('Message').select('*').eq('ChatSessionID', sessionId);
@@ -354,10 +356,12 @@ export const UserDataProvider = ({ children }) => {
 		}
 	};
 
+	// TODO
+	// CHECK IF IT NOT FETCHING FROM OTHER ORGNIZATIONS
 	const [teamLeaders, setTeamLeaders] = useState([]);
 	const fetchTeamLeaders = async () => {
 		try {
-			let { data: teamLeaders, error } = await supabase.from('users2').select('*').eq('jobroleid', 4);
+			let { data: teamLeaders, error } = await supabase.from('users2').select('*').eq('jobroleid', 4).eq('organizationid', userRecord.organizationid);
 
 			if (error) throw error;
 
@@ -528,6 +532,66 @@ export const UserDataProvider = ({ children }) => {
 
 	// -----------------------------------------------------------------------------------
 
+	// ------------------------------------------ MAP PAGE -----------------------------------------------------
+
+	// // fetch User Location
+	// const [allEmployees, setAllEmployees] = useState([]);
+
+	// const fetchAllEmployees = async () => {
+	// 	try {
+	// 		if (!userRecord) return; // Ensure there is a user record
+	// 		const { data, error } = await supabase.from('users2').select('*').eq('organizationid', userRecord.organizationid);
+	// 		if (error) throw error;
+	// 		setAllEmployees(data);
+	// 	} catch (error) {
+	// 		console.error('Error fetching all employees:', error.message);
+	// 	}
+	// };
+
+	// const fetchUserLocation = async (userID) => {
+	// 	try {
+	// 		if (!userRecord) return;
+	// 		const { data, error } = await supabase.from('userlocation').select('*');
+	// 		return data;
+	// 	} catch (err) {
+	// 		console.error(`Error fetching user location:`, err);
+	// 	}
+	// };
+
+	const fetchUserLocations = async (userIDs) => {
+		try {
+			if (!userIDs.length) return []; // Return an empty array if no user IDs are provided
+
+			// Fetch locations where UserID is in the list of userIDs
+			const { data, error } = await supabase
+				.from('userlocation')
+				.select(
+					`
+					userlocationid,
+					latitude,
+					longitude,
+					recordeddatetime,
+					userauthid 
+				`
+				)
+				.in('userauthid', userIDs);
+
+			if (error) {
+				console.error('Error fetching user locations:', error);
+				return [];
+			}
+
+			return data;
+		} catch (err) {
+			console.error('Error fetching user locations:', err);
+			return [];
+		}
+	};
+
+	// fetch only records from the list of employees
+
+	// -----------------------------------------------------------------------------------
+
 	// --- SIGNOUT USER
 	const signOutUser = useCallback(async () => {
 		const { error } = await supabase.auth.signOut();
@@ -569,7 +633,6 @@ export const UserDataProvider = ({ children }) => {
 				workers,
 				fetchWorkers,
 				fetchTeams,
-				// teams,
 				fetchTeamsByLeaderId,
 				checkTeamLeaderAssigned,
 				addTeamMember,
@@ -579,6 +642,7 @@ export const UserDataProvider = ({ children }) => {
 				fetchAvailableWorkers,
 				removeTeamMember,
 				register,
+				fetchUserLocations,
 			}}>
 			{children}
 		</UserDataContext.Provider>

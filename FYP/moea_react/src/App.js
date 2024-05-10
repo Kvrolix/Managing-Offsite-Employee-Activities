@@ -12,6 +12,7 @@ import OrganizationPage from './pages/OrganizationPage.js';
 import UsersPage from './pages/UsersPage.js';
 import ChatPage from './pages/ChatPage.js';
 import TeamsPage from './pages/TeamsPage.js';
+import MapPage from './pages/MapPage.js';
 
 function App() {
 	return (
@@ -49,6 +50,10 @@ function App() {
 					<Route
 						path="/teams"
 						element={<TeamsPage />}
+					/>
+					<Route
+						path="/map"
+						element={<MapPage />}
 					/>
 				</Routes>
 			</BrowserRouter>

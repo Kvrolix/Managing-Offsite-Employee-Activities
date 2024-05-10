@@ -61,15 +61,21 @@ box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 
 ## Things To do:
 
+I could change the background as a gradient like it is here done
+https://react.dev/
+![alt text](image.png)
+
 !!!!
 
 Friday:
 
-- Create Map
-- User Profile where All teh infromations are stored, worked hours will be stored here two, for each month
-- Every Function should have a success rendered
+DONE - Create Map
 
-Saturday:
+- User Profile where All teh infromations are stored, worked hours will be stored here two, for each month (user profile will be in Organization)
+- Every Function should have a success rendered
+- Add a moea logo to the tab
+
+  Saturday:
 
 - Support file sharing for document and resource exchange.
 - Add Counting hours for each task
@@ -81,3 +87,13 @@ Sunday:
 - complete Teams
 - Ladning Page
 - Clean Up every function
+
+<!-- IDEAS FOR TESTING -->
+
+If a organization is not fetching other organization records
+
+<!-- BUGS THAT NEEDS TO BE FIXED -->
+
+When editing the user details, the position should be as as dropdown list with the name e.g secretary not the number
+Update buttons there too
+For the UX i have set that the selected box is higlighted

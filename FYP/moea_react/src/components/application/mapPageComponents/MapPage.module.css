@@ -1,0 +1,78 @@
+.page_container {
+	margin-left: 8rem;
+	padding: 2rem;
+	background-color: #e3f2fd;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.page_heading {
+	font-size: 3rem;
+	text-align: center;
+	margin-bottom: 3rem;
+	color: #333;
+}
+
+.page_heading::after {
+	content: '';
+	display: block;
+	width: 100%;
+	height: 6px;
+	background-color: rgb(165, 73, 230);
+	margin: auto;
+	position: relative;
+	top: 2rem;
+	border-radius: 4px;
+	margin-bottom: 3rem;
+}
+
+.map_container {
+	height: 80rem;
+	width: 130rem;
+	/* background-color: antiquewhite;
+     */
+	/* background-color: red; */
+	border: 2px rgb(165, 73, 230) solid;
+
+	border-radius: 10px;
+}
+
+.popup {
+	/* font-family: 'Poppins', sans-serif;
+	font-weight: normal;
+	font-style: italic; */
+	color: #111;
+}
+
+.popup_name {
+	font-size: 1.8rem;
+	margin-bottom: 0.6rem;
+}
+
+.popup_role {
+	margin-bottom: 0.5rem;
+	font-size: 1.4rem;
+}
+
+.popup_date {
+	font-style: italic;
+}
+
+.marker_chief {
+	color: red;
+}
+.marker_manager {
+	color: orange;
+}
+.marker_secretary {
+	color: yellow;
+}
+.marker_teamLeader {
+	color: blue;
+}
+.marker_worker {
+	color: green;
+}

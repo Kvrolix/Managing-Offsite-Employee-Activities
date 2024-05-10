@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import { UserDataContext } from '../../../context/UserDataContext'; // Adjust path as necessary
 import UsersPageCSS from './UsersPage.module.css'; // Ensure your CSS path is correct
 import { formatDateTime } from '../../../context/helpers';
-
+import { getPositionName } from '../../../context/helpers';
 const ViewUsersModal = ({ isOpen, onClose }) => {
 	const { allEmployees } = useContext(UserDataContext);
 	const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
@@ -40,7 +40,7 @@ const ViewUsersModal = ({ isOpen, onClose }) => {
 										<span className={UsersPageCSS.employee_column}>Date Joined:</span> {formatDateTime(employee.datejoined)}
 									</p>
 									<p>
-										<span className={UsersPageCSS.employee_column}>JobRole:</span> {employee.jobroleid}
+										<span className={UsersPageCSS.employee_column}>JobRole:</span> {getPositionName(employee.jobroleid)}
 									</p>
 								</div>
 							)}
