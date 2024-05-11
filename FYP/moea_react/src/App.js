@@ -13,6 +13,7 @@ import UsersPage from './pages/UsersPage.js';
 import ChatPage from './pages/ChatPage.js';
 import TeamsPage from './pages/TeamsPage.js';
 import MapPage from './pages/MapPage.js';
+import FilesPage from './pages/FilesPage.js';
 
 function App() {
 	return (
@@ -54,6 +55,10 @@ function App() {
 					<Route
 						path="/map"
 						element={<MapPage />}
+					/>
+					<Route
+						path="/files"
+						element={<FilesPage />}
 					/>
 				</Routes>
 			</BrowserRouter>

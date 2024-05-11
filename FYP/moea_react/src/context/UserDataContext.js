@@ -591,6 +591,35 @@ export const UserDataProvider = ({ children }) => {
 	// fetch only records from the list of employees
 
 	// -----------------------------------------------------------------------------------
+	// console.log(userRecord.organizationid);
+	// --------------------------------FILES PAGE-----------------------------------------
+
+	const uploadFile = async (file) => {
+		const fileName = `${file.name}`;
+		const path = `${fileName}`;
+
+		const { error } = await supabase.storage.from(`org-${userRecord.organizationid}`).upload(path, file);
+
+		return { path, error };
+	};
+
+	const downloadFile = async (path) => {
+		const { data, error } = await supabase.storage.from(`org-${userRecord.organizationid}`).download(path);
+
+		return { data, error };
+	};
+
+	const deleteFile = async (onConfirmDelete) => {
+		const { error } = await supabase.storage.from(`org-${userRecord.organizationid}`).remove([onConfirmDelete]);
+		return { error };
+	};
+
+	const listFiles = async () => {
+		const { data, error } = await supabase.storage.from(`org-${userRecord.organizationid}`).list();
+
+		return { data, error };
+	};
+	// -----------------------------------------------------------------------------------
 
 	// --- SIGNOUT USER
 	const signOutUser = useCallback(async () => {
@@ -610,39 +639,51 @@ export const UserDataProvider = ({ children }) => {
 	// CLEAN IT UP
 	return (
 		<UserDataContext.Provider
+			// IMPROVE THE FUNCTION NAMES
 			value={{
+				// GENERAL
 				user,
 				userRecord,
 				error,
 				signOutUser,
+				// TASKS
 				tasks,
 				fetchTasks,
 				employeesForTask,
+				// NOT SORTED
 				fetchUserByAuthId,
-				allEmployees,
 				fetchJobRoleNameById,
-				updateEmployeeDetails,
 				fetchOrganizationName,
+				fetchWorkers,
+				fetchAvailableWorkers,
+				allEmployees,
+				updateEmployeeDetails,
+				workers,
+				register,
+				// CHAT PAGE
+				fetchMessages,
 				createChatSession,
 				addChatParticipants,
 				sendMessage,
-				fetchMessages,
-				createTeam,
-				teamLeaders,
+				// TEAMS PAGE
 				fetchTeamLeaders,
-				workers,
-				fetchWorkers,
-				fetchTeams,
-				fetchTeamsByLeaderId,
+				teamLeaders,
 				checkTeamLeaderAssigned,
+				fetchTeams,
 				addTeamMember,
-				fetchAssignedTeamMembers,
 				fetchTeamMembers,
+				createTeam,
 				updateTeamName,
-				fetchAvailableWorkers,
 				removeTeamMember,
-				register,
+				fetchAssignedTeamMembers,
+				fetchTeamsByLeaderId,
+				// MAP GAE
 				fetchUserLocations,
+				// FILES PAGE
+				uploadFile,
+				deleteFile,
+				downloadFile,
+				listFiles,
 			}}>
 			{children}
 		</UserDataContext.Provider>

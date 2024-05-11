@@ -43,8 +43,8 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 
 	const navigate = useNavigate(); // TODO I think it can be removed
 
-	const { navigateToDashboard, navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat, navigateToTeams } = useAppNavigate();
-	const [jobroleid, setJobRoleId] = useState(null);
+	const { navigateToDashboard, navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat, navigateToTeams, navigateToFiles } = useAppNavigate();
+
 	const { userRecord, signOutUser } = useContext(UserDataContext);
 
 	if (!userRecord) {
@@ -55,7 +55,7 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 		);
 	}
 
-	const { firstname, surname, jobroleId } = userRecord;
+	const { firstname, surname } = userRecord;
 
 	// TODO This will be transferred to the other places as well
 	const handleLogout = async () => {
@@ -116,7 +116,7 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 								<SideBarLink
 									iconClass="bx bx-file"
 									text="Files"
-									// navigateTo={}
+									navigateTo={navigateToFiles}
 								/>
 								{/* USERS */}
 								<SideBarLink

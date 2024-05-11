@@ -1,0 +1,81 @@
+.page_container {
+	margin-left: 8rem;
+	padding: 2rem;
+	background-color: #e3f2fd;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start; /* Ensures content starts from the top */
+}
+
+.page_heading {
+	font-size: 3rem;
+	text-align: center;
+	margin-bottom: 3rem; /* Increased bottom margin */
+	color: #333; /* Adds text color for contrast */
+}
+
+.page_heading::after {
+	content: '';
+	display: block;
+	width: 100%;
+	height: 6px;
+	background-color: rgb(165, 73, 230);
+	margin: auto;
+	position: relative;
+	top: 2rem;
+	border-radius: 4px;
+	margin-bottom: 3rem;
+}
+
+.page_content {
+	display: flex;
+	width: 130rem;
+}
+
+.file {
+	display: flex;
+	/* justify-content: space-evenly; */
+	gap: 1rem;
+	align-items: center;
+}
+
+.file_name {
+	width: 20rem;
+	font-size: 1.6rem;
+	margin-right: 2rem;
+	line-height: 1.6;
+}
+
+.file_button {
+	display: flex;
+	align-self: end;
+	padding: 0.3rem;
+	font-size: 1.4rem;
+	border-radius: 4px;
+	font-weight: 400;
+	cursor: pointer;
+	box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
+	transition: transform 0.3s ease-in-out;
+}
+
+.file_button:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.file_button__delete {
+	background-color: rgba(255, 0, 0, 0.9);
+}
+
+.file_button__download {
+	background-color: hwb(122 33% 22% / 0.9);
+}
+
+.h2_heading {
+	font-size: 1.8rem;
+	margin: 1rem 0;
+	margin-top: 3rem;
+}
+/* I want to make it space eqaully */
