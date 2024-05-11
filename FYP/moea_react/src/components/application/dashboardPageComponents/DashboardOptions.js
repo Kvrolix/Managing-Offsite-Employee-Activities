@@ -29,25 +29,23 @@ const DashboardElement = ({ icon, text, navigateTo }) => (
 
 const DashboardOptions = ({ isSidebarOpen }) => {
 	const { userRecord } = useContext(UserDataContext);
-	const { navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat, navigateToTeams, navigateToMap } = useAppNavigate();
+	const { navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat, navigateToTeams, navigateToMap, navigateToFiles } = useAppNavigate();
 
-	// Ensure userRecord exists before trying to access its properties
 	if (!userRecord) {
-		// Render a loading message or null if userRecord is not yet available
 		return null;
 	}
 
-	const { firstname, surname } = userRecord;
+	const { firstname } = userRecord;
 
 	const CalendarComponent = () => {
-		const [currentTime, setCurrentTime] = useState(new Date()); // State to hold the current time
+		const [currentTime, setCurrentTime] = useState(new Date());
 
 		useEffect(() => {
 			const timerId = setInterval(() => {
 				setCurrentTime(new Date()); // Update time every second
 			}, 1000);
 
-			return () => clearInterval(timerId); // Clean up the interval on component unmount
+			return () => clearInterval(timerId);
 		}, []);
 
 		const dayName = currentTime.toLocaleString('en-UK', { weekday: 'long' });
@@ -58,7 +56,7 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 			<div className={DashboardOptionsCSS.calendar}>
 				<div className={DashboardOptionsCSS.dayName}>{dayName}</div>
 				<div className={DashboardOptionsCSS.dateStr}>{dateStr}</div>
-				<div className={DashboardOptionsCSS.timeStr}>{timeStr}</div> {/* Display the time */}
+				<div className={DashboardOptionsCSS.timeStr}>{timeStr}</div>
 			</div>
 		);
 	};
@@ -91,6 +89,7 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 						<DashboardElement
 							icon="description"
 							text="Files"
+							navigateTo={navigateToFiles}
 						/>
 						{/* USERS */}
 						<DashboardElement
@@ -105,7 +104,7 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 							navigateTo={navigateToOrganization}
 						/>
 					</div>
-					<CalendarComponent /> {/* </div> */}
+					<CalendarComponent />
 					<div
 						className={DashboardOptionsCSS.dashboard_map}
 						onClick={navigateToMap}></div>

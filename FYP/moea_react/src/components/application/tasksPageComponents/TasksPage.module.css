@@ -1,11 +1,14 @@
 /* TODO This needs to be implemented in the index css in evey single place where sidebar is */
 
 /* Assuming 250px is the width of the sidebar */
+
+/* REMOVE */
 .options_container.expanded {
 	margin-left: 250px;
 	transition: margin-left 0.5s ease;
 }
 
+/* REMOVE */
 .options_container.collapsed {
 	margin-left: 88px; /* Or the width of your collapsed sidebar */
 	transition: margin-left 0.4s ease;
@@ -17,7 +20,7 @@
 	/* background-color: aquamarine;
 	 */
 	background-color: #e3f2fd;
-	height: 100vh;
+	min-height: 100vh;
 }
 
 .tasks_heading {

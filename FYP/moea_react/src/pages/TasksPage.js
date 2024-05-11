@@ -60,13 +60,11 @@ const TasksPage = () => {
 	const toggleArchives = async () => {
 		setIsArchivesOpen(!isArchivesOpen);
 		if (!isArchivesOpen && archivedTasks.length === 0) {
-			// Load archived tasks only if the archive is being opened and tasks have not been loaded yet
 			await fetchArchivedTasks();
 		}
 	};
 
 	// EDIT TASK MODAL
-
 	const openEditModal = (task) => {
 		setEditingTask(task);
 		setIsEditModalOpen(true);
@@ -78,13 +76,11 @@ const TasksPage = () => {
 	};
 
 	// NOTIFICATION
-
 	const closeNotification = () => {
 		setShowSuccessNotification(false);
 	};
 
 	// CREATE TASK MODAL
-
 	const openCreateModal = () => {
 		setIsCreateModalOpen(true);
 	};
@@ -94,13 +90,11 @@ const TasksPage = () => {
 	};
 
 	// SIDEBAR
-
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
 
 	// VIEW TASK MODAL
-
 	const openViewModal = (task) => {
 		setViewingTask(task);
 		setIsViewModalOpen(true);
@@ -118,7 +112,6 @@ const TasksPage = () => {
 		const undoTimeout = setTimeout(() => {
 			setShowSuccessNotification(false);
 		}, 7000);
-
 		setCurrentUndoTimeout(undoTimeout);
 		setCurrentTask(task); // Keep track of the task for undoing
 	};
@@ -147,8 +140,6 @@ const TasksPage = () => {
 			}
 		};
 	}, [currentUndoTimeout]);
-
-	// UPDATE TASK
 
 	const updateTask = async (taskData) => {
 		setLoading(true);
@@ -181,7 +172,6 @@ const TasksPage = () => {
 			const { error } = await supabase.from('task').update(updatedTaskData).eq('taskid', editingTask.taskid);
 
 			if (error) throw error;
-
 			setSuccessMessage('Task updated successfully');
 			setShowSuccessNotification(true);
 			setTimeout(() => setShowSuccessNotification(false), 3000);
@@ -241,7 +231,6 @@ const TasksPage = () => {
 	}, [tasks, fetchUserByAuthId]);
 
 	const saveTask = async (taskData) => {
-		// console.log('Task to save:', taskData);
 		// TODO The extra fields i have added are need to be here too
 		const { title, description, deadline, assignedToPerson } = taskData;
 

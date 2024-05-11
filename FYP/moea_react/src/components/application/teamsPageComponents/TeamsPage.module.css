@@ -359,7 +359,6 @@ select {
 
 .modal_button_remove {
 	display: flex;
-
 	background-color: red;
 	max-width: 10rem;
 	padding: 0.5rem;

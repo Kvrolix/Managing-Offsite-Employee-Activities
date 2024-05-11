@@ -10,10 +10,10 @@ export const useAppNavigate = () => {
 	const navigateToChat = () => navigate('/chat');
 	const navigateToTeams = () => navigate('/teams');
 	const navigateToMap = () => navigate('/map');
+	const navigateToFiles = () => navigate('/files');
 
 	// Add more navigation functions as needed
-	const navigateToFiles = () => navigate('/files');
 	const navigateToUserProfile = () => navigate('/userProfile');
 
-	return { navigateToDashboard, navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat, navigateToTeams, navigateToMap };
+	return { navigateToDashboard, navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat, navigateToTeams, navigateToMap, navigateToFiles };
 };

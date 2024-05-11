@@ -77,7 +77,8 @@ DONE - Create Map
 
   Saturday:
 
-- Support file sharing for document and resource exchange.
+DONE Support file sharing for document and resource exchange.
+
 - Add Counting hours for each task
 - Change Login Page
 - Make sure the informations availlable are based on role
