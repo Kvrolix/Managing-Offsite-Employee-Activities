@@ -4,9 +4,10 @@ import { formatDateTime } from '../../../context/helpers';
 import { UserDataContext } from '../../../context/UserDataContext';
 
 const TaskViewModal = ({ isOpen, task, onClose }) => {
-	const { fetchUserByAuthId } = useContext(UserDataContext);
+	const { fetchUserByAuthId, fetchTeamById } = useContext(UserDataContext);
 	const [createdByUser, setCreatedByUser] = useState('');
 	const [assignedToUser, setAssignedToUser] = useState('');
+	const [assignedToTeam, setAssignedToTeam] = useState('');
 
 	useEffect(() => {
 		if (task) {
@@ -23,6 +24,16 @@ const TaskViewModal = ({ isOpen, task, onClose }) => {
 					setAssignedToUser(`${assignee.firstname} ${assignee.surname}`);
 				} else {
 					setAssignedToUser('Not assigned');
+				}
+
+				const [teamData] = await fetchTeamById(task.assignedtoteamid);
+
+				if (teamData) {
+					const { teamname } = teamData;
+					// console.log(teamData);
+					setAssignedToTeam(` ${teamname}`);
+				} else {
+					setAssignedToTeam('Not assigned');
 				}
 			};
 
@@ -44,9 +55,12 @@ const TaskViewModal = ({ isOpen, task, onClose }) => {
 				{/* DEADLINE */}
 				<h3 className={TasksPageCSS.modalFieldTitle}>Deadline</h3>
 				<p className={TasksPageCSS.modalInput}>{task.deadline}</p>
-				{/* ASSIGNED TO */}
-				<h3 className={TasksPageCSS.modalFieldTitle}>Assigned To</h3>
+				{/* ASSIGNED TO PERSON */}
+				<h3 className={TasksPageCSS.modalFieldTitle}>Assigned to Person</h3>
 				<p className={TasksPageCSS.modalInput}>{assignedToUser}</p>
+				{/* ASSIGNED TO TEAM */}
+				<h3 className={TasksPageCSS.modalFieldTitle}>Assigned to Team</h3>
+				<p className={TasksPageCSS.modalInput}>{assignedToTeam}</p>
 				{/* CREATOR */}
 				<h3 className={TasksPageCSS.modalFieldTitle}>Created by</h3>
 				<p className={TasksPageCSS.modalInput}>{createdByUser}</p>

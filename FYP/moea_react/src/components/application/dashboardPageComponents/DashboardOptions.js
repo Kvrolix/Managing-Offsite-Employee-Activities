@@ -7,7 +7,9 @@ import DashboardOptionsCSS from './DashboardOptions.module.css';
 
 // Data
 import { UserDataContext } from '../../../context/UserDataContext.js';
+// Roles
 
+import { ROLES } from '../../../context/roles.js';
 // Components
 // TODO export it to a different file as there will be too many of them soon
 const DashboardElement = ({ icon, text, navigateTo }) => (
@@ -21,12 +23,6 @@ const DashboardElement = ({ icon, text, navigateTo }) => (
 	</div>
 );
 
-// TODO Add hover option that the element will go even more up
-// TODO Add functionality for map and calendar, and other buttons
-// TODO Use Google icons eveythere and for the organization icon apply the briefcase
-// TODO Fix the screen as when the sidebar is used the screen is changing too.
-// TODO Update the dashboard to look better add the animations too
-
 const DashboardOptions = ({ isSidebarOpen }) => {
 	const { userRecord } = useContext(UserDataContext);
 	const { navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat, navigateToTeams, navigateToMap, navigateToFiles } = useAppNavigate();
@@ -35,7 +31,8 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 		return null;
 	}
 
-	const { firstname } = userRecord;
+	const { firstname, jobroleid } = userRecord;
+	console.log('JobRole id from dashboard', jobroleid);
 
 	const CalendarComponent = () => {
 		const [currentTime, setCurrentTime] = useState(new Date());
@@ -60,6 +57,7 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 			</div>
 		);
 	};
+	console.log(ROLES.CHIEF);
 
 	return (
 		<>
@@ -74,12 +72,14 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 							navigateTo={navigateToTasks}
 						/>
 						{/* TEAMS */}
+						{/* {jobroleid === } */}
 						<DashboardElement
 							icon="supervised_user_circle"
 							text="Teams"
 							navigateTo={navigateToTeams}
 						/>
 						{/* CHAT */}
+						{/* REMOVE  SWAP WITH USER PAGE*/}
 						<DashboardElement
 							icon="question_answer"
 							text="Chat"
@@ -92,11 +92,13 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 							navigateTo={navigateToFiles}
 						/>
 						{/* USERS */}
-						<DashboardElement
-							icon="group"
-							text="Users"
-							navigateTo={navigateToUsers}
-						/>
+						{[ROLES.CHIEF, ROLES.MANAGER, ROLES.SECRETARY].includes(jobroleid) && (
+							<DashboardElement
+								icon="group"
+								text="Users"
+								navigateTo={navigateToUsers}
+							/>
+						)}
 						{/* ORGANIZATION */}
 						<DashboardElement
 							icon="hub"
@@ -105,9 +107,13 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 						/>
 					</div>
 					<CalendarComponent />
-					<div
-						className={DashboardOptionsCSS.dashboard_map}
-						onClick={navigateToMap}></div>
+					{[ROLES.CHIEF, ROLES.MANAGER, ROLES.SECRETARY].includes(jobroleid) && (
+						<>
+							<div
+								className={DashboardOptionsCSS.dashboard_map}
+								onClick={navigateToMap}></div>
+						</>
+					)}
 				</div>
 			</div>
 		</>

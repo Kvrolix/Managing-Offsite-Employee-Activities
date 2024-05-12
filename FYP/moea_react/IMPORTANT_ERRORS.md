@@ -101,4 +101,19 @@ For the UX i have set that the selected box is higlighted
 
 Make sure the functionality is baed on role in the following pages (everywhting is written in the help icon):
 
-- Tasks page
+Starting with (TEAM LEADER AND WORKER):
+
+# TeamLeader (4)
+
+### Completed:
+
+# Worker (5)
+
+### Completed:
+
+- Dashboard
+- Sidebar
+- Tasks
+- Files
+- Teams
+- Map

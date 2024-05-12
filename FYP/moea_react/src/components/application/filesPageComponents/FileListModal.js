@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { UserDataContext } from '../../../context/UserDataContext';
 import FilePageCSS from './FilesPage.module.css';
-
+import { ROLES } from '../../../context/roles';
 const FileListModal = () => {
 	const [files, setFiles] = useState([]);
-	const { listFiles, downloadFile, deleteFile, uploadFile } = useContext(UserDataContext);
+	const { userRecord, listFiles, downloadFile, deleteFile, uploadFile } = useContext(UserDataContext);
 
 	useEffect(() => {
 		fetchFiles();
@@ -63,12 +63,16 @@ const FileListModal = () => {
 
 	return (
 		<div>
-			<h2 className={FilePageCSS.h2_heading}>Upload Document</h2>
-			<div onChange={handleFileUpload}>
-				<input
-					type="file"
-					onChange={handleFileUpload}></input>
-			</div>
+			{[ROLES.CHIEF, ROLES.MANAGER, ROLES.SECRETARY].includes(userRecord.jobroleid) && (
+				<>
+					<h2 className={FilePageCSS.h2_heading}>Upload Document</h2>
+					<div onChange={handleFileUpload}>
+						<input
+							type="file"
+							onChange={handleFileUpload}></input>
+					</div>
+				</>
+			)}
 			<h2 className={FilePageCSS.h2_heading}>Organization Files</h2>
 			{files.map((file) => (
 				<div
@@ -80,11 +84,15 @@ const FileListModal = () => {
 						className={`${FilePageCSS.file_button} ${FilePageCSS.file_button__download}`}>
 						Download
 					</div>
-					<div
-						onClick={() => handleFileDelete(file.name)}
-						className={`${FilePageCSS.file_button} ${FilePageCSS.file_button__delete}`}>
-						Delete
-					</div>
+					{[ROLES.CHIEF, ROLES.MANAGER, ROLES.SECRETARY].includes(userRecord.jobroleid) && (
+						<>
+							<div
+								onClick={() => handleFileDelete(file.name)}
+								className={`${FilePageCSS.file_button} ${FilePageCSS.file_button__delete}`}>
+								Delete
+							</div>
+						</>
+					)}
 				</div>
 			))}
 		</div>

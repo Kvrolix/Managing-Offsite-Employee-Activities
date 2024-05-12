@@ -397,6 +397,19 @@ export const UserDataProvider = ({ children }) => {
 		}
 	};
 
+	const fetchTeamById = async (teamid) => {
+		try {
+			const { data, error } = await supabase.from('team').select('*').eq('teamid', teamid);
+			if (error) {
+				console.error('Error fetching team:', error.message);
+				throw error;
+			}
+			return data || [];
+		} catch (error) {
+			console.log(`Error during seperate team fetch`, error.message);
+		}
+	};
+
 	const fetchTeamsByLeaderId = async (leaderId) => {
 		try {
 			const { data, error } = await supabase.from('team').select('*').eq('teamleaderauthid', leaderId);
@@ -666,6 +679,7 @@ export const UserDataProvider = ({ children }) => {
 				addChatParticipants,
 				sendMessage,
 				// TEAMS PAGE
+				fetchTeamById,
 				fetchTeamLeaders,
 				teamLeaders,
 				checkTeamLeaderAssigned,

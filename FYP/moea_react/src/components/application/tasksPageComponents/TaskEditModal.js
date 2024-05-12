@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import TasksPageCSS from './TasksPage.module.css';
-const TaskEditModal = ({ isOpen, onClose, onSave, task, employees }) => {
+import { getPositionName } from '../../../context/helpers';
+const TaskEditModal = ({ isOpen, onClose, onSave, task, employees, teams }) => {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [deadline, setDeadline] = useState('');
 	const [assignedtoauthid, setAssignedToAuthId] = useState('');
+	const [assignedToTeamId, setAssignedToTeamId] = useState('');
 
+	console.log(teams);
+	console.log(employees);
 	useEffect(() => {
 		if (task) {
 			setTitle(task.taskname);
 			setDescription(task.description);
 			setDeadline(task.deadline);
 			setAssignedToAuthId(task.assignedtoauthid);
+			setAssignedToTeamId(task.assignedToTeamId);
 		}
 	}, [task]);
 
@@ -22,6 +27,7 @@ const TaskEditModal = ({ isOpen, onClose, onSave, task, employees }) => {
 			description,
 			deadline,
 			assignedtoauthid,
+			assignedtoteamid: assignedToTeamId,
 		});
 		onClose();
 	};
@@ -66,7 +72,21 @@ const TaskEditModal = ({ isOpen, onClose, onSave, task, employees }) => {
 							<option
 								key={employee.authid}
 								value={employee.authid}>
-								{employee.firstname} {employee.surname} {`, Job Role: ${employee.jobroleid}`}
+								{`${employee.firstname} ${employee.surname},  ${getPositionName(employee.jobroleid)}`}
+							</option>
+						))}
+					</select>
+					<div className={TasksPageCSS.modalFieldTitle}>Assigned to Team</div>
+					<select
+						className={TasksPageCSS.modalInput}
+						value={assignedToTeamId}
+						onChange={(e) => setAssignedToTeamId(e.target.value)}>
+						<option value="">Select Team...</option>
+						{teams.map((team) => (
+							<option
+								key={team.teamid}
+								value={team.teamid}>
+								{team.teamname}
 							</option>
 						))}
 					</select>

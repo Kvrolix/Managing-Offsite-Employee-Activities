@@ -70,7 +70,6 @@ const DashboardPage = () => {
 							<li>Managing tasks</li>
 							<li>Accessing files</li>
 							<li>Viewing organizational details</li>
-							<li>Utilizing the map</li>
 						</ol>
 						<p className="help_paragraph">Access to teams, user management, and organizational details is restricted to ensure data privacy and to streamline your focus on task execution.</p>
 					</div>

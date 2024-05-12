@@ -15,6 +15,7 @@ import HelpIcon from '../components/application/HelpIcon';
 // Data
 import { UserDataContext } from '../context/UserDataContext';
 import { getPositionName } from '../context/helpers';
+import { ROLES } from '../context/roles';
 
 const TeamsPage = () => {
 	const [isAddTeamsModalOpen, setIsAddTeamsModalOpen] = useState(false);
@@ -94,8 +95,8 @@ const TeamsPage = () => {
 					<div>
 						<h3 className="help_header">As a {getPositionName(userRecord.jobroleid)}</h3>
 						<p className="help_paragraph">
-							You do not have access to the Teams page. This measure ensures data privacy and management efficiency. For any inquiries or detailed information about team structures or your role within
-							a team, please direct your questions to your direct supervisor or the HR department.
+							Your interaction with the Teams page is limited to viewing. This access allows you to see the structure and members of the teams within the organization, which can inform your strategies
+							and collaborations.
 						</p>
 					</div>
 				);
@@ -123,26 +124,34 @@ const TeamsPage = () => {
 				<h1 className={TeamsPageCSS.page_heading}>TEAMS PAGE</h1>
 				<div className={TeamsPageCSS.content}>
 					<div className={TeamsPageCSS.content_grid}>
-						<ContentElement
-							icon="group_add"
-							text="Add Team"
-							navigateTo={() => setIsAddTeamsModalOpen(true)}
-						/>
+						{[ROLES.CHIEF, ROLES.MANAGER, ROLES.SECRETARY].includes(userRecord.jobroleid) && (
+							<>
+								<ContentElement
+									icon="group_add"
+									text="Add Team"
+									navigateTo={() => setIsAddTeamsModalOpen(true)}
+								/>
+							</>
+						)}
 						<ContentElement
 							icon="conditions"
 							text="View Teams"
 							navigateTo={() => setIsViewTeamsModalOpen(true)}
 						/>
-						<ContentElement
-							icon="edit_note"
-							text="Edit Teams"
-							navigateTo={() => setIsEditTeamsModalOpen(true)}
-						/>
-						<ContentElement
-							icon="group_remove"
-							text="Delete Team"
-							navigateTo={() => setIsDeleteTeamsModalOpen(true)}
-						/>
+						{[ROLES.CHIEF, ROLES.MANAGER, ROLES.SECRETARY].includes(userRecord.jobroleid) && (
+							<>
+								<ContentElement
+									icon="edit_note"
+									text="Edit Teams"
+									navigateTo={() => setIsEditTeamsModalOpen(true)}
+								/>
+								<ContentElement
+									icon="group_remove"
+									text="Delete Team"
+									navigateTo={() => setIsDeleteTeamsModalOpen(true)}
+								/>
+							</>
+						)}
 					</div>
 				</div>
 			</div>

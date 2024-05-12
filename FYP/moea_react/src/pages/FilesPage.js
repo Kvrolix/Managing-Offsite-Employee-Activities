@@ -90,6 +90,7 @@ const FilesPage = () => {
 			<div className={FilesPageCSS.page_container}>
 				<h1 className={FilesPageCSS.page_heading}>DOCUMENTS</h1>
 				<div className={FilesPageCSS.page_content}>
+					{/* TODO CHANGE ITS NAME ITS NOT MODAL */}
 					<FileListModal />
 				</div>
 			</div>
