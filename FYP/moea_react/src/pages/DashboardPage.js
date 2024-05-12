@@ -12,6 +12,7 @@ import { getPositionName } from '../context/helpers.js';
 const DashboardPage = () => {
 	const { userRecord } = useContext(UserDataContext);
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
 	const getHelpContentBasedOnRole = (jobRole) => {
 		const higherPosition = () => {
 			return (

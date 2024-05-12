@@ -1,5 +1,5 @@
 .options_container {
-	height: 100vh;
+	min-height: 100vh;
 	width: 100vw;
 	/* background: #f7f8ff; */
 	background-color: #e3f2fd;

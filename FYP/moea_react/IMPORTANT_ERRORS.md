@@ -69,15 +69,13 @@ https://react.dev/
 
 Friday:
 
-DONE - Create Map
-
 - User Profile where All teh infromations are stored, worked hours will be stored here two, for each month (user profile will be in Organization)
+
 - Every Function should have a success rendered
+
 - Add a moea logo to the tab
 
   Saturday:
-
-DONE Support file sharing for document and resource exchange.
 
 - Add Counting hours for each task
 - Change Login Page
@@ -98,23 +96,6 @@ If a organization is not fetching other organization records
 When editing the user details, the position should be as as dropdown list with the name e.g secretary not the number
 Update buttons there too
 For the UX i have set that the selected box is higlighted
-
-<!-- question marks -->
-
-- Completed documents
-- Completed it does look very well map
-- Completed Tasks
-- Completed Teams page
-
-<!-- Not Completed -->
-
-- Dashboard
-
-All other pages need to be updated to make it look visual more enhancing
-Get position name
-
-- tasks page
-  teams page missing
 
 <!-- based on jobrole functionality -->
 

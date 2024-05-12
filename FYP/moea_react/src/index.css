@@ -294,7 +294,7 @@ section {
 	height: 80vh;
 }
 
-/* HELP ICON */
+/* ------------------------ HELP ICON */
 
 .help_header {
 	margin-top: 0.5rem;
@@ -335,4 +335,47 @@ section {
 	line-height: 1.3;
 	margin-bottom: 0.5rem;
 	font-size: 1.4rem;
+}
+
+/* ------------------------------------------ LOGIN PAGE ------------------------------ */
+
+/* box of the login*/
+.t-deGdmh {
+	/* margin-top: 5rem; */
+	width: 50rem;
+	margin-inline: auto;
+	color: #fff;
+	backdrop-filter: blur(20px);
+	padding: 5rem;
+	border-radius: 10px;
+	padding: 0 3rem 5rem 3rem;
+	border-radius: 10px;
+	border: 2px solid #fff;
+	box-shadow: 0 0 10px rgba(51, 51, 51, 0.3);
+}
+
+.login_page_container {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	background: center no-repeat url(./images/MOEA_logo.png), linear-gradient(-30deg, #e3f2fd 39%, rgba(31, 226, 144, 1) 100%);
+	background-size: 35% top, cover;
+}
+.supabase-auth-ui_ui-label {
+	margin-top: 1.5rem;
+}
+
+.c-bpexlo {
+	font-size: 1.8rem !important;
+	color: #555 !important;
+	/* background-color: #007bff; */
+}
+.c-dumjqv {
+	align-content: flex-end;
+	/* margin-top: 4rem; */
+}
+.supabase-auth-ui_ui-container {
+	margin-top: 5rem;
 }
