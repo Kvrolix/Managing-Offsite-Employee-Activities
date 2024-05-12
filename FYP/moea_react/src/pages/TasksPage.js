@@ -8,6 +8,8 @@ import TasksPageCSS from '../components/application/tasksPageComponents/TasksPag
 import { UserDataContext } from '../context/UserDataContext';
 import supabase from '../config/supabaseClient';
 
+// Roles
+import { ROLES } from '../context/roles.js';
 // Components
 import SideNavigationBar from '../components/application/sideBarComponents/SideNaviagtionBar';
 import TaskElement from '../components/application/tasksPageComponents/taskElement';
@@ -23,6 +25,7 @@ import TaskEditModal from '../components/application/tasksPageComponents/TaskEdi
 // TODO
 import HelpIcon from '../components/application/HelpIcon.js';
 import { getPositionName } from '../context/helpers.js';
+
 // TODO go through the records in a list so they are all visible and depends who you pick it will get his authid and this will be assigned to a created task
 // BUG When page realods it waits longser for getting the assigned to as it is another call, to it should all be printed in teh same time \
 
@@ -38,7 +41,7 @@ import { getPositionName } from '../context/helpers.js';
 
 const TasksPage = () => {
 	// DATA
-	const { userRecord, tasks, fetchTasks, employeesForTask, fetchUserByAuthId } = useContext(UserDataContext);
+	const { userRecord, tasks, fetchTasks, fetchTeams, employeesForTask, fetchUserByAuthId, fetchTeamById } = useContext(UserDataContext);
 	const [userNames, setUserNames] = useState({});
 	const [archivedTasks, setArchivedTasks] = useState([]);
 	const [editingTask, setEditingTask] = useState(null);
@@ -65,6 +68,19 @@ const TasksPage = () => {
 			await fetchArchivedTasks();
 		}
 	};
+
+	const [team, setTeam] = useState([]);
+	useEffect(() => {
+		const loadTeams = async () => {
+			const fetchedTeams = await fetchTeams();
+			setTeam(fetchedTeams);
+		};
+
+		loadTeams();
+	}, []);
+
+	// 	fetchTeams
+	// }
 
 	// EDIT TASK MODAL
 	const openEditModal = (task) => {
@@ -143,32 +159,32 @@ const TasksPage = () => {
 		};
 	}, [currentUndoTimeout]);
 
-	// REMOVE ?
-	// const updateTask = async (taskData) => {
-	// 	setLoading(true);
-	// 	try {
-	// 		const { data, error } = await supabase
-	// 			.from('task')
-	// 			.update({
-	// 				taskname: taskData.title,
-	// 				description: taskData.description,
-	// 				deadline: taskData.deadline,
-	// 				assignedtoauthid: taskData.assignedToPerson,
-	// 			})
-	// 			.match({ taskid: taskData.taskId });
+	const updateTask = async (taskData) => {
+		setLoading(true);
+		try {
+			const { data, error } = await supabase
+				.from('task')
+				.update({
+					taskname: taskData.title,
+					description: taskData.description,
+					deadline: taskData.deadline,
+					assignedtoauthid: taskData.assignedToPerson,
+					assignedtoteamid: taskData.assignedToTeam,
+				})
+				.match({ taskid: taskData.taskId });
 
-	// 		if (error) throw error;
+			if (error) throw error;
 
-	// 		setSuccessMessage('Task updated successfully');
-	// 		setShowSuccessNotification(true);
-	// 		setTimeout(() => setShowSuccessNotification(false), 3000);
-	// 		fetchTasks(); // Refresh the task list to show the updated data
-	// 	} catch (error) {
-	// 		console.error('Error updating task:', error.message);
-	// 	} finally {
-	// 		setLoading(false);
-	// 	}
-	// };
+			setSuccessMessage('Task updated successfully');
+			setShowSuccessNotification(true);
+			setTimeout(() => setShowSuccessNotification(false), 3000);
+			fetchTasks(); // Refresh the task list to show the updated data
+		} catch (error) {
+			console.error('Error updating task:', error.message);
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	const handleUpdateTask = async (updatedTaskData) => {
 		try {
@@ -232,10 +248,24 @@ const TasksPage = () => {
 		}
 	}, [tasks, fetchUserByAuthId]);
 
+	useEffect(() => {
+		const loadTeams = async () => {
+			const fetchedTeams = await fetchTeams(); // Assuming this fetches all teams
+			setTeam(
+				fetchedTeams.reduce((acc, team) => {
+					acc[team.teamid] = team.teamname; // Create a map of teamid to teamname
+					return acc;
+				}, {})
+			);
+		};
+
+		loadTeams();
+	}, []);
+
 	// MOVETO USERDATACONTEXT
 	const saveTask = async (taskData) => {
 		// TODO The extra fields i have added are need to be here too
-		const { title, description, deadline, assignedToPerson } = taskData;
+		const { title, description, deadline, assignedToTeam, assignedToPerson } = taskData;
 
 		const organizationId = userRecord.organizationid;
 		const createdByAuthId = userRecord.authid;
@@ -247,10 +277,11 @@ const TasksPage = () => {
 					deadline: deadline,
 					organizationid: organizationId,
 					assignedtoauthid: assignedToPerson,
-					// assignedtoteamid: assignedToTeam, TODO
+					assignedtoteamid: assignedToTeam,
 					createdbyauthid: createdByAuthId,
 				},
 			]);
+			console.log(data);
 			if (error) throw error;
 			setSuccessMessage('Task created successfully');
 			setShowSuccessNotification(true);
@@ -356,14 +387,17 @@ const TasksPage = () => {
 			<HelpIcon helpContent={helpContent} />
 			<div className={TasksPageCSS.container_tasks}>
 				<h1 className={TasksPageCSS.tasks_heading}>TASK MANAGER</h1>
-
-				<div className={TasksPageCSS.tasks_crud_containter}>
-					<CrudElement
-						icon="post_add"
-						color="green"
-						onClick={openCreateModal}
-					/>
-				</div>
+				{[ROLES.CHIEF, ROLES.MANAGER, ROLES.SECRETARY].includes(userRecord.jobroleid) && (
+					<>
+						<div className={TasksPageCSS.tasks_crud_containter}>
+							<CrudElement
+								icon="post_add"
+								color="green"
+								onClick={openCreateModal}
+							/>
+						</div>
+					</>
+				)}
 				<div className={TasksPageCSS.tasks_grid}>
 					{tasks
 						.filter((task) => !task.isCompleted && !task.isArchived)
@@ -375,6 +409,8 @@ const TasksPage = () => {
 								deadline={task.deadline}
 								dateCreated={task.datecreated}
 								assignedTo={userNames[task.assignedtoauthid] || 'Not assigned'}
+								// FIXME
+								assignedToTeam={team[task.assignedtoteamid] || 'Not assigned'}
 								onEdit={() => openEditModal(task)}
 								onArchive={() => archiveTask(task)}
 								onComplete={() => archiveTask(task)}
@@ -382,38 +418,47 @@ const TasksPage = () => {
 							/>
 						))}
 				</div>
-				<button
-					className={TasksPageCSS.show_archive}
-					onClick={toggleArchives}>
-					{isArchivesOpen ? 'Hide Archives' : 'Show Archives'}
-				</button>
-				{isArchivesOpen && (
-					<div className={TasksPageCSS.archives_container}>
-						<h2 className={TasksPageCSS.archives_heading}>ARCHIVES</h2>
-						<table className={TasksPageCSS.archives_table}>
-							<thead>
-								<tr>
-									<th>Title</th>
-									<th>Description</th>
-									<th>Deadline</th>
-									<th>Assigned To</th>
-									<th>TaskID</th>
-								</tr>
-							</thead>
-							<tbody>
-								{archivedTasks.map((task) => (
-									<ArchiveRow
-										key={task.taskid}
-										title={task.taskname}
-										description={task.description}
-										deadline={task.deadline}
-										taskid={task.taskid}
-										assignedTo={userNames[task.assignedtoauthid] || 'Not assigned'}
-									/>
-								))}
-							</tbody>
-						</table>
-					</div>
+
+				{[ROLES.CHIEF, ROLES.MANAGER, ROLES.SECRETARY].includes(userRecord.jobroleid) && (
+					<>
+						<button
+							className={TasksPageCSS.show_archive}
+							onClick={toggleArchives}>
+							{isArchivesOpen ? 'Hide Archives' : 'Show Archives'}
+						</button>
+						{isArchivesOpen && (
+							<div className={TasksPageCSS.archives_container}>
+								<h2 className={TasksPageCSS.archives_heading}>ARCHIVES</h2>
+								<table className={TasksPageCSS.archives_table}>
+									<thead>
+										<tr>
+											<th>Title</th>
+											<th>Description</th>
+											<th>Deadline</th>
+											<th>Assigned To</th>
+											<th>TaskID</th>
+										</tr>
+									</thead>
+									<tbody>
+										{archivedTasks.map((task) => (
+											<ArchiveRow
+												key={task.taskid}
+												title={task.taskname}
+												description={task.description}
+												deadline={task.deadline}
+												taskid={task.taskid}
+												assignedTo={userNames[task.assignedtoauthid] || 'Not assigned'}
+												// FIXME TEAMS
+												// assignedTo={userNames[task.assignedtoauthid] || 'Not assigned'}
+											/>
+										))}
+										{/* {console.log(`UserNames`, userNames)} */}
+										{/* {console.log(`Tasks`, task)} */}
+									</tbody>
+								</table>
+							</div>
+						)}
+					</>
 				)}
 			</div>
 
@@ -422,20 +467,25 @@ const TasksPage = () => {
 				task={viewingTask}
 				onClose={closeViewModal}
 			/>
-			<TaskCreationModal
-				isOpen={isCreateModalOpen}
-				onClose={() => setIsCreateModalOpen(false)}
-				onSave={saveTask}
-				employees={employeesForTask}
-				loading={loading}
-				setLoading={setLoading}
-			/>
+			{[ROLES.CHIEF, ROLES.MANAGER, ROLES.SECRETARY].includes(userRecord.jobroleid) && (
+				<TaskCreationModal
+					isOpen={isCreateModalOpen}
+					onClose={() => setIsCreateModalOpen(false)}
+					onSave={saveTask}
+					employees={employeesForTask}
+					loading={loading}
+					setLoading={setLoading}
+					// FIXME
+					teams={team}
+				/>
+			)}
 			<TaskEditModal
 				isOpen={isEditModalOpen}
 				onClose={closeEditModal}
 				onSave={handleUpdateTask}
 				task={editingTask}
 				employees={employeesForTask}
+				teams={team}
 			/>
 			<SuccessNotification
 				message={successMessage}

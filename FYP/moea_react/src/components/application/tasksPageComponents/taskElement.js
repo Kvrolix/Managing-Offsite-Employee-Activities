@@ -34,7 +34,7 @@ function truncateString(str, length) {
 }
 const descriptionVisibleLength = 30;
 
-const TaskElement = ({ title, description, dateCreated, deadline, assignedTo, onEdit, onArchive, onComplete, onView }) => {
+const TaskElement = ({ title, description, dateCreated, deadline, assignedTo, assignedToTeam, onEdit, onArchive, onComplete, onView }) => {
 	const [showOptions, setShowOptions] = useState(false);
 	const optionsRef = useRef(null);
 
@@ -67,7 +67,8 @@ const TaskElement = ({ title, description, dateCreated, deadline, assignedTo, on
 				<h2>{title}</h2>
 				<p>{description}</p>
 				<div className={TasksPageCSS.task_info}>Deadline: {deadline}</div>
-				<div className={TasksPageCSS.task_info}>Assigned to: {assignedTo}</div>
+				<div className={TasksPageCSS.task_info}>Assigned to Person: {assignedTo}</div>
+				<div className={TasksPageCSS.task_info}>Assigned to Team: {assignedToTeam}</div>
 				{/* <div className={TasksPageCSS.task_info}>Created: {formattedDate}</div> */}
 				{showOptions && (
 					<div

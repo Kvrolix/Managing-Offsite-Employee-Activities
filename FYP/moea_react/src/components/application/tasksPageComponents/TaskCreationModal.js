@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import TasksPageCSS from './TasksPage.module.css';
 import Spinner from '../Spinner';
 
-const TaskCreationModal = ({ isOpen, onClose, onSave, employees, loading, setLoading }) => {
+const TaskCreationModal = ({ isOpen, onClose, onSave, employees, teams, loading, setLoading }) => {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [deadline, setDeadline] = useState('');
@@ -14,14 +14,39 @@ const TaskCreationModal = ({ isOpen, onClose, onSave, employees, loading, setLoa
 
 	if (!isOpen) return null;
 
-	const handleSave = () => {
-		if (!title.trim() || !description.trim() || !deadline.trim() || (assignedToPerson.trim() === '' && assignedToTeam.trim() === '')) {
-			console.error('Title, description, deadline are required, and either a person or a team must be selected.');
+	// const handleSave = () => {
+	// 	if (!title.trim() || !description.trim() || !deadline.trim() || (assignedToPerson.trim() === '' && assignedToTeam.trim() === '')) {
+	// 		console.error('Title, description, deadline are required, and either a person or a team must be selected.');
 
+	// 		return;
+	// 	}
+	// 	setLoading(true);
+	// 	onSave({ title, description, deadline, assignedToPerson, assignedToTeam });
+	// 	setLoading(false);
+	// 	setTitle('');
+	// 	setDescription('');
+	// 	setDeadline('');
+	// 	setAssignedToPerson('');
+	// 	setAssignedToTeam('');
+	// 	onClose(); // Close modal after saving
+	// };
+	const handleSave = () => {
+		if (!title.trim() || !description.trim() || !deadline.trim()) {
+			console.error('Title, description, and deadline are required.');
 			return;
 		}
+
+		// It is used to prevent from working
+		const assignedPerson = assignedToPerson && assignedToPerson !== 'NULL' ? assignedToPerson : null;
+		const assignedTeam = assignedToTeam && assignedToTeam !== 'NULL' ? assignedToTeam : null;
+
+		if (!assignedPerson && !assignedTeam) {
+			console.error('Either a person or a team must be selected.');
+			return;
+		}
+
 		setLoading(true);
-		onSave({ title, description, deadline, assignedToPerson, assignedToTeam });
+		onSave({ title, description, deadline, assignedToPerson: assignedPerson, assignedToTeam: assignedTeam });
 		setLoading(false);
 		setTitle('');
 		setDescription('');
@@ -31,8 +56,6 @@ const TaskCreationModal = ({ isOpen, onClose, onSave, employees, loading, setLoa
 		onClose(); // Close modal after saving
 	};
 
-	// TODO The date needs to be added automatically
-	// TODO I will need to work somehow with assigning, maybe it will give the list as well from poeple to choose from like on supabase
 	// TODO Add the Negative prompt
 	return (
 		<div className={TasksPageCSS.modalBackdrop}>
@@ -41,7 +64,7 @@ const TaskCreationModal = ({ isOpen, onClose, onSave, employees, loading, setLoa
 				<h2 className={TasksPageCSS.modalHeading}>Create New Task</h2>
 				<form
 					onSubmit={(e) => {
-						e.preventDefault(); // Prevent the default form submission
+						e.preventDefault();
 						handleSave();
 					}}>
 					{/* TITLE */}
@@ -80,10 +103,14 @@ const TaskCreationModal = ({ isOpen, onClose, onSave, employees, loading, setLoa
 						required
 						value={assignedToTeam}
 						onChange={(e) => setAssignedToTeam(e.target.value)}>
-						<option value="">Select Team...</option>
-						{/* {teams.map(team => (
-                        <option key={team.TeamID} value={team.TeamID}>{team.TeamName}</option>
-                    ))} */}
+						<option value="NULL">Select Team...</option>
+						{teams.map((team) => (
+							<option
+								key={team.teamid}
+								value={team.teamid}>
+								{team.teamname}
+							</option>
+						))}
 					</select>
 
 					<div className={TasksPageCSS.modalFieldTitle}>Assigned to Person (Optional)</div>
@@ -91,7 +118,7 @@ const TaskCreationModal = ({ isOpen, onClose, onSave, employees, loading, setLoa
 						className={TasksPageCSS.modalInput}
 						value={assignedToPerson}
 						onChange={(e) => setAssignedToPerson(e.target.value)}>
-						<option value="">Select Person...</option>
+						<option value="NULL">Select Person...</option>
 						{employees.map((employee) => (
 							<option
 								key={employee.authid}

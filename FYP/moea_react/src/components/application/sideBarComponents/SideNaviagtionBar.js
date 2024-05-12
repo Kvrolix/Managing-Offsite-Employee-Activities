@@ -13,6 +13,7 @@ import { UserDataContext } from '../../../context/UserDataContext.js';
 import { useAppNavigate } from '../../../context/useAppNavigate.js';
 import { getPositionName } from '../../../context/helpers.js';
 
+import { ROLES } from '../../../context/roles.js';
 const SideBarLink = ({ iconClass, text, navigateTo }) => (
 	// TODO Add onchange to the li element
 	<li className={`${SideNavigationBarCSS.nav_link}}`}>
@@ -21,7 +22,6 @@ const SideBarLink = ({ iconClass, text, navigateTo }) => (
 			role="button"
 			tabIndex="0"
 			onClick={navigateTo}>
-			{' '}
 			{/*TODO Ajust the path */}
 			<i className={`${iconClass} ${SideNavigationBarCSS.icon}`}></i>
 			<span className={`${SideNavigationBarCSS.text} ${SideNavigationBarCSS.nav_text}`}>{text}</span>
@@ -119,11 +119,13 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 									navigateTo={navigateToFiles}
 								/>
 								{/* USERS */}
-								<SideBarLink
-									iconClass="bx bx-user-check"
-									text="Users"
-									navigateTo={navigateToUsers}
-								/>
+								{[ROLES.CHIEF, ROLES.MANAGER, ROLES.SECRETARY].includes(userRecord.jobroleid) && (
+									<SideBarLink
+										iconClass="bx bx-user-check"
+										text="Users"
+										navigateTo={navigateToUsers}
+									/>
+								)}
 								{/* ORGANIZATION */}
 								<SideBarLink
 									iconClass="bx bx-briefcase"
