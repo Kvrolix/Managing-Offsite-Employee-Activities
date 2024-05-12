@@ -293,3 +293,46 @@ section {
 .leaflet_container {
 	height: 80vh;
 }
+
+/* HELP ICON */
+
+.help_header {
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+.help_header__secondary {
+	margin-top: 0.5rem;
+}
+
+.help_list {
+	list-style: none;
+}
+.help_list_numbered {
+	margin-top: 1rem;
+	margin-left: 1.3rem;
+	/* list-style: none; */
+}
+.help_list_numbered li {
+	margin-top: 0.3rem;
+}
+.help_list_numbered li:last-child {
+	margin-bottom: 0.5rem;
+}
+
+.help_list li {
+	margin-top: 0.3rem;
+	margin-left: 0.3rem;
+}
+
+.help_list li:last-child {
+	margin-bottom: 1rem;
+}
+
+.help_text {
+	font-size: 1.4rem;
+}
+.help_paragraph {
+	line-height: 1.3;
+	margin-bottom: 0.5rem;
+	font-size: 1.4rem;
+}

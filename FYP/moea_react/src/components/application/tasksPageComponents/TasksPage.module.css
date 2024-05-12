@@ -2,25 +2,15 @@
 
 /* Assuming 250px is the width of the sidebar */
 
-/* REMOVE */
-.options_container.expanded {
-	margin-left: 250px;
-	transition: margin-left 0.5s ease;
-}
-
-/* REMOVE */
-.options_container.collapsed {
-	margin-left: 88px; /* Or the width of your collapsed sidebar */
-	transition: margin-left 0.4s ease;
-}
-
 .container_tasks {
 	margin-left: 8rem;
-	padding-top: 7rem;
-	/* background-color: aquamarine;
-	 */
+	padding: 2rem;
 	background-color: #e3f2fd;
 	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	/* align-items: center; */
+	justify-content: flex-start;
 }
 
 .tasks_heading {
@@ -183,25 +173,25 @@
 }
 
 .archives_table {
-	width: 100%; /* Full width of the container */
-	border-collapse: collapse; /* Removes space between borders */
-	margin: auto; /* Center the table */
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Consistent with task card shadow */
+	width: 100%;
+	border-collapse: collapse;
+	margin: auto;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .archives_table th,
 .archives_table td {
-	border: 2px solid #ddd; /* Light grey border */
+	border: 2px solid #ddd;
 	font-size: 1.4rem;
 	/* TODO  */
 	line-height: 1.3;
 	padding: 8px;
-	text-align: left; /* Aligns text to the left */
+	text-align: left;
 }
 
 .archives_table th {
-	background-color: #f2f2f2; /* Light grey background for headers */
-	color: #333; /* Dark grey color for header text */
+	background-color: #f2f2f2;
+	color: #333;
 }
 
 .archives_table tr:nth-child(even) {
@@ -213,7 +203,7 @@
 } /* Hover effect for rows */
 
 .archives_table td {
-	color: #666; /* Consistent with task card text color */
+	color: #666;
 }
 
 /* FIXME NAME*/
@@ -223,8 +213,8 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.6); /* Darker semi-transparent background for more focus on the modal */
-	backdrop-filter: blur(8px); /* Enhanced blur for background */
+	background-color: rgba(0, 0, 0, 0.6);
+	backdrop-filter: blur(8px);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -233,21 +223,22 @@
 /* FIXME NAME*/
 .modalContent {
 	background-color: #fff;
-	padding: 40px;
+	padding: 4rem;
 	border-radius: 10px;
-	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Smoother shadow for depth */
-	width: 40%; /* Use percentage for responsive width */
-	max-width: 600px; /* Maximum width to ensure it doesn't get too wide on large screens */
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+	width: 40%;
+	max-width: 60rem;
 	z-index: 1001;
 	display: flex;
-	flex-direction: column; /* Stack elements vertically */
+	flex-direction: column;
 }
+/* !  */
 /* FIXME NAME */
 .modalHeading {
-	margin-bottom: 20px;
+	margin-bottom: 2rem;
 	padding-bottom: 10px;
 	border-bottom: 1px solid #eaeaea; /* Subtle line to separate heading */
-	font-size: 24px;
+	font-size: 2.4rem;
 	font-weight: bold;
 	text-align: center;
 	color: #333;
@@ -262,26 +253,26 @@
 /* FIXME NAME */
 .modalInput,
 .modalTextarea {
-	margin-bottom: 20px;
-	padding: 10px;
-	border: 1px solid #ddd; /* Light border for inputs */
-	border-radius: 5px; /* Slight rounding of corners */
-	width: calc(100% - 20px); /* Full width minus padding */
+	margin-bottom: 2rem;
+	padding: 1rem;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	width: calc(100% - 2rem);
 }
 /* FIXME NAME */
 .modalTextarea {
-	height: 100px; /* Fixed height for the textarea */
-	resize: vertical; /* Allows vertical resizing */
+	height: 10rem;
+	resize: vertical;
 }
 /* FIXME NAME */
 .modalButtonGroup {
 	display: flex;
-	justify-content: flex-end; /* Align buttons to the right */
+	justify-content: flex-end;
 }
 /* FIXME NAME */
 .modalButton {
 	padding: 1rem 2rem;
-	margin-left: 1rem; /* Space between buttons */
+	margin-left: 1rem;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
@@ -289,12 +280,12 @@
 }
 /* FIXME NAME */
 .modalButton__save {
-	background-color: #4caf50; /* Green background */
+	background-color: #4caf50;
 	color: white;
 }
 /* FIXME NAME */
 .modalButton__cancel {
-	background-color: #f44336; /* Red background */
+	background-color: #f44336;
 	color: white;
 }
 /* FIXME NAME */
@@ -302,7 +293,7 @@
 	position: fixed;
 	bottom: 2rem;
 	right: 2rem;
-	background-color: #4caf50; /* Green background */
+	background-color: #4caf50;
 	color: white;
 	padding: 1.5rem;
 	border-radius: 5px;
@@ -310,7 +301,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	z-index: 1002; /* Ensure it appears above all other content */
+	z-index: 1002;
 }
 /* FIXME NAME */
 .notificationCloseButton {
@@ -323,6 +314,8 @@
 .show_archive {
 	background-color: #f4f4f4;
 	font-size: 1.5rem;
+
+	width: 12rem;
 	border-radius: 5px;
 	cursor: pointer;
 	font-weight: 500;

@@ -22,6 +22,7 @@ import TaskEditModal from '../components/application/tasksPageComponents/TaskEdi
 
 // TODO
 import HelpIcon from '../components/application/HelpIcon.js';
+import { getPositionName } from '../context/helpers.js';
 // TODO go through the records in a list so they are all visible and depends who you pick it will get his authid and this will be assigned to a created task
 // BUG When page realods it waits longser for getting the assigned to as it is another call, to it should all be printed in teh same time \
 
@@ -52,6 +53,7 @@ const TasksPage = () => {
 	const [isArchivesOpen, setIsArchivesOpen] = useState(false);
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
+	// Sucess notifiaction
 	const [showSuccessNotification, setShowSuccessNotification] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
 	const [currentUndoTimeout, setCurrentUndoTimeout] = useState(null);
@@ -115,7 +117,7 @@ const TasksPage = () => {
 		setCurrentUndoTimeout(undoTimeout);
 		setCurrentTask(task); // Keep track of the task for undoing
 	};
-
+	// MOVETO USERDATACONTEXT
 	const undoArchive = async () => {
 		if (currentUndoTimeout) {
 			clearTimeout(currentUndoTimeout);
@@ -141,31 +143,32 @@ const TasksPage = () => {
 		};
 	}, [currentUndoTimeout]);
 
-	const updateTask = async (taskData) => {
-		setLoading(true);
-		try {
-			const { data, error } = await supabase
-				.from('task')
-				.update({
-					taskname: taskData.title,
-					description: taskData.description,
-					deadline: taskData.deadline,
-					assignedtoauthid: taskData.assignedToPerson,
-				})
-				.match({ taskid: taskData.taskId });
+	// REMOVE ?
+	// const updateTask = async (taskData) => {
+	// 	setLoading(true);
+	// 	try {
+	// 		const { data, error } = await supabase
+	// 			.from('task')
+	// 			.update({
+	// 				taskname: taskData.title,
+	// 				description: taskData.description,
+	// 				deadline: taskData.deadline,
+	// 				assignedtoauthid: taskData.assignedToPerson,
+	// 			})
+	// 			.match({ taskid: taskData.taskId });
 
-			if (error) throw error;
+	// 		if (error) throw error;
 
-			setSuccessMessage('Task updated successfully');
-			setShowSuccessNotification(true);
-			setTimeout(() => setShowSuccessNotification(false), 3000);
-			fetchTasks(); // Refresh the task list to show the updated data
-		} catch (error) {
-			console.error('Error updating task:', error.message);
-		} finally {
-			setLoading(false);
-		}
-	};
+	// 		setSuccessMessage('Task updated successfully');
+	// 		setShowSuccessNotification(true);
+	// 		setTimeout(() => setShowSuccessNotification(false), 3000);
+	// 		fetchTasks(); // Refresh the task list to show the updated data
+	// 	} catch (error) {
+	// 		console.error('Error updating task:', error.message);
+	// 	} finally {
+	// 		setLoading(false);
+	// 	}
+	// };
 
 	const handleUpdateTask = async (updatedTaskData) => {
 		try {
@@ -192,10 +195,10 @@ const TasksPage = () => {
 		}
 	};
 
+	// MOVETO USERDATACONTEXT
 	const archiveTask = async (task) => {
 		try {
 			const { error } = await supabase.from('task').update({ isCompleted: true, isArchived: true }).eq('taskid', task.taskid);
-			// console.log(`Archived Task:`, task.taskid);
 
 			if (error) throw error;
 
@@ -227,9 +230,9 @@ const TasksPage = () => {
 		if (tasks.length > 0) {
 			fetchAndSetUserNames();
 		}
-		// console.log(tasks[1]);
 	}, [tasks, fetchUserByAuthId]);
 
+	// MOVETO USERDATACONTEXT
 	const saveTask = async (taskData) => {
 		// TODO The extra fields i have added are need to be here too
 		const { title, description, deadline, assignedToPerson } = taskData;
@@ -260,31 +263,89 @@ const TasksPage = () => {
 			setLoading(false);
 		}
 	};
-	const jobRole = userRecord.jobroleid;
+	const getJobRole = userRecord.jobroleid;
 
-	const getHelpContentBasedOnRole = (jobRole) => {
-		switch (jobRole) {
+	const getHelpContentBasedOnRole = (getJobRole) => {
+		const higherPosition = () => {
+			return (
+				<>
+					<div>
+						<h3 className="help_header">As a {getPositionName(getJobRole)} </h3>
+						<div>
+							<p className="help_paragraph">You have complete control over the Tasks Page.</p>
+							<h3 className="help_header">You can do the following:</h3>
+							<ul className={`help_list help_text`}>
+								<li>Create</li>
+								<li>View</li>
+								<li>Edit</li>
+								<li>Complete</li>
+								<li>Archive Tasks</li>
+							</ul>
+							<p className="help_paragraph">This access allows you to manage tasks across the entire organization, ensuring everything is on track and up-to-date.</p>
+							<h3 className="help_header">How to use it?</h3>
+							<p className="help_paragraph">To use the functionality simply press on the task and the options will appear.</p>
+							<p className="help_paragraph">To create a new task, you will need to press the green icon with a document.</p>
+						</div>
+					</div>
+				</>
+			);
+		};
+
+		switch (getJobRole) {
 			case 1: // Chief
-				return 'As a Chief, you have complete control over the Tasks Page. You can create, view, edit, complete, and archive tasks. This access allows you to manage tasks across the entire organization, ensuring everything is on track and up-to-date.';
+				return higherPosition();
 
 			case 2: // Manager
-				return "As a Manager, you have the ability to create new tasks, view all tasks, edit them, and move them to archive. This role enables you to manage tasks within your department, ensuring that your team's objectives are clearly defined and monitored.";
+				return higherPosition();
 
 			case 3: // Secretary
-				return 'As a Secretary, your access includes the creation of new tasks and the ability to view and archive existing tasks. This role allows you to support the management team by organizing and updating tasks as needed, ensuring operational efficiency.';
+				return higherPosition();
 
 			case 4: // Team Leader
-				return 'As a Team Leader, you are permitted to view tasks specifically assigned to your team. This focused access helps you manage and monitor the progress of tasks within your direct responsibility, aiding in the efficient management of your team’s workload.';
+				return (
+					<>
+						<div>
+							<h3 className="help_header">As a {getPositionName(getJobRole)}</h3>
+							<p className="help_paragraph">You have limited control over the Tasks Page.</p>
+							<h3 className="help_header">You can do the following:</h3>
+							<ul className={`help_list help_text`}>
+								<li>View</li>
+								<li>Edit</li>
+								<li>Complete</li>
+							</ul>
+							<p>
+								You are permitted to view tasks specifically assigned to your team. This focused access helps you manage and monitor the progress of tasks within your direct responsibility, aiding in
+								the efficient management of your team’s workload.
+							</p>
+						</div>
+					</>
+				);
 
 			case 5: // Employee
-				return 'As an Employee, you can view tasks that are directly assigned to you. This allows you to keep track of your individual responsibilities and deadlines, ensuring you stay informed about your specific contributions to team goals.';
+				return (
+					<>
+						<div>
+							<h3 className="help_header">As a {getPositionName(getJobRole)}</h3>
+							<p className="help_paragraph">You have limited control over the Tasks Page.</p>
+							<h3 className="help_header">You can do the following:</h3>
+							<ul className={`help_list help_text`}>
+								<li>View</li>
+								<li>Complete</li>
+							</ul>
+							<p>
+								You can view tasks that are directly assigned to you. This allows you to keep track of your individual responsibilities and deadlines, ensuring you stay informed about your specific
+								contributions to team goals
+							</p>
+						</div>
+					</>
+				);
 
 			default:
 				return 'Access to this page is restricted based on your user role. If you believe you are seeing this message in error, please contact your system administrator.';
 		}
 	};
 
-	const helpContent = getHelpContentBasedOnRole(jobRole);
+	const helpContent = getHelpContentBasedOnRole(getJobRole);
 
 	return (
 		<>
@@ -294,7 +355,7 @@ const TasksPage = () => {
 			/>
 			<HelpIcon helpContent={helpContent} />
 			<div className={TasksPageCSS.container_tasks}>
-				<h1 className={TasksPageCSS.tasks_heading}>Task Manager</h1>
+				<h1 className={TasksPageCSS.tasks_heading}>TASK MANAGER</h1>
 
 				<div className={TasksPageCSS.tasks_crud_containter}>
 					<CrudElement
@@ -328,7 +389,7 @@ const TasksPage = () => {
 				</button>
 				{isArchivesOpen && (
 					<div className={TasksPageCSS.archives_container}>
-						<h2 className={TasksPageCSS.archives_heading}>Archives</h2>
+						<h2 className={TasksPageCSS.archives_heading}>ARCHIVES</h2>
 						<table className={TasksPageCSS.archives_table}>
 							<thead>
 								<tr>
@@ -362,7 +423,6 @@ const TasksPage = () => {
 				onClose={closeViewModal}
 			/>
 			<TaskCreationModal
-				// TODO so tje infromation are needed to be passed here
 				isOpen={isCreateModalOpen}
 				onClose={() => setIsCreateModalOpen(false)}
 				onSave={saveTask}

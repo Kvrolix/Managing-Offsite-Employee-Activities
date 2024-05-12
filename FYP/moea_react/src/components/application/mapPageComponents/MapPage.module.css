@@ -76,3 +76,7 @@
 .marker_worker {
 	color: green;
 }
+
+.help_header {
+	margin-top: 0.5rem;
+}
