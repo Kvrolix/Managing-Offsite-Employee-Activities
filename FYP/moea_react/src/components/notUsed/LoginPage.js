@@ -3,12 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Supabase
-import supabase from '../config/supabaseClient';
+import supabase from '../../config/supabaseClient';
 
 // CSS
 import LoginPageCSS from './LoginPage.module.css';
-
-import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
 
 // Icons
 // import 'boxicons';

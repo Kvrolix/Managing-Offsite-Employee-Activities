@@ -4,6 +4,7 @@ import { Auth } from '@supabase/auth-ui-react';
 
 import supabase from '../config/supabaseClient';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
+
 const LoginPage2 = () => {
 	const navigate = useNavigate();
 
@@ -19,12 +20,14 @@ const LoginPage2 = () => {
 	return (
 		<>
 			{/* Later on make sure you adjust the login page */}
-			<Auth
-				supabaseClient={supabase}
-				theme="dark"
-				appearance={{ theme: ThemeSupa }}
-				providers={[]}
-			/>
+			<div className="login_page_container">
+				<Auth
+					supabaseClient={supabase}
+					theme="dark"
+					appearance={{ theme: ThemeSupa }}
+					providers={[]}
+				/>
+			</div>
 		</>
 	);
 };
