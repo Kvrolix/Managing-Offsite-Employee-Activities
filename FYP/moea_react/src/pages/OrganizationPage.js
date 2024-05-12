@@ -8,7 +8,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import HelpIcon from '../components/application/HelpIcon.js';
 
 const OrganizationPage = () => {
-	const { userRecord, allEmployees, fetchJobRoleNameById, fetchOrganizationName } = useContext(UserDataContext);
+	const { userRecord, allEmployees, fetchOrganizationName } = useContext(UserDataContext);
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const [organizationName, setOrganizationName] = useState('');
 
@@ -56,23 +56,6 @@ const OrganizationPage = () => {
 		</div>
 	);
 
-	const getPositionName = (jobrole) => {
-		switch (jobrole) {
-			case 1:
-				return 'Chief';
-			case 2:
-				return 'Manager';
-			case 3:
-				return 'Secretary';
-			case 4:
-				return 'Team Leader';
-			case 5:
-				return 'Employee';
-			default:
-				return 'Unknown';
-		}
-	};
-
 	return (
 		<>
 			<SideNavigationBar
@@ -81,7 +64,7 @@ const OrganizationPage = () => {
 			/>
 			<HelpIcon helpContent={helpContent} />
 			<div className={OrganizationPageCSS.container_organization}>
-				<h1 className={OrganizationPageCSS.organization_heading}>{`${organizationName} Organization`} </h1>
+				<h1 className={OrganizationPageCSS.organization_heading}>{`${organizationName.toUpperCase()} ORGANIZATION`} </h1>
 				{renderEmployeesByRole(1, 'Chief')}
 				{renderEmployeesByRole(2, 'Managers')}
 				{renderEmployeesByRole(3, 'Secretaries')}

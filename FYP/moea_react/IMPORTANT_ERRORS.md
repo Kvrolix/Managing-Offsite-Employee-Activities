@@ -98,3 +98,26 @@ If a organization is not fetching other organization records
 When editing the user details, the position should be as as dropdown list with the name e.g secretary not the number
 Update buttons there too
 For the UX i have set that the selected box is higlighted
+
+<!-- question marks -->
+
+- Completed documents
+- Completed it does look very well map
+- Completed Tasks
+- Completed Teams page
+
+<!-- Not Completed -->
+
+- Dashboard
+
+All other pages need to be updated to make it look visual more enhancing
+Get position name
+
+- tasks page
+  teams page missing
+
+<!-- based on jobrole functionality -->
+
+Make sure the functionality is baed on role in the following pages (everywhting is written in the help icon):
+
+- Tasks page
