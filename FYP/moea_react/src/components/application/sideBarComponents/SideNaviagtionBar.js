@@ -32,7 +32,7 @@ const SideBarLink = ({ iconClass, text, navigateTo }) => (
 const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 	const navigate = useNavigate(); // TODO I think it can be removed
 
-	const { navigateToDashboard, navigateToTasks, navigateToOrganization, navigateToUsers, navigateToTeams, navigateToFiles } = useAppNavigate();
+	const { navigateToDashboard, navigateToTasks, navigateToOrganization, navigateToUsers, navigateToTeams, navigateToFiles, navigateToUserProfile } = useAppNavigate();
 
 	const { userRecord, signOutUser } = useContext(UserDataContext);
 
@@ -108,6 +108,12 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 									iconClass="bx bx-briefcase"
 									text="Organization"
 									navigateTo={navigateToOrganization}
+								/>
+								{/* navigateToUserProfile */}
+								<SideBarLink
+									iconClass="bx bx-face"
+									text="Organization"
+									navigateTo={navigateToUserProfile}
 								/>
 							</ul>
 						</div>
