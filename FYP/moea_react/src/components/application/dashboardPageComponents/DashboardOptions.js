@@ -25,7 +25,7 @@ const DashboardElement = ({ icon, text, navigateTo }) => (
 
 const DashboardOptions = ({ isSidebarOpen }) => {
 	const { userRecord } = useContext(UserDataContext);
-	const { navigateToTasks, navigateToOrganization, navigateToUsers, navigateToTeams, navigateToMap, navigateToFiles } = useAppNavigate();
+	const { navigateToTasks, navigateToOrganization, navigateToUsers, navigateToTeams, navigateToMap, navigateToFiles, navigateToUserProfile } = useAppNavigate();
 
 	if (!userRecord) {
 		return null;
@@ -96,6 +96,12 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 							icon="hub"
 							text="Organization"
 							navigateTo={navigateToOrganization}
+						/>
+						{/* USER PROFILE */}
+						<DashboardElement
+							icon="face"
+							text="User Profile"
+							navigateTo={navigateToUserProfile}
 						/>
 					</div>
 					<CalendarComponent />

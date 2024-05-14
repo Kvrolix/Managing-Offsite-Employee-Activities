@@ -15,7 +15,9 @@ const FileListView = () => {
 		if (error) {
 			console.error('Failed to fetch files:', error);
 		} else {
-			setFiles(data);
+			const filteredFiles = data.filter((file) => file.name !== '.emptyFolderPlaceholder');
+			setFiles(filteredFiles);
+			// setFiles(data);
 		}
 	};
 

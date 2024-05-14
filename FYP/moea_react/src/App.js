@@ -13,6 +13,7 @@ import UsersPage from './pages/UsersPage.js';
 import TeamsPage from './pages/TeamsPage.js';
 import MapPage from './pages/MapPage.js';
 import FilesPage from './pages/FilesPage.js';
+import UserProfilePage from './pages/UserProfilePage.js';
 
 function App() {
 	return (
@@ -55,6 +56,10 @@ function App() {
 					<Route
 						path="/files"
 						element={<FilesPage />}
+					/>
+					<Route
+						path="/profile"
+						element={<UserProfilePage />}
 					/>
 				</Routes>
 			</BrowserRouter>
