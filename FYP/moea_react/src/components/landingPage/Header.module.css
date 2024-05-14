@@ -53,6 +53,15 @@
 .btn_nav_login {
 	background-color: transparent;
 	border: 1px solid #333;
+	box-shadow: 0 0.5px 1.2rem rgba(0, 0, 0, 0.25);
+	background-color: aliceblue;
+	transition: transform 0.3s ease-in-out;
+}
+
+.btn_nav_login:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+	background-color: #ffffff;
 }
 
 /* When binding it in css i will need to select to interact with this element not entire block */

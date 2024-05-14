@@ -10,7 +10,6 @@ import DashboardPage from './pages/DashboardPage.js';
 import TasksPage from './pages/TasksPage.js';
 import OrganizationPage from './pages/OrganizationPage.js';
 import UsersPage from './pages/UsersPage.js';
-import ChatPage from './pages/ChatPage.js';
 import TeamsPage from './pages/TeamsPage.js';
 import MapPage from './pages/MapPage.js';
 import FilesPage from './pages/FilesPage.js';
@@ -44,10 +43,7 @@ function App() {
 						path="/users"
 						element={<UsersPage />}
 					/>
-					<Route
-						path="/chat"
-						element={<ChatPage />}
-					/>
+
 					<Route
 						path="/teams"
 						element={<TeamsPage />}

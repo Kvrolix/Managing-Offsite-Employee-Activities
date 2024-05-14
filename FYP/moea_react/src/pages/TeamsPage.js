@@ -121,14 +121,14 @@ const TeamsPage = () => {
 			/>
 			<HelpIcon helpContent={getHelpContentBasedOnRole(getJobRole)} />
 			<div className={TeamsPageCSS.page_container}>
-				<h1 className={TeamsPageCSS.page_heading}>TEAMS PAGE</h1>
+				<h1 className={TeamsPageCSS.page_heading}>TEAMS</h1>
 				<div className={TeamsPageCSS.content}>
 					<div className={TeamsPageCSS.content_grid}>
 						{[ROLES.CHIEF, ROLES.MANAGER, ROLES.SECRETARY].includes(userRecord.jobroleid) && (
 							<>
 								<ContentElement
 									icon="group_add"
-									text="Add Team"
+									text="Create Team"
 									navigateTo={() => setIsAddTeamsModalOpen(true)}
 								/>
 							</>

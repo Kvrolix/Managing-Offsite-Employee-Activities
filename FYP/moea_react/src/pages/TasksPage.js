@@ -475,7 +475,6 @@ const TasksPage = () => {
 					employees={employeesForTask}
 					loading={loading}
 					setLoading={setLoading}
-					// FIXME
 					teams={team}
 				/>
 			)}

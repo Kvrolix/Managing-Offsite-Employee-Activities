@@ -14,7 +14,7 @@ const LoginPage2 = () => {
 			navigate('/dashboard');
 		}
 		if (event === 'SIGNED_OUT') {
-			navigate('/login');
+			navigate('/');
 		}
 	});
 	return (

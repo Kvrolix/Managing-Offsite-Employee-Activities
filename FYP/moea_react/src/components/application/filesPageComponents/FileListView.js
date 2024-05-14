@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { UserDataContext } from '../../../context/UserDataContext';
 import FilePageCSS from './FilesPage.module.css';
 import { ROLES } from '../../../context/roles';
-const FileListModal = () => {
+const FileListView = () => {
 	const [files, setFiles] = useState([]);
 	const { userRecord, listFiles, downloadFile, deleteFile, uploadFile } = useContext(UserDataContext);
 
@@ -99,4 +99,4 @@ const FileListModal = () => {
 	);
 };
 
-export default FileListModal;
+export default FileListView;

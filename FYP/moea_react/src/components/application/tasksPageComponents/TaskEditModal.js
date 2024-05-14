@@ -8,8 +8,6 @@ const TaskEditModal = ({ isOpen, onClose, onSave, task, employees, teams }) => {
 	const [assignedtoauthid, setAssignedToAuthId] = useState('');
 	const [assignedToTeamId, setAssignedToTeamId] = useState('');
 
-	console.log(teams);
-	console.log(employees);
 	useEffect(() => {
 		if (task) {
 			setTitle(task.taskname);
@@ -82,25 +80,27 @@ const TaskEditModal = ({ isOpen, onClose, onSave, task, employees, teams }) => {
 						value={assignedToTeamId}
 						onChange={(e) => setAssignedToTeamId(e.target.value)}>
 						<option value="">Select Team...</option>
-						{teams.map((team) => (
+						{Object.entries(teams).map((team) => (
 							<option
-								key={team.teamid}
-								value={team.teamid}>
-								{team.teamname}
+								key={parseInt(team[0])}
+								value={parseInt(team[0])}>
+								{team[1]}
+								{/* {console.log(`team:`, parseInt(team[0]))} */}
 							</option>
 						))}
 					</select>
-					<div className={TasksPageCSS.modalButtonGroup}>
-						<button
-							className={`${TasksPageCSS.modalButton} ${TasksPageCSS.modalButton__save}`}
+					<div className={TasksPageCSS.modal_buttons_group}>
+						<div
+							className={`${TasksPageCSS.modal_button_save}`}
 							type="submit">
 							Update Task
-						</button>
-						<button
-							className={`${TasksPageCSS.modalButton} ${TasksPageCSS.modalButton__cancel}`}
+						</div>
+
+						<div
+							className={`${TasksPageCSS.modal_button_close}`}
 							onClick={onClose}>
-							Cancel
-						</button>
+							Close
+						</div>
 					</div>
 				</form>
 			</div>

@@ -28,7 +28,7 @@ const Header = ({ scrollToFeatures }) => {
 				</Link>
 				<nav className={HeaderCSS.main_nav}>
 					<ul className={HeaderCSS.main_nav_list}>
-						<li>
+						{/* <li>
 							<button className={HeaderCSS.btn_link}>About</button>
 						</li>
 						<li>
@@ -43,7 +43,7 @@ const Header = ({ scrollToFeatures }) => {
 						</li>
 						<li>
 							<button className={HeaderCSS.btn_link}>Reviews</button>
-						</li>
+						</li> */}
 					</ul>
 				</nav>
 				<div className={`${HeaderCSS.main_nav_btns}`}>
@@ -52,7 +52,7 @@ const Header = ({ scrollToFeatures }) => {
 						onClick={handleLoginClick}>
 						Log in
 					</button>
-					<button className={`btn ${HeaderCSS.btn_nav_register}`}>Join Us</button>
+					{/* <button className={`btn ${HeaderCSS.btn_nav_register}`}>Join Us</button> */}
 				</div>
 			</header>
 		</>
