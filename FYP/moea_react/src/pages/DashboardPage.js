@@ -9,9 +9,19 @@ import DashboardOptions from '../components/application/dashboardPageComponents/
 // Data
 import { UserDataContext } from '../context/UserDataContext.js';
 import { getPositionName } from '../context/helpers.js';
+import Spinner from '../components/application/Spinner.js';
 const DashboardPage = () => {
-	const { userRecord } = useContext(UserDataContext);
+	// const { userRecord } = useContext(UserDataContext);
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+	const { userRecord } = useContext(UserDataContext);
+
+	// It protects the website from throwing the userRecord is null
+	if (!userRecord) {
+		return <Spinner></Spinner>;
+	}
+
+	const getJobRole = userRecord.jobroleid;
 
 	const getHelpContentBasedOnRole = (jobRole) => {
 		const higherPosition = () => {
@@ -83,7 +93,7 @@ const DashboardPage = () => {
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
-	const getJobRole = userRecord.jobroleid;
+	// const getJobRole = userRecord.jobroleid;
 	return (
 		<>
 			<SideNavigationBar

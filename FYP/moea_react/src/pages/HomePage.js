@@ -19,7 +19,7 @@ const HomePage = () => {
 		<>
 			<Header scrollToFeatures={scrollToFeatures} />
 			<Hero />
-			<Features ref={featuresRef} />
+			{/* <Features ref={featuresRef} />
 			<div>
 				<section>
 					<div className="white-box"></div>
@@ -27,7 +27,7 @@ const HomePage = () => {
 				<section>
 					<div className="white-box"></div>
 				</section>
-			</div>
+			</div> */}
 		</>
 	);
 };

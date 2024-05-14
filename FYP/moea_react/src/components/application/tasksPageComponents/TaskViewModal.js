@@ -25,13 +25,12 @@ const TaskViewModal = ({ isOpen, task, onClose }) => {
 				} else {
 					setAssignedToUser('Not assigned');
 				}
-
 				const [teamData] = await fetchTeamById(task.assignedtoteamid);
-
+				console.log(`teamdata:`, teamData);
 				if (teamData) {
 					const { teamname } = teamData;
 					// console.log(teamData);
-					setAssignedToTeam(` ${teamname}`);
+					setAssignedToTeam(`${teamname}`);
 				} else {
 					setAssignedToTeam('Not assigned');
 				}
@@ -67,11 +66,17 @@ const TaskViewModal = ({ isOpen, task, onClose }) => {
 				{/* DATE CREATED */}
 				<h3 className={TasksPageCSS.modalFieldTitle}>Date Created</h3>
 				<p className={TasksPageCSS.modalInput}>{formatDateTime(task.datecreated)}</p>
-				<button
+				{/* <button
 					className={`${TasksPageCSS.modalButton} ${TasksPageCSS.modalButton__cancel}`}
 					onClick={onClose}>
 					Close
-				</button>
+				</button> */}
+
+				<div
+					className={`${TasksPageCSS.modal_button_close} `}
+					onClick={onClose}>
+					Close
+				</div>
 			</div>
 		</div>
 	);

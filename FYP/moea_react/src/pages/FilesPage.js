@@ -5,7 +5,7 @@ import React, { useContext, useState } from 'react';
 import FilesPageCSS from '../components/application/filesPageComponents/FilesPage.module.css';
 
 // Components
-import FileListModal from '../components/application/filesPageComponents/FileListModal';
+import FileListView from '../components/application/filesPageComponents/FileListView';
 import SideNavigationBar from '../components/application/sideBarComponents/SideNaviagtionBar';
 import HelpIcon from '../components/application/HelpIcon';
 
@@ -91,7 +91,7 @@ const FilesPage = () => {
 				<h1 className={FilesPageCSS.page_heading}>DOCUMENTS</h1>
 				<div className={FilesPageCSS.page_content}>
 					{/* TODO CHANGE ITS NAME ITS NOT MODAL */}
-					<FileListModal />
+					<FileListView />
 				</div>
 			</div>
 		</>

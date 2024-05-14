@@ -25,14 +25,13 @@ const DashboardElement = ({ icon, text, navigateTo }) => (
 
 const DashboardOptions = ({ isSidebarOpen }) => {
 	const { userRecord } = useContext(UserDataContext);
-	const { navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat, navigateToTeams, navigateToMap, navigateToFiles } = useAppNavigate();
+	const { navigateToTasks, navigateToOrganization, navigateToUsers, navigateToTeams, navigateToMap, navigateToFiles } = useAppNavigate();
 
 	if (!userRecord) {
 		return null;
 	}
 
 	const { firstname, jobroleid } = userRecord;
-	console.log('JobRole id from dashboard', jobroleid);
 
 	const CalendarComponent = () => {
 		const [currentTime, setCurrentTime] = useState(new Date());
@@ -57,7 +56,6 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 			</div>
 		);
 	};
-	console.log(ROLES.CHIEF);
 
 	return (
 		<>
@@ -78,13 +76,7 @@ const DashboardOptions = ({ isSidebarOpen }) => {
 							text="Teams"
 							navigateTo={navigateToTeams}
 						/>
-						{/* CHAT */}
-						{/* REMOVE  SWAP WITH USER PAGE*/}
-						<DashboardElement
-							icon="question_answer"
-							text="Chat"
-							navigateTo={navigateToChat}
-						/>
+
 						{/* FILES */}
 						<DashboardElement
 							icon="description"

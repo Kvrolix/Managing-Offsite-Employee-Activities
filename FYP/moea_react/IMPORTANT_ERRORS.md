@@ -117,3 +117,7 @@ Starting with (TEAM LEADER AND WORKER):
 - Files
 - Teams
 - Map
+
+<!-- BUG BUG BUG BUG BUG BUG  -->
+
+userRecord is undefined when loging for the first time

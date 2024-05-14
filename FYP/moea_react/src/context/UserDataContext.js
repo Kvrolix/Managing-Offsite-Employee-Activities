@@ -8,7 +8,7 @@ export const UserDataProvider = ({ children }) => {
 	const [error, setError] = useState(null);
 	const [employeesForTask, setEmployeesForTask] = useState([]);
 	const [tasks, setTasks] = useState([]);
-	const [userRecord, setUserRecord] = useState(); // BUG
+	const [userRecord, setUserRecord] = useState(null); // BUG
 
 	// THIS FUNCTION SETS THE SESSION
 	const fetchUserRecord = async (userId) => {
@@ -55,7 +55,7 @@ export const UserDataProvider = ({ children }) => {
 	const fetchTasks = async () => {
 		try {
 			if (!userRecord) return;
-			// BUG MAKE SURE ALL THE LEETERS ARE LOWERCASE FOR SELECIT
+
 			let query = supabase.from('task').select('*');
 			switch (userRecord.jobroleid) {
 				case 1: // Chief
@@ -64,13 +64,12 @@ export const UserDataProvider = ({ children }) => {
 					query = query.eq('organizationid', userRecord.organizationid);
 					break;
 				case 4: // Team Leader
-					// FIXME BUG TODO the column names might be wrong, make sure they're lowercase
 					// For team leaders, fetch tasks assigned to them and to their team members
-					const teamQuery = supabase.from('TeamMembers').select('TeamID').eq('UserID', userRecord.userid);
+					const teamQuery = supabase.from('teammembers').select('teamid').eq('userauthid', userRecord.userid);
 					const { data: teamData } = await teamQuery;
-					const teamIds = teamData.map((team) => team.TeamID);
+					const teamIds = teamData.map((team) => team.teamid);
 					// BUG                                                               add column name
-					query = query.in('AssignedToTeamID', teamIds).or('AssignedToUserID').eq(userRecord.userid);
+					query = query.in('assignedtoteamid', teamIds).or('assignedtoauthid').eq(userRecord.userid);
 					break;
 				case 5: // Worker
 					// Workers see only their tasks
@@ -156,7 +155,7 @@ export const UserDataProvider = ({ children }) => {
 		}
 	};
 
-	// BUG TODO
+	// BUG TODO FIXME
 	// const registerAndCreateProfile = async (email, password, firstName, surname, phonenumber, dateofbirth) => {
 	// 	// Sign up the user
 	// 	const { user, error } = await supabase.auth.signUp(
@@ -208,7 +207,7 @@ export const UserDataProvider = ({ children }) => {
 
 	const fetchAllEmployees = async () => {
 		try {
-			if (!userRecord) return; // Ensure there is a user record
+			if (!userRecord) return;
 			const { data, error } = await supabase.from('users2').select('*').eq('organizationid', userRecord.organizationid);
 			if (error) throw error;
 			setAllEmployees(data);
@@ -229,14 +228,13 @@ export const UserDataProvider = ({ children }) => {
 				throw error;
 			}
 
-			return data.name; // Returning the name of the job role
+			return data.name;
 		} catch (error) {
 			console.error(`Error fetching job role name for id ${jobroleid}:`, error.message);
-			return 'Unknown'; // Return a default or error-specific name
+			return 'Unknown';
 		}
 	};
 
-	// UPDATE USER RECORD
 	const updateEmployeeDetails = async (authid, formData) => {
 		try {
 			const { data, error } = await supabase
@@ -259,11 +257,10 @@ export const UserDataProvider = ({ children }) => {
 		}
 	};
 
-	// Get Company name
 	const [organizationName, setOrganizationName] = useState('');
 	const fetchOrganizationName = async (organizationId) => {
 		try {
-			const { data, error } = await supabase.from('organizations').select('organizationname').eq('organizationid', organizationId).single(); // Assuming each organization ID uniquely identifies one organization
+			const { data, error } = await supabase.from('organizations').select('organizationname').eq('organizationid', organizationId).single();
 
 			if (error) {
 				throw error;
@@ -276,69 +273,11 @@ export const UserDataProvider = ({ children }) => {
 		} catch (error) {
 			console.error('Error fetching organization name:', error.message);
 			setError(error.message);
-			return null; // You can handle the error as needed
-		}
-	};
-
-	// REMOVE
-	// CHAT FUNCTIONALITY
-	// Function to create a new chat session
-	const createChatSession = async () => {
-		const { data, error } = await supabase.from('ChatSessions').insert([{ createdDate: new Date() }]);
-		if (error) {
-			console.error('Error creating chat session:', error.message);
-			setError(error.message);
 			return null;
 		}
-		return data[0].id; // return the new session ID
 	};
-
-	// REMOVE
-	// Function to add participants to a chat session
-	const addChatParticipants = async (sessionId, participantIds) => {
-		const participantRecords = participantIds.map((userId) => ({
-			ChatSessionID: sessionId,
-			UserID: userId,
-		}));
-
-		const { error } = await supabase.from('ChatParticipants').insert(participantRecords);
-		if (error) {
-			console.error('Error adding chat participants:', error.message);
-			setError(error.message);
-		}
-	};
-
-	// REMOVE
-	// Function to send a message in a chat session
-	const sendMessage = async (sessionId, userId, messageText) => {
-		const { error } = await supabase.from('Message').insert([
-			{
-				ChatSessionID: sessionId,
-				SentByUserID: userId,
-				MessageText: messageText,
-				SendDateTime: new Date(),
-			},
-		]);
-
-		if (error) {
-			console.error('Error sending message:', error.message);
-			setError(error.message);
-		}
-	};
-
-	// REMOVE
-	// Function to fetch messages for a chat session
-	const fetchMessages = async (sessionId) => {
-		const { data, error } = await supabase.from('Message').select('*').eq('ChatSessionID', sessionId);
-		if (error) {
-			console.error('Error fetching messages:', error.message);
-			setError(error.message);
-			return [];
-		}
-		return data;
-	};
-
-	// --------------------------------TEAMS PAGE-----------------------------------------
+	// ---------------------------------------------------------------------------------------------------------
+	// ------------------------------------------ TEAMS PAGE ---------------------------------------------------
 
 	const createTeam = async (teamName, teamLeaderId) => {
 		try {
@@ -352,7 +291,7 @@ export const UserDataProvider = ({ children }) => {
 			return data[0];
 		} catch (error) {
 			console.error('Error during team creation:', error.message);
-			return null; // Explicitly return null to indicate failure
+			return null;
 		}
 	};
 
@@ -384,7 +323,6 @@ export const UserDataProvider = ({ children }) => {
 
 	const fetchTeams = async () => {
 		try {
-			// It will fetch the record for a correct organization
 			const { data, error } = await supabase.from('team').select('*').eq('OrganizationID', userRecord.organizationid);
 			if (error) {
 				console.error('Error fetching teams:', error.message);
@@ -407,6 +345,7 @@ export const UserDataProvider = ({ children }) => {
 			return data || [];
 		} catch (error) {
 			console.log(`Error during seperate team fetch`, error.message);
+			return [];
 		}
 	};
 
@@ -428,7 +367,7 @@ export const UserDataProvider = ({ children }) => {
 
 	const checkTeamLeaderAssigned = async (leaderId) => {
 		try {
-			const { data, error } = await supabase.from('team').select('teamleaderauthid').eq('teamleaderauthid', leaderId).single(); // Assumes 'teamleaderauthid' should be unique in the table
+			const { data, error } = await supabase.from('team').select('teamleaderauthid').eq('teamleaderauthid', leaderId).single();
 
 			if (error) {
 				console.error('Error checking team leader assignment:', error.message);
@@ -457,21 +396,21 @@ export const UserDataProvider = ({ children }) => {
 
 	const addTeamMember = async (members) => {
 		try {
-			console.log('Attempting to add team members:', JSON.stringify(members)); // Ensure data structure is correct
+			console.log('Attempting to add team members:', JSON.stringify(members));
 			console.log(`Team member:`, members);
 			const { data, error } = await supabase.from('teammembers').insert(members);
 
 			if (error) {
 				console.error('Error with uploading new records:', error.message);
-				console.error('Detailed error:', error); // Log detailed error
+				console.error('Detailed error:', error);
 				throw error;
 			}
 
 			console.log('Added team members successfully:', data);
-			return true; // Return true on success
+			return true;
 		} catch (error) {
 			console.error('Error during adding records:', error.message);
-			return false; // Return false to indicate failure
+			return false;
 		}
 	};
 
@@ -523,7 +462,7 @@ export const UserDataProvider = ({ children }) => {
 			if (availableError) {
 				throw availableError;
 			}
-			console.log(availableWorkers);
+			// console.log(availableWorkers);
 			return availableWorkers;
 		} catch (error) {
 			console.error('Error fetching available workers:', error.message);
@@ -543,33 +482,8 @@ export const UserDataProvider = ({ children }) => {
 		}
 	};
 
-	// -----------------------------------------------------------------------------------
-
+	// ---------------------------------------------------------------------------------------------------------
 	// ------------------------------------------ MAP PAGE -----------------------------------------------------
-
-	// // fetch User Location
-	// const [allEmployees, setAllEmployees] = useState([]);
-
-	// const fetchAllEmployees = async () => {
-	// 	try {
-	// 		if (!userRecord) return; // Ensure there is a user record
-	// 		const { data, error } = await supabase.from('users2').select('*').eq('organizationid', userRecord.organizationid);
-	// 		if (error) throw error;
-	// 		setAllEmployees(data);
-	// 	} catch (error) {
-	// 		console.error('Error fetching all employees:', error.message);
-	// 	}
-	// };
-
-	// const fetchUserLocation = async (userID) => {
-	// 	try {
-	// 		if (!userRecord) return;
-	// 		const { data, error } = await supabase.from('userlocation').select('*');
-	// 		return data;
-	// 	} catch (err) {
-	// 		console.error(`Error fetching user location:`, err);
-	// 	}
-	// };
 
 	const fetchUserLocations = async (userIDs) => {
 		try {
@@ -604,7 +518,7 @@ export const UserDataProvider = ({ children }) => {
 	// fetch only records from the list of employees
 
 	// -----------------------------------------------------------------------------------
-	// console.log(userRecord.organizationid);
+
 	// --------------------------------FILES PAGE-----------------------------------------
 
 	const uploadFile = async (file) => {
@@ -647,9 +561,6 @@ export const UserDataProvider = ({ children }) => {
 		}
 	}, []);
 
-	// BUG user can be removed?
-
-	// CLEAN IT UP
 	return (
 		<UserDataContext.Provider
 			// IMPROVE THE FUNCTION NAMES
@@ -673,11 +584,6 @@ export const UserDataProvider = ({ children }) => {
 				updateEmployeeDetails,
 				workers,
 				register,
-				// CHAT PAGE
-				fetchMessages,
-				createChatSession,
-				addChatParticipants,
-				sendMessage,
 				// TEAMS PAGE
 				fetchTeamById,
 				fetchTeamLeaders,

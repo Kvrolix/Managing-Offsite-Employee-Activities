@@ -30,20 +30,9 @@ const SideBarLink = ({ iconClass, text, navigateTo }) => (
 );
 
 const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
-	// TODO every <a></a> needs to be replaced with a button class
-	// Icons needs to be fixed and replaced
-	// TODO css will need to be updated as well
-	// TODO Change every link to a component as it takes so much space
-	// State to manage if the sidebar is open or closed
-	// TODO Update the name of the suer logged in Dynamically
-	// TODO fetch the jobroleId to show the actual value, it should be from the supabase not written in the app to reduce the errors
-	// BUG To fix the error of moving components i could set the z-index to 100 and it would not have effect on that part of layout
-
-	// Function to toggle the sidebar state
-
 	const navigate = useNavigate(); // TODO I think it can be removed
 
-	const { navigateToDashboard, navigateToTasks, navigateToOrganization, navigateToUsers, navigateToChat, navigateToTeams, navigateToFiles } = useAppNavigate();
+	const { navigateToDashboard, navigateToTasks, navigateToOrganization, navigateToUsers, navigateToTeams, navigateToFiles } = useAppNavigate();
 
 	const { userRecord, signOutUser } = useContext(UserDataContext);
 
@@ -56,12 +45,6 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 	}
 
 	const { firstname, surname } = userRecord;
-
-	// TODO This will be transferred to the other places as well
-	const handleLogout = async () => {
-		await signOutUser();
-		navigate('/');
-	};
 
 	return (
 		<>
@@ -97,7 +80,6 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 								<SideBarLink
 									iconClass="bx bx-list-ul"
 									text="Tasks"
-									// visible={jobroleid === 1}
 									navigateTo={navigateToTasks}
 								/>
 								{/* TEAMS */}
@@ -106,12 +88,7 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 									text="Teams"
 									navigateTo={navigateToTeams}
 								/>
-								{/* CHAT */}
-								<SideBarLink
-									iconClass="bx bx-message-dots"
-									text="Chat"
-									navigateTo={navigateToChat}
-								/>
+
 								{/* FILES */}
 								<SideBarLink
 									iconClass="bx bx-file"
@@ -138,7 +115,7 @@ const SideNavigationBar = ({ isSidebarOpen, toggleSidebar }) => {
 							<SideBarLink
 								iconClass="bx bx-log-out"
 								text="Logout"
-								navigateTo={handleLogout}
+								navigateTo={signOutUser}
 							/>
 						</div>
 					</div>

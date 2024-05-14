@@ -10,26 +10,8 @@ const TaskCreationModal = ({ isOpen, onClose, onSave, employees, teams, loading,
 	const [assignedToPerson, setAssignedToPerson] = useState('');
 	const [assignedToTeam, setAssignedToTeam] = useState('');
 
-	// Spinner
-
 	if (!isOpen) return null;
 
-	// const handleSave = () => {
-	// 	if (!title.trim() || !description.trim() || !deadline.trim() || (assignedToPerson.trim() === '' && assignedToTeam.trim() === '')) {
-	// 		console.error('Title, description, deadline are required, and either a person or a team must be selected.');
-
-	// 		return;
-	// 	}
-	// 	setLoading(true);
-	// 	onSave({ title, description, deadline, assignedToPerson, assignedToTeam });
-	// 	setLoading(false);
-	// 	setTitle('');
-	// 	setDescription('');
-	// 	setDeadline('');
-	// 	setAssignedToPerson('');
-	// 	setAssignedToTeam('');
-	// 	onClose(); // Close modal after saving
-	// };
 	const handleSave = () => {
 		if (!title.trim() || !description.trim() || !deadline.trim()) {
 			console.error('Title, description, and deadline are required.');
@@ -53,7 +35,7 @@ const TaskCreationModal = ({ isOpen, onClose, onSave, employees, teams, loading,
 		setDeadline('');
 		setAssignedToPerson('');
 		setAssignedToTeam('');
-		onClose(); // Close modal after saving
+		onClose();
 	};
 
 	// TODO Add the Negative prompt
@@ -96,7 +78,7 @@ const TaskCreationModal = ({ isOpen, onClose, onSave, employees, teams, loading,
 						onChange={(e) => setDeadline(e.target.value)}
 					/>
 					{/* ASSIGNED TO TEAM */}
-					{/* TODO */}
+
 					<div className={TasksPageCSS.modalFieldTitle}>Assigned to Team</div>
 					<select
 						className={TasksPageCSS.modalInput}
@@ -104,11 +86,11 @@ const TaskCreationModal = ({ isOpen, onClose, onSave, employees, teams, loading,
 						value={assignedToTeam}
 						onChange={(e) => setAssignedToTeam(e.target.value)}>
 						<option value="NULL">Select Team...</option>
-						{teams.map((team) => (
+						{Object.entries(teams).map((team) => (
 							<option
-								key={team.teamid}
-								value={team.teamid}>
-								{team.teamname}
+								key={parseInt(team[0])}
+								value={parseInt(team[0])}>
+								{`${team[1]}`}
 							</option>
 						))}
 					</select>
@@ -127,17 +109,18 @@ const TaskCreationModal = ({ isOpen, onClose, onSave, employees, teams, loading,
 							</option>
 						))}
 					</select>
-					<div className={TasksPageCSS.modalButtonGroup}>
-						<button
-							className={`${TasksPageCSS.modalButton} ${TasksPageCSS.modalButton__save}`}
+					<div className={TasksPageCSS.modal_buttons_group}>
+						<div
+							className={`${TasksPageCSS.modal_button_save}`}
 							onClick={handleSave}>
 							Save Task
-						</button>
-						<button
-							className={`${TasksPageCSS.modalButton} ${TasksPageCSS.modalButton__cancel}`}
+						</div>
+
+						<div
+							className={`${TasksPageCSS.modal_button_close}`}
 							onClick={onClose}>
 							Cancel
-						</button>
+						</div>
 					</div>
 				</form>
 			</div>
