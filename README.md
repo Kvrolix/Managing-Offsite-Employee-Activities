@@ -1,6 +1,6 @@
 # Managing Offsite Employee Activities
 
-![test][assets/image1.png]
+![test](assets/image 1.png)
 ## Overview
 The **Managing Offsite Employee Activities** project is a comprehensive tool designed to streamline task and team management for organizations. It provides features such as real-time location tracking, role-based access control, task delegation, and efficient communication, making it an ideal solution for businesses aiming to enhance productivity and transparency among offsite employees.
 
