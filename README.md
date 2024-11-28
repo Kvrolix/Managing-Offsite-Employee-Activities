@@ -1,22 +1,32 @@
 # Managing Offsite Employee Activities
 
-![mainScreen](assets/image1.png)
-![login](assets/image2.png)
 ## Overview
 The **Managing Offsite Employee Activities** project is a comprehensive tool designed to streamline task and team management for organizations. It provides features such as real-time location tracking, role-based access control, task delegation, and efficient communication, making it an ideal solution for businesses aiming to enhance productivity and transparency among offsite employees.
 
 This project leverages modern web technologies and a user-centric design to ensure a seamless experience for all user roles, including managers, team leaders, and employees.
+
+![mainScreen](assets/image1.png)
+![login](assets/image2.png)
+![dashboard](assets/image3.png)
 
 ---
 
 ## Features
 ### Core Features:
 - **Task Management**: Create, update, and delegate tasks efficiently.
+![taskView](assets/image4.png)
+![taskCreate](assets/image5.png)
+
 - **Team Management**: Organize team structures and roles dynamically.
+![viewTeam](assets/image10.png) ![editTeam](assets/image11.png)
+
 - **Real-Time Location Tracking**: View the live locations of employees.
+![map](assets/image6.png)
+
 - **Communication**: Integrated chat functionality for seamless interaction.
 - **File Sharing**: Upload, download, and manage organizational files securely.
 - **Role-Based Access Control (RBAC)**: Customize access levels for users based on their roles.
+![tree](assets/image7.png)
 
 ### Additional Features:
 - **Dynamic UI**: Customizable interfaces for different roles.
