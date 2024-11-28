@@ -22,6 +22,8 @@ This project leverages modern web technologies and a user-centric design to ensu
 
 - **Real-Time Location Tracking**: View the live locations of employees.
 ![map](assets/image6.png)
+<img src="assets/image6.png" alt="map Screenshot" width="600" />
+
 
 - **Communication**: Integrated chat functionality for seamless interaction.
 - **File Sharing**: Upload, download, and manage organizational files securely.
